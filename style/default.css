@@ -1,0 +1,504 @@
+/*
+** Hanged Bunny Studio 2014-2020
+** Style for Technocore document generator
+*/
+
+@font-face
+{
+    src: url("./res/futura.ttf") format("truetype");
+    name: Futura;
+}
+
+*
+{
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    border-collapse: collapse;
+    border: 0px;
+    clear: both;
+    line-height: 0.5cm;
+    font-family: Futura;
+}
+
+body
+{
+    margin-left: calc((100% - 21cm) / 2);
+    background-color: rgb(220, 220, 220);
+}
+
+.tab
+{
+    margin-left: 3em;
+}
+
+.matter_logo, .activity_name, #subject_id, #deadline
+{
+    position: absolute;
+    bottom: 0px;
+}
+
+h1 { font-size: 1.1cm; line-height: 1.2cm; }
+h2 { font-size: 1.0cm; line-height: 1.2cm; }
+h3 { font-size: 0.9cm; line-height: 1.2cm; }
+h4 { font-size: 0.8cm; line-height: 1.2cm; }
+h5 { font-size: 0.7cm; line-height: 1.2cm; }
+
+h1, h2, h3, h4, h5
+{
+    display: inline-block;
+    font-weight: normal;
+    text-align: right;
+    width: 100%;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.chapter_title
+{
+    margin-bottom: 1.5cm;
+}
+
+li
+{
+    margin-left: 1.5cm;
+}
+
+#subject_id
+{
+    font-weight: bold;
+    position: absolute;
+    left: 0px;
+    text-shadow:
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white;
+}
+
+#deadline
+{
+    font-weight: bold;
+    z-index: 1;
+    position: absolute;
+    right: 0px;
+    text-shadow:
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white,
+    0px 0px 4px white;
+}
+
+.huge_matter_logo
+{
+    position: absolute;
+    left: 1.5cm;
+    top: 2cm;
+    width: 8cm;
+    height: 8cm;
+}
+
+.huge_school_logo
+{
+    position: absolute;
+    right: 1.5cm;
+    top: 2cm;
+    width: 8cm;
+    height: 8cm;
+}
+
+.huge_activity_logo
+{
+    position: absolute;
+    top: calc((29.7cm - 6cm) / 2);
+    width: 21cm;
+    left: 0cm;
+    height: 6cm;
+}
+
+.huge_activity_logo img
+{
+    width: 21cm;
+    height: 6cm;
+}
+
+.huge_school_logo img, .huge_matter_logo img
+{
+    width: 8cm;
+    height: 8cm;
+}
+
+.front_message
+{
+    position: absolute;
+    top: 18cm;
+    width: 16cm;
+    left: calc((21cm - 16cm) / 2);
+    height: 4cm;
+    text-align: center;
+    color: gray;
+}
+
+/* Front medal */
+
+.front_medal_list
+{
+    position: absolute;
+    top: 21cm;
+    width: 18cm;
+    height: 4.8cm;
+    left: 0.5cm;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin: 0.5cm 0.5cm 0.5cm 0.5cm;
+    padding: 0.5cm 0.5cm 0.5cm 0.5cm;
+}
+
+.front_medal_title, .exercice_medal_title
+{
+    position: relative;
+    top: -1.2cm;
+    height: 1px;
+}
+
+.front_medal_coin
+{
+    width: 1.5cm;
+    height: 1.5cm;
+    padding: 0.2m 0.2cm 0.2cm 0.2cm;
+    background-size: 100% 100%;
+    display: inline-block;
+}
+
+.front_medal_band, .exercise_medal_band_icon
+{
+    box-shadow:
+	0px 0px 3px black inset,
+	0px 0px 3px black inset,
+	0px 0px 3px black inset,
+	0px 0px 3px black inset
+    ;
+    border-radius: 20px;
+    background-size: 100% 100%;
+
+}
+
+.front_medal_band
+{
+    width: calc(1.5cm * 4);
+    height: 1.5cm;
+    padding: 0.2m 0.2cm 0.2cm 0.2cm;
+    display: inline-block;
+}
+
+/* Exercice medal */
+
+.exercise_medal_list
+{
+    margin-top: 1cm;
+}
+
+.exercise_medal_coin
+{
+    position: relative;
+    height: 2.2cm;
+    display: inline-block;
+    width: calc(50% - 0.4cm);
+    margin: 0.1cm 0.1cm 0.1cm 0.1cm;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.exercise_medal_coin_icon
+{
+    margin: 0.1cm 0.1cm 0.1cm 0.1cm;
+    width: 2cm;
+    height: 2cm;
+    background-size: 2cm 2cm;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+.exercise_medal_coin_text
+{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: calc(100% - (2cm + 0.2cm + 0.4cm));
+    height: 1.8cm;
+    padding-top: 0.2cm;
+    padding-right: 0.2cm;
+
+    vertical-align: top;
+    text-align: justify;
+}
+
+.exercise_medal_coin_text > h5
+{
+    font-weight: bold;
+    font-size: 0.30cm;
+    line-height: 0.35cm;
+    height: 0.4cm;
+    margin-bottom: 0.1cm;
+}
+
+.exercise_medal_coin_text > p
+{
+    text-indent: 0.5cm;
+    font-size: 0.30cm;
+    line-height: 0.35cm;
+}
+
+.exercise_medal_band
+{
+    height: 2.2cm;
+    display: inline-block;
+    width: calc(50% - 0.4cm);
+    margin: 0.1cm 0.1cm 0.1cm 0.1cm;
+    background-color: rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.exercise_medal_band_icon
+{
+    display: inline-block;
+    width: calc(2cm * 4);
+    height: 2cm;
+    margin-top: 0.1cm;
+}
+
+.medal_acquired
+{
+    color: green;
+    position: absolute;
+    bottom: -0.3cm;
+    right: -0.3cm;
+    z-index: 1;
+    width: 1.5cm;
+    height: 1.5cm;
+    background-image: url("./res/check.png");
+    background-size: 100% 100%;
+}
+
+/* */
+
+.activity_name
+{
+    position: absolute;
+    right: 0px;
+    font-weight: bold;
+}
+
+
+.matter_logo
+{
+    position: absolute;
+    left: 0px;
+    width: 5cm;
+    height: 1cm;
+}
+
+.school_logo
+{
+    position: absolute;
+    right: 0px;
+    width: 5cm;
+    height: 1cm;
+}
+
+.activity_logo
+{
+    position: absolute;
+    left: 0px;
+    width: 5cm;
+    height: 1cm;
+}
+
+.activity_logo img, .school_logo img, .matter_logo img
+{
+    height: 1cm;
+    width: 5cm;
+    z-index: 1;
+}
+
+.watermark
+{
+    position: absolute;
+    top: 1.33cm;
+    left: calc((100% - 20cm) / 2);
+    width: 20cm;
+    height: 1cm;
+    color: rgb(200, 200, 200);
+    text-align: center;
+}
+
+.revision
+{
+    position: absolute;
+    left: 0px;
+}
+
+.author
+{
+    position: absolute;
+    right: 0px;
+}
+
+.mail
+{
+    widht: 33.333%;
+    position: absolute;
+    left: calc(33.333%);
+}
+
+/* ************************************ */
+
+.explaination
+{
+    text-align: justify;
+    margin-top: 0.5cm;
+    margin-bottom: 0.5cm;
+}
+
+ul
+{
+    margin-top: 0.5cm;
+    margin-bottom: 0.5cm;
+}
+
+.spaced_list > li, .index > li
+{
+    margin-bottom: 0.5cm;
+}
+
+.index
+{
+    list-style: none;
+}
+
+.index_entry > a > div
+{
+    height: 1cm;
+    width: 100%;
+}
+
+.index_roman
+{
+    display: inline-block;
+    width: 2cm;
+}
+
+.index_chapter
+{
+    display: inline-block;
+}
+
+.index_page
+{
+    float: right;
+    width: 2cm;
+}
+
+.index a
+{
+    text-transform: uppercase;
+    font-size: 0.7cm;
+    line-height: 0.7cm;
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.warning
+{
+    background-color: rgb(255, 64, 64);
+    text-align: center;
+    margin-top: 0.5cm;
+    margin-bottom: 0.5cm;
+    padding: 0.5cm 0.5cm 0.5cm 0.5cm;
+}
+
+.prototype
+{
+    font-family: courier;
+    font-size: 0.4cm;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    padding: 0.5cm 0.5cm 0.5cm 0.5cm;
+}
+
+.code
+{
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+    font-family: courier;
+    font-size: 0.45cm;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    padding: 0.5cm 0.5cm 0.5cm 0.5cm;
+}
+
+.restriction
+{
+    background-color: rgb(255, 255, 128);
+    text-align: center;
+    margin-top: 0.5cm;
+    margin-bottom: 0.5cm;
+    padding: 0.5cm 0.5cm 0.5cm 0.5cm;
+}
+
+.clue
+{
+    background-color: rgb(128, 128, 255);
+    text-align: center;
+    margin-top: 0.5cm;
+    margin-bottom: 0.5cm;
+    padding: 0.5cm 0.5cm 0.5cm 0.5cm;
+}
+
+.grade
+{
+    position: absolute;
+    top: 2.2cm;
+    left: 1.5cm;
+    color: gray;
+}
+
+.function_introduce
+{
+    /*margin-bottom: 1cm;*/
+    text-indent: 1cm;
+}
+
+.function_description > p
+{
+    text-indent: 1cm;
+}
+
+.sidemark
+{
+    position: absolute;
+    z-index: 1;
+    left: 0.5cm;
+    text-align: center;
+    height: 100%;
+    top: 0px;
+    text-orientation: mixed;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+

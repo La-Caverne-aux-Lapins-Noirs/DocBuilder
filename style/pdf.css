@@ -1,0 +1,54 @@
+/*
+** Hanged Bunny Studio 2014-2020
+** Style for Technocore document generator
+*/
+
+@page
+{
+    size: 21cm 29.7cm;    /* A4 */
+    margin: 0mm 0mm 0mm 0mm;
+}
+
+.page
+{
+    size: 21cm 29.7cm;
+    height: 29.7cm; /* for margin */
+    width: 21cm;
+    position: relative;
+    background-color: white;
+    /*margin-bottom: 0.1cm;*/
+    page-break-after: always;
+}
+
+.page_margin
+{
+    margin-left: 1.5cm;
+    margin-right: 1.5cm;
+    width: 18cm;
+}
+
+.page_top
+{
+    position: relative;
+    /* border: 2px solid red;*/
+    height: 1.5cm;
+}
+
+
+.page_content
+{
+    width: 18cm;
+    height: 26.2cm;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    font-size: 0.5cm;
+    line-height: 0.7cm;
+}
+
+.page_bottom
+{
+    position: relative;
+    /* border: 2px solid green; */
+    height: 1.5cm;
+    text-align: center;
+}

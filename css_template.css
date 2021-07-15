@@ -1,0 +1,143 @@
+/*
+** TechnoCentre
+** Exemple de style
+** Style example
+*/
+
+/*
+** GLOBAL
+*/
+.page
+{}
+.page_margin
+{}
+.page_top
+{}
+.page_content
+{}
+.page_bottom
+{}
+.chapter_title
+{}
+.code
+{}
+
+/*
+** FRONT PAGE
+*/
+.subject_id
+{}
+.deadline
+{}
+.huge_matter_logo
+{}
+.huge_school_logo
+{}
+.huge_activity_logo
+{}
+.front_message
+{}
+.revision
+{}
+.author
+{}
+.mail
+{}
+.front_medal_list
+{}
+.front_medal_title
+{}
+.front_medal_coin
+{}
+.front_medal_band
+{}
+
+/*
+** OTHER PAGES
+*/
+.matter_logo
+{}
+.matter
+{}
+.activity_logo
+{}
+.activity_name
+{}
+.school_logo
+{}
+.exercise_medal_list
+{}
+.exercise_medal_title
+{}
+.exercise_medal_coin
+{}
+.exercise_medal_coin_icon
+{}
+.exercise_medal_coin_text
+{}
+.exercise_medal_coin_text > h5
+{}
+.exercise_medal_coin_text > p
+{}
+.exercise_medal_band
+{}
+.exercise_medal_band_icon
+{}
+.medal_acquired
+{}
+.sidemark
+{}
+
+/*
+** INDEX
+*/
+.index
+{}
+.index_entry
+{}
+.index_entry > a
+{}
+.index_entry > a > div
+{}
+.index_roman
+{}
+.index_chapter
+{}
+.index_page
+{}
+
+/*
+** FUNCTION
+*/
+.function_introduce
+{}
+.function_description
+{}
+
+/*
+** MARKDOWN
+*/
+.markdown h1
+{}
+.markdown h2
+{}
+.markdown h3
+{}
+.markdown h4
+{}
+.markdown h5
+{}
+.markdown h6
+{}
+.mardown p
+{}
+.mardown i
+{}
+.mardown b
+{}
+.mardown em
+{}
+.mardown ul
+{}
+.mardown li
+{}

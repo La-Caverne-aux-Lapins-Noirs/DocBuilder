@@ -1,0 +1,25 @@
+''''''''''''''''''''''''''''''''''''''''''
+'Information sur l'instance de l'activité'
+''''''''''''''''''''''''''''''''''''''''''
+
+' Ce genre de fichier est fait pour être généré par l'intranet.
+
+' La langue de l'instance. Cette langue surplombera toutes les autres qui auraient été spécifiées
+' En cas d'absence, c'est celle de l'activité qui sera utilisée.
+Language="FR"
+
+' La clef d'activité. Sert a retrouver quel type de correction il faut effectuer, ainsi qu'a flagger
+' Les documents. OBLIGATOIRE.
+ActivityKey="DEADBEEF"
+
+' Le timestamp de la date maximale de rendu du travail. OBLIGATOIRE.
+DeliveryDate=42
+
+' Le login de l'élève. OBLIGATOIRE.
+Login="Damdoshi"
+
+
+' Nom complet pour le watermark.
+FullName="Jason Brillante"
+
+AcquiredMedals="fixed_loop"

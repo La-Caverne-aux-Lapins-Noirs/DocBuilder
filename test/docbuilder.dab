@@ -1,0 +1,21 @@
+'''''''''''''''''''''''''''''
+'Configuration de DocBuilder'
+'''''''''''''''''''''''''''''
+
+'Fichier CSS utilisé pour la mise en page. Si non spécifié, c'est /etc/technocore/default.css
+DefaultStyle="/etc/technocore/default.css"
+'Format par défaut quand l'option -f n'est pas spécifiée. Par défaut c'est PDF.
+'Les valeurs valides sont PDF, Web, Schoolbook et Pocketbook
+DefaultFormat="PDF"
+'Langue par défaut des documents générés. Par défaut c'est FRANCAIS mösieur.
+'Les valeurs valides sont FR et EN actuellement.
+Language="FR"
+
+'Le nom de l'école. OBLIGATOIRE.
+' Peut-être un noeud dont les enfants seraient nommés d'après les langages
+School="BlackBunnyCavern"
+'Le logo de l'école. Un fichier PNG. OBLIGATOIRE.
+SchoolLogo="./res/school_logo.png"
+'Le logo de l'école pour les pieds de page, en largeur.
+SmallSchoolLogo="./res/small_school_logo.png"
+

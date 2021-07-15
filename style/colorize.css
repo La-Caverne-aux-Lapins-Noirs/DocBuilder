@@ -1,0 +1,55 @@
+/*
+** Hanged Bunny Studio 2014-2020
+** Style for Technocore document generator
+*/
+
+.c_code_entry
+{
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.c_code_symbol
+{
+    color: blue;
+    font-weight: bold;
+}
+
+.c_code_variable
+{
+    color: yellow;
+    font-weight: bold;
+}
+
+.c_code_keyword
+{
+    color: teal;
+    font-weight: bold;
+}
+
+.c_code_type
+{
+    color: green;
+}
+
+.c_code_constant
+{
+    color: purple;
+    font-weight: bold;
+}
+
+.c_code_strong
+{
+    font-weight: bold;
+}
+
+.c_code_litteral
+{
+    color: green;
+}
+
+.c_code_comment
+{
+    color: red;
+    font-weight: bold;
+}
