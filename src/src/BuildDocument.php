@@ -1,6 +1,6 @@
 <?php
 
-require_once ("./src/BuildPdf.php");
+require_once (__DIR__."/BuildPdf.php");
 
 function BuildDocument()
 {

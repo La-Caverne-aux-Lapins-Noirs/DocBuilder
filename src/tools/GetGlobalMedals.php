@@ -1,5 +1,5 @@
 <?php
-require_once ("./tools/RetrieveMedal.php");
+require_once (__DIR__."/RetrieveMedal.php");
 
 function GetGlobalMedals()
 {

@@ -59,10 +59,10 @@ function GenerateOutput()
 	{
 	    $tmp = $DocBuilder->OutputFile.".htm";
 	    file_put_contents($tmp, $DocBuilder->Output);
-	    $out = shell_exec("wkhtmltopdf --encoding utf-8 ".
-			      "-B 0 -T 0 -L 0 -R 0 --page-width 15.75cm --page-height 23cm ".
-			      "--title '".Translate($DocBuilder->Activity["Activity"])."' ".
-			      "'$tmp' '$DocBuilder->OutputFile'"
+	    $out = shell_exec(
+		"chromium-browser --headless --disable-gpu ".
+		"--print-to-pdf='".$DocBuilder->OutputFile."' ".
+		"file://".getcwd()."/".$tmp
 	    );
 	    shell_exec("rm -f $tmp");
 	    if ($out != "")

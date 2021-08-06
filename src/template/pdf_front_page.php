@@ -20,7 +20,7 @@
 	  <?php PrintImage($DocBuilder->Activity, "ActivityLogo", "Activity", "<h3>@@</h3>", "", false); ?>
       </div>
       <?php PrintMarkup($DocBuilder->Activity, "FrontMessage", '<div class="front_message">@@</div>', true, false); ?>
-      <?php require_once ("pdf_global_medals.php"); ?>
+      <?php require_once (__DIR__."/pdf_global_medals.php"); ?>
   </div>
 
   <div class="page_margin page_bottom">

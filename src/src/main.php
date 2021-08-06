@@ -1,12 +1,12 @@
 <?php
 //@define("ACTIVITY_DIRECTORY", "/etc/technocore/activities/");
 
-require_once ("./tools/index.php");
-require_once ("./deps/index.php");
-require_once ("./src/Prepare.php");
-require_once ("./src/BuildDocument.php");
-require_once ("./src/BuildSummaryLink.php");
-require_once ("./src/GenerateOutput.php");
+require_once (__DIR__."/../tools/index.php");
+require_once (__DIR__."/../deps/index.php");
+require_once (__DIR__."/Prepare.php");
+require_once (__DIR__."/BuildDocument.php");
+require_once (__DIR__."/BuildSummaryLink.php");
+require_once (__DIR__."/GenerateOutput.php");
 
 // Une unique structure contenant tout, pour ne pas avoir à ballader 15 paramètres...
 class CDocBuilder

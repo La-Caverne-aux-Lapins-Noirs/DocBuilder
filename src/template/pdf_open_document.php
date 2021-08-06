@@ -3,16 +3,17 @@
 	<meta name="charset" content="utf-8" />
 	<!--
 	---- +-------------------------------------------------------------------------+
-	---- |                       HANGED BUNNY STUDIO 2014-<?=date("Y", time()); ?>                     |
+        ---- |                       HANGED BUNNY STUDIO 2014-<?=date("Y", time()); ?>                     |
+     	---- |                      PENTACLE TECHNOLOGIE 2008-<?=date("Y", time()); ?>                     |
 	---- +-------------------------------------------------------------------------+
 	---- |                           TECHNOCORE DOCUMENT                           |
 	---- |                          BLACK BUNNIES  CAVERN                          |
 	---- +-------------------------------------------------------------------------+
-	---- |                            BY JASON BRILLANTE                           |
+	---- |                      BY JASON BRILLANTE "DAMDOSHI"                      |
 	---- +-------------------------------------------------------------------------+
 	--->
 	<title><?=MustPrint($DocBuilder->Activity, "Activity"); ?></title>
-	<meta name="generator" content="Hanged Bunny Studio's Technocore" />
+	<meta name="generator" content="Hanged Bunny Studio's && Pentacle Technologie's Technocore" />
 	<?php
 	PrintMeta($DocBuilder->Activity, "author", "Author", false);
 	PrintMeta($DocBuilder->Activity, "mail", "Mail", false);
@@ -26,9 +27,9 @@
 	?>
 	<style>
 	 <?php
-	 require_once ("./style/default.css");
-	 require_once ("./style/colorize.css");
-	 require_once ("./style/pdf.css");
+	 require_once (__DIR__."/../style/default.css");
+	 require_once (__DIR__."/../style/colorize.css");
+	 require_once (__DIR__."/../style/pdf.css");
 	 echo $DocBuilder->Style;
 	 ?>
 	</style>
