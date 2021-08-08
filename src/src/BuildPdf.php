@@ -174,6 +174,19 @@ function AddInstruction($info, $chapter)
 	    $Md = '<div class="markdown">';
 	    $Md .= $MarkDown->text(file_get_contents($info["Document"]));
 	    $Md .= '</div>';
+	    /*
+	    ** BEAUCOUP DE CHOSES A DIRE LA DESSUS!
+	     ** Il faut relire le fonctionnement de la doc
+	     ** car il semble stupide de reserver le markdown a l'exterieur.
+	     ** 100 % des textes devraient être en mardown et augmenté de capacités
+	     ** de mise en forme specifique au besoin de DocBuilder.
+	     ** Il faut retirer le champ Prototype pour lui préférer du texte de masse
+	     ** par l'entremise des nouvelles capacités de templating de Dabsic
+	    */
+	    preg_replace("/@CODE\s\s+\<blockquote>/", "<blockquote class=\"code\">", $Md);
+	    preg_replace("/@CLI\s\s+\<blockquote>/", "<blockquote class=\"cli\">", $Md);
+	    preg_replace("/@HINT\s\s+\<blockquote>/", "<blockquote class=\"hint\">", $Md);
+	    preg_replace("/@WARNING\s\s+\<blockquote>/", "<blockquote class=\"warning\">", $Md);
 	    echo $Md;
 	}
 	else if ($ext == "json" || $ext == "ini" || $ext == "dab")

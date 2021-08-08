@@ -39,5 +39,15 @@
 .markdown li
 {}
 
-.markdown blockquote
+.markdown blockquote.warning
 {}
+
+.markdown blockquote.code
+{}
+
+.markdown blockquote.hint
+{}
+
+.markdown blockquote.cli
+{}
+
