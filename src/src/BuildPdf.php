@@ -109,37 +109,28 @@ function PdfTitle($info, $chapter)
 
 function PdfSideMark($info)
 {
-    global $MarkDown;
     global $DocBuilder;
 
     if (is_array($info))
 	$text = implode("", $info);
     else
 	$text = $info;
-    $Md = "<div class=\"sidemark\">";
-    $Md .= $MarkDown->line($text);
-    $Md .= "</div>";
-    echo $Md;
-    $DocBuilder->Warnings[] = "Sidemark are not supported with PDF format (wkHTMLtoPDF issue).";
+    echo ReadMarkdown($text);
 }
 
 function BuildFromConfiguration($info, $Configuration)
 {
     global $DocBuilder;
-    global $MarkDown;
 
     if (isset($Configuration["SideMark"]))
 	PdfSideMark($Configuration["SideMark"]);
-    if (($type = $info["Type"]) == "Function")
-    {
-	require ("./template/pdf_function.php");
-    }
+    else
+	
 }
 
 function AddInstruction($info, $chapter)
 {
     global $DocBuilder;
-    global $MarkDown;
 
     //////////////////////////////////////
     // Generation du contenu du chaptitre
@@ -152,9 +143,7 @@ function AddInstruction($info, $chapter)
 
     // La documentation est spécifiée DANS le fichier activité
     if (isset($info["Document"]) && is_array($info["Document"]))
-    {
 	BuildFromConfiguration($info, $info["Document"]);
-    }
     // C'est un fichier exterieur. On l'inclu.
     else
     {
@@ -169,31 +158,8 @@ function AddInstruction($info, $chapter)
 	    }
 	}
 	// Si le fichier est un element de configuration dont il faut générer la sortie
-	else if ($ext == "md")
-	{
-	    $Md = '<div class="markdown">';
-	    $Md .= $MarkDown->text(file_get_contents($info["Document"]));
-	    $Md .= '</div>';
-	    /*
-	    ** BEAUCOUP DE CHOSES A DIRE LA DESSUS!
-	     ** Il faut relire le fonctionnement de la doc
-	     ** car il semble stupide de reserver le markdown a l'exterieur.
-	     ** 100 % des textes devraient être en mardown et augmenté de capacités
-	     ** de mise en forme specifique au besoin de DocBuilder.
-	     ** Il faut retirer le champ Prototype pour lui préférer du texte de masse
-	     ** par l'entremise des nouvelles capacités de templating de Dabsic
-	    */
-	    preg_replace("/@CODE\s\s+\<blockquote>/", "<blockquote class=\"code\">", $Md);
-	    preg_replace("/@CLI\s\s+\<blockquote>/", "<blockquote class=\"cli\">", $Md);
-	    preg_replace("/@HINT\s\s+\<blockquote>/", "<blockquote class=\"hint\">", $Md);
-	    preg_replace("/@WARNING\s\s+\<blockquote>/", "<blockquote class=\"warning\">", $Md);
-	    echo $Md;
-	}
-	else if ($ext == "json" || $ext == "ini" || $ext == "dab")
-	{
-	    $json = LoadDabsic($info["Document"]);
-	    BuildFromConfiguration($info, $json);
-	}
+	else
+	    echo ReadMarkdown($info["Document"]);
     }
 
     $Exercise = $info;

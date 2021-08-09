@@ -6,3 +6,4 @@ require_once (__DIR__."/ToRoman.php");
 require_once (__DIR__."/Printer.php");
 require_once (__DIR__."/GetGlobalMedals.php");
 require_once (__DIR__."/Summary.php");
+require_once (__DIR__."/ReadMarkdown.php");
