@@ -22,7 +22,7 @@ function Translate($field)
 
     // C'est peut-être que le champ est un identifieur pour le dictionnaire alors?
     // Si ce n'est pas le cas, on l'affiche direct...
-    if (preg_match("@^[_a-zA-Z][_a-zA-Z0-9]*$@", $field) == false)
+    if (preg_match("/^[_a-zA-Z][_a-zA-Z0-9]*$/", $field) == false)
 	return ($field);
 
     // Si c'en est un, alors on regarde si le texte recherché est dispo dans le dico de la langue en cours

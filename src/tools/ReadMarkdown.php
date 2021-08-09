@@ -4,13 +4,13 @@ function ReadMarkdown($md)
 {
     global $MarkDown;
 
-    if (file_exist($md))
+    if (file_exists($md))
 	return (ReadMarkdown(file_get_contents($md)));
-    $md = str_replace("!>", "@WARNING@ >", $md)
-    $md = str_replace("?>", "@HINT@ >", $md)
-    $md = str_replace("$>", "@CLI@ >", $md)
-    $md = str_replace(";>", "@CODE@ >", $md)
-    $md = $Markdown->text($md);
+    $md = str_replace("!>", "@WARNING@ >", $md);
+    $md = str_replace("?>", "@HINT@ >", $md);
+    $md = str_replace("$>", "@CLI@ >", $md);
+    $md = str_replace(";>", "@CODE@ >", $md);
+    $md = $MarkDown->text($md);
     preg_replace("/@CODE@\s\s+\<blockquote>/", "<blockquote class=\"code\">", $md);
     preg_replace("/@CLI@\s\s+\<blockquote>/", "<blockquote class=\"cli\">", $md);
     preg_replace("/@HINT@\s\s+\<blockquote>/", "<blockquote class=\"hint\">", $md);
