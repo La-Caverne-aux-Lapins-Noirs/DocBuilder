@@ -15,6 +15,8 @@ APT="
   g++
   git
   chromium-browser
+  libtidy-dev
+  php-tidy
 "
 # Dépendences à résoudre depuis github
 GIT="
