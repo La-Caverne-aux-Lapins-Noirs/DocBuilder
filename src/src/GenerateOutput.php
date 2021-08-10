@@ -64,7 +64,8 @@ function GenerateOutput()
 		"--print-to-pdf='".$DocBuilder->OutputFile."' ".
 		"file://".getcwd()."/".$tmp
 	    );
-	    shell_exec("rm -f $tmp");
+	    if ($DocBuilder->KeepTrace == false)
+		shell_exec("rm -f $tmp");
 	    if ($out != "")
 	    {
 		fprintf(STDERR, "%s\n", $out);

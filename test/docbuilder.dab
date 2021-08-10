@@ -13,7 +13,10 @@ Language="FR"
 
 'Le nom de l'école. OBLIGATOIRE.
 ' Peut-être un noeud dont les enfants seraient nommés d'après les langages
-School="BlackBunnyCavern"
+[School
+  EN = "The Cavern With Black Bunnies"
+  FR = "La Caverne Aux Lapins Noirs"
+]
 'Le logo de l'école. Un fichier PNG. OBLIGATOIRE.
 SchoolLogo="./res/school_logo.png"
 'Le logo de l'école pour les pieds de page, en largeur.

@@ -2,7 +2,7 @@
 
 $short_options = "a:i:s:f:o:c:d:m:"; // ActivityFile (Template), Instance information, Optional style
 $long_options = [
-    "activity:", "instance:", "style:", "format:", "output:", "configuration:", "dictionnary:", "medals:"
+    "activity:", "instance:", "style:", "format:", "output:", "configuration:", "dictionnary:", "medals:", "no-pretty", "keep-trace"
 ];
 $bold = "\033[1m";
 $normal = "\033[0m";
@@ -223,6 +223,9 @@ function Prepare($argv)
 
     if (isset($options["no-pretty"]))
 	$DocBuilder->Pretty = false;
+
+    if (isset($options["keep-trace"]))
+	$DocBuilder->KeepTrace = true;
 
     $DocBuilder->GlobalMedals = GetGlobalMedals();
     return ($DocBuilder);

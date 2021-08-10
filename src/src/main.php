@@ -34,6 +34,7 @@ class CDocBuilder
     public $PageHeight = 0;
     public $LineHeight = 0;
 
+    public $KeepTrace = false;
     public $Pretty = true;
 };
 
@@ -51,6 +52,12 @@ function KeepContent($buf)
 
     $DocBuilder->Output .= $buf;
     return ("");
+}
+
+function PrintAndExit()
+{
+    GenerateOutput();
+    exit ;
 }
 
 function main($argc, array $argv)

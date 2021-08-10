@@ -14,5 +14,5 @@ fi
     -c ./test/docbuilder.dab \
     -d ./test/dictionnary.dab \
     -m ./test/medals/ \
-    -o output.pdf
-
+    -o output.pdf \
+    --keep-trace
