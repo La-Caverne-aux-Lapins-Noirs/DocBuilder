@@ -1,0 +1,9 @@
+
+ - Permettre à 100% des textes de documents d'etre en markdown
+   et enrichir markdown pour permettre les blocs
+   "indice", "mise en garde", "code" et "ligne de commande"
+   ainsi que d'autres a voir
+
+- Retirer la separation "document", "protptype", afin de lui préférer
+l'utilisation des blocs permit par markdown et par la mise a jour de dabsic
+

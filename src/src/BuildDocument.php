@@ -1,12 +1,15 @@
 <?php
 
-require_once (__DIR__."/BuildPdf.php");
+require_once (__DIR__."/../pdf/BuildPdf.php");
+require_once (__DIR__."/../web/BuildWeb.php");
 
 function BuildDocument()
 {
-    global $DocBuilder;
+    extract($GLOBALS);
 
-    if ($DocBuilder->Format == "PDF")
+    if (strncmp($DocBuilder->Format, "PDF", 3) == 0)
 	BuildPdf();
+    else
+	BuildWeb();
 }
 
