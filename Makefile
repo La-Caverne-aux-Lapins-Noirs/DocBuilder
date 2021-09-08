@@ -10,3 +10,4 @@ $(CHECK):
 check:		$(CHECK)
 
 .PHONY:		$(CHECK) check all install
+
