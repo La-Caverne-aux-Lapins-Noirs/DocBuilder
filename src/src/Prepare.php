@@ -1,6 +1,6 @@
 <?php
 
-function GetOpt($opt, $long, $short, $default = NULL)
+function GetOption($opt, $long, $short, $default = NULL)
 {
     if (isset($opt[$long]))
 	return ($opt[$long]);
@@ -11,7 +11,7 @@ function GetOpt($opt, $long, $short, $default = NULL)
 
 function LoadFile(&$out, $opts, $long, $short, $default = NULL, $dabsic = true)
 {
-    if (($File = GetOpt($opts, $long, $short, $default)) === NULL)
+    if (($File = GetOption($opts, $long, $short, $default)) === NULL)
     {
 	fprintf(STDERR, "$argv[0]: Missing parameter: $long configuration (-$short file / --$long=file).\n");
 	return (false);
@@ -45,7 +45,7 @@ function Prepare($argv)
 	return (false);
     if (!LoadFile($DocBuilder->Dictionnary, $options, "dictionnary", "d", DOCBUILDER_DEFAULT_DICTIONNARY))
 	return (false);
-    $DocBuilder->MedalsDir = GetOpt($options, "medals", "m", DOCBUILDER_DEFAULT_MEDALS_DIR);
+    $DocBuilder->MedalsDir = GetOption($options, "medals", "m", DOCBUILDER_DEFAULT_MEDALS_DIR);
     if (!LoadFile($DocBuilder->Activity, $options, "activity", "a"))
 	return (false);
     if (!LoadFile($DocBuilder->Activity, $options, "instance", "i"))
@@ -93,13 +93,13 @@ function Prepare($argv)
 	$Format = $DocBuilder->Configuration["Format"];
     else
 	$Format = DOCBUILDER_DEFAULT_FORMAT;
-    $DocBuilder->Format = GetOpt($options, "format", "f", $Format);
+    $DocBuilder->Format = GetOption($options, "format", "f", $Format);
     if ($DocBuilder->Format == "PDFA4")
 	$DocBuilder->PageHeight = 20; // 20 Centimètres de contenu sur 29. Le reste est pour le cadre.
     else if ($DocBuilder->Format == "PDFA5")
 	$DocBuilder->PageHeight = 17.5; // 21 - 3.5. 1cm5 en haut, 2cm en bas (pour le numero de page)
 
-    $DocBuilder->OutputFile = GetOpt($options, "output", "o", "/dev/stdout");
+    $DocBuilder->OutputFile = GetOption($options, "output", "o", "/dev/stdout");
 
     if (isset($DocBuilder->Instance["Language"]))
 	$DocBuilder->Language = $DocBuilder->Instance["Language"];
@@ -110,7 +110,7 @@ function Prepare($argv)
     else
 	$DocBuilder->Language = "FR"; // C'est un logiciel francais, donc par défaut c'est francais.
 
-    $DocBuilder->Code = GetOpt($options, "engine", "e", "html");
+    $DocBuilder->Code = GetOption($options, "engine", "e", "html");
 
     if (isset($options["no-pretty"]))
 	$DocBuilder->Pretty = false;
