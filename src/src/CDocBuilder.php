@@ -1,4 +1,4 @@
-<?php
+<?php // @codeCoverageIgnoreStart
 
 class CDocBuilder
 {
@@ -35,3 +35,4 @@ function GetDocBuilder()
     return (new CDocBuilder);
 }
 
+// @codeCoverageIgnoreEnd

@@ -60,4 +60,17 @@ class utilsTest extends XTestCase
 			  $out
 	);
     }
+    public function testLoadDabsic()
+    {
+	$this->assertSame(LoadDabsic(__DIR__."/../res/test.dab"), ["Node" => ["Field" => "Hello"]]);
+	$this->assertSame(LoadDabsic("BANG"), NULL);
+    }
+    public function testMergeData()
+    {
+	$in = "lol";
+	$this->assertSame(MergeData($in), "lol");
+	$in = ["lol", "ol"];
+	$this->assertSame(MergeData($in), "lolol");
+    }
 }
+

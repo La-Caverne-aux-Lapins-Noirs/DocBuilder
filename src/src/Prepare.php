@@ -11,35 +11,35 @@ function GetOption($opt, $long, $short, $default = NULL)
 
 function LoadFile(&$out, $opts, $long, $short, $default = NULL, $dabsic = true)
 {
+    global $argv;
+
     if (($File = GetOption($opts, $long, $short, $default)) === NULL)
     {
-	fprintf(STDERR, "$argv[0]: Missing parameter: $long configuration (-$short file / --$long=file).\n");
+	echo sprintf("$argv[0]: Missing parameter: $long configuration (-$short file / --$long=file).\n");
 	return (false);
     }
     if ($dabsic)
     {
 	if (!($out = LoadDabsic($File)))
 	{
-	    fprintf(STDERR, "$argv[0]: Invalid $long file $File.\n");
+	    echo sprintf("$argv[0]: Invalid $long file $File.\n");
 	    return (false);
 	}
     }
     else
     {
-	if (($out = file_get_contents($File)) === NULL)
+	if (!($out = @file_get_contents($File)))
 	{
-	    fprintf(STDERR, "$argv[0]: Invalid $long file $File.\n");
+	    echo sprintf("$argv[0]: Invalid $long file $File.\n");
 	    return (false);
 	}
     }
     return (true);
 }
 
-function Prepare($argv)
+function Prepare($options)
 {
-    unpack($GLOBALS);
-
-    $options = getopt($Options->ShortOptions, $Options->LongOptions);
+    extract($GLOBALS);
 
     if (!LoadFile($DocBuilder->Configuration, $options, "configuration", "c", DOCBUILDER_DEFAULT_CONFIGURATION))
 	return (false);
@@ -48,21 +48,38 @@ function Prepare($argv)
     $DocBuilder->MedalsDir = GetOption($options, "medals", "m", DOCBUILDER_DEFAULT_MEDALS_DIR);
     if (!LoadFile($DocBuilder->Activity, $options, "activity", "a"))
 	return (false);
-    if (!LoadFile($DocBuilder->Activity, $options, "instance", "i"))
+    if (!LoadFile($DocBuilder->Instance, $options, "instance", "i"))
 	return (false);
 
     if (!isset($DocBuiler->Instance["FullName"]) && isset($DocBuilder->Instance["Login"]))
 	$DocBuilder->Instance["FullName"] = $DocBuilder->Instance["Login"];
-    MustBeAnArray(@$DocBuilder->Instance["Medals"]);
-    MustBeAnArray(@$DocBuilder->Instance["AcquiredMedals"]);
-
-    $DocBuilder->LineHeight = 0.5; // Valeur par défaut.
-    if (isset($DocBuilder->Configuration["Style"]))
-	$Style = $DocBuilder->Configuration["Style"];
+    if (!isset($DocBuilder->Instance["Medals"]))
+	$DocBuilder->Instance["Medals"] = [];
     else
-	$Style = DOCBUILDER_DEFAULT_STYLE;
-    if (!LoadFile($DocBuilder->Style, $options, "style", "s", $Style, false))
+	MustBeAnArray($DocBuilder->Instance["Medals"]);
+    if (!isset($DocBuilder->Instance["AcquiredMedals"]))
+	$DocBuilder->Instance["AcquiredMedals"] = [];
+    else
+	MustBeAnArray($DocBuilder->Instance["AcquiredMedals"]);
+
+    $extern = true;
+    $DocBuilder->LineHeight = 0.5; // Valeur par défaut.
+    $Style = DOCBUILDER_DEFAULT_STYLE;
+    if (isset($DocBuilder->Configuration["Style"]))
+    {
+	// Le champ Style de la configuration peut etre un fichier OU une donnée directement
+	$Style = $DocBuilder->Configuration["Style"];
+	if (!file_exists($Style))
+	    $extern = false;
+    }
+
+    if ($extern == false) // On a du CSS directement dans le champ!
+	$DocBuilder->Style = MergeData($Style);
+    // On a un fichier a charger...
+    else if (!LoadFile($DocBuilder->Style, $options, "style", "s", $Style, false))
 	return (false);
+
+    // On charge le CSS.
     $CSS = new CssParser; // Merci Peter Kröner
     $CSS->load_string($DocBuilder->Style);
     $CSS->parse();

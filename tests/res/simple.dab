@@ -1,0 +1,11 @@
+FullName = "Jason Brillante"
+Medals = "pvc", "latex", "leather"
+AcquiredMedals = "pvc"
+
+Style = "./tests/res/style.css"
+
+Format = "PDFA4"
+
+Language = "FR"
+
+

@@ -7,8 +7,8 @@ install:
 
 $(CHECK):
 		@php -l $@ > /dev/null
-		@(cd tests/ && ./run.sh)
 check:		$(CHECK)
+		@(cd tests/ && ./run.sh)
 
 .PHONY:		$(CHECK) check all install
 

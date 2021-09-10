@@ -1,4 +1,4 @@
-<?php
+<?php // @codeCoverageIgnoreStart
 
 $dir = opendir(__DIR__);
 while (($file = readdir($dir)) !== false)
@@ -10,3 +10,4 @@ while (($file = readdir($dir)) !== false)
     require_once ($file);
 }
 closedir($dir);
+// @codeCoverageIgnoreEnd

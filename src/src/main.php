@@ -17,7 +17,10 @@ function main($argc, array $argv)
     // On récupère les informations des differents fichiers de configuration et de la ligne de commande
     // La configuration de DocBuilder, de l'activité, de l'instance courante (élève, dates, etc.) et le style
     // a utiliser. Le type indique quel est le format de sortie (site web, PDF, livre A4, livre poche, etc.)
-    if (Prepare($argv) == false)
+    global $Options;
+
+    $options = getopt($Options->ShortOptions, $Options->LongOptions);
+    if (Prepare($options) == false)
 	return (1);
 
     ///////////////////////////////////////

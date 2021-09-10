@@ -1,4 +1,4 @@
-<?php
+<?php // @codeCoverageIgnoreStart
 
 class Options
 {
@@ -37,3 +37,4 @@ function GetOptions()
     return (new Options);
 }
 
+// @codeCoverageIgnoreEnd
