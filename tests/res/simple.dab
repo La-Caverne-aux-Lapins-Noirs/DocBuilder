@@ -2,7 +2,7 @@ FullName = "Jason Brillante"
 Medals = "pvc", "latex", "leather"
 AcquiredMedals = "pvc"
 
-Style = "./tests/res/style.css"
+Style = "./res/style.css" 'Il FAUT que le PHP s'arrange pour que la conf fasse point de recherche
 
 Format = "PDFA4"
 

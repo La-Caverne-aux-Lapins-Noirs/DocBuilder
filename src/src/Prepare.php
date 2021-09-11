@@ -80,7 +80,7 @@ function Prepare($options)
 	return (false);
 
     // On charge le CSS.
-    $CSS = new CssParser; // Merci Peter Kröner
+    $CSS = new CssParser; // Merci.
     $CSS->load_string($DocBuilder->Style);
     $CSS->parse();
     foreach ($CSS->parsed as &$cnt)
