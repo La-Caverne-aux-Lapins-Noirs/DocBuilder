@@ -1,4 +1,4 @@
-<?php
+<?php // @codeCoverageIgnoreStart
 
 function OpenDocument()
 {
@@ -11,3 +11,4 @@ function OpenDocument()
     // Si c'est pas un format listé, ce n'est pas grave, il n'y aura juste pas d'ouverture
 }
 
+// @codeCoverageIgnoreEnd

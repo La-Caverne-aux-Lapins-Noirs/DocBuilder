@@ -3,7 +3,7 @@
 class Options
 {
     // ActivityFile (Template), Instance information, Optional style
-    public $ShortOptions = "a:i:s:f:o:c:d:m:e:";
+    public $ShortOptions = "a:i:s:f:o:c:d:m:e:l:";
     public $LongOptions = [
 	"activity:",
 	"instance:",
@@ -16,6 +16,7 @@ class Options
 	"no-pretty",
 	"keep-trace",
 	"engine:",
+	"language:",
     ];
     public $Description = [
 	"The Dabsic file describing the activity you want to generate the document. Mandatory.",
@@ -29,6 +30,7 @@ class Options
 	"Compact the generated code.",
 	"Keep generated code after rendering into PDF.",
 	"Engine to use: html or latex.",
+	"Language of the generated document. Default is FR (french).",
     ];
 };
 

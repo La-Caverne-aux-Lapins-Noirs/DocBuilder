@@ -1,8 +1,8 @@
-FullName = "Jason Brillante"
-Medals = "pvc", "latex", "leather"
+
+Login = "Jason Brillante"
 AcquiredMedals = "pvc"
 
-Style = "./res/style.css" 'Il FAUT que le PHP s'arrange pour que la conf fasse point de recherche
+Style = "style.css"
 
 Format = "PDFA4"
 

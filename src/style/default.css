@@ -72,3 +72,17 @@ li
     margin-left:	1.5cm;
 }
 
+.page
+{
+    position:		relative;
+}
+
+.left_align
+{
+    text-align:		left;
+}
+
+.right_align
+{
+    text-align:		right;
+}

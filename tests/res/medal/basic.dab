@@ -1,0 +1,13 @@
+
+[Name
+  FR = "Basique"
+  EN = "Basic"
+]
+
+Icon = "basic.png"
+
+[Description
+  FR = "Médaille simple"
+  EN = "Simple medal"
+]
+

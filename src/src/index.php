@@ -1,5 +1,9 @@
 <?php // @codeCoverageIgnoreStart
 
+require_once (__DIR__."/CDocBuilder.php");
+require_once (__DIR__."/GetMarkdown.php");
+require_once (__DIR__."/Options.php");
+
 $dir = opendir(__DIR__);
 while (($file = readdir($dir)) !== false)
 {

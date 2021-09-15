@@ -1,4 +1,4 @@
-<?php
+<?php // @codeCoverageIgnoreStart
 
 function StartSubRecord($open = false)
 {
@@ -8,3 +8,4 @@ function StartSubRecord($open = false)
     return (true);
 }
 
+// @codeCoverageIgnoreEnd

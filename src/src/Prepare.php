@@ -1,109 +1,48 @@
 <?php
 
-function GetOption($opt, $long, $short, $default = NULL)
-{
-    if (isset($opt[$long]))
-	return ($opt[$long]);
-    if (isset($opt[$short]))
-	return ($opt[$short]);
-    return ($default);
-}
-
-function LoadFile(&$out, $opts, $long, $short, $default = NULL, $dabsic = true)
-{
-    global $argv;
-
-    if (($File = GetOption($opts, $long, $short, $default)) === NULL)
-    {
-	echo sprintf("$argv[0]: Missing parameter: $long configuration (-$short file / --$long=file).\n");
-	return (false);
-    }
-    if ($dabsic)
-    {
-	if (!($out = LoadDabsic($File)))
-	{
-	    echo sprintf("$argv[0]: Invalid $long file $File.\n");
-	    return (false);
-	}
-    }
-    else
-    {
-	if (!($out = @file_get_contents($File)))
-	{
-	    echo sprintf("$argv[0]: Invalid $long file $File.\n");
-	    return (false);
-	}
-    }
-    return (true);
-}
+require_once (__DIR__."/CompleteStyle.php");
 
 function Prepare($options)
 {
     extract($GLOBALS);
 
-    if (!LoadFile($DocBuilder->Configuration, $options, "configuration", "c", DOCBUILDER_DEFAULT_CONFIGURATION))
-	return (false);
-    if (!LoadFile($DocBuilder->Dictionnary, $options, "dictionnary", "d", DOCBUILDER_DEFAULT_DICTIONNARY))
-	return (false);
-    $DocBuilder->MedalsDir = GetOption($options, "medals", "m", DOCBUILDER_DEFAULT_MEDALS_DIR);
-    if (!LoadFile($DocBuilder->Activity, $options, "activity", "a"))
-	return (false);
-    if (!LoadFile($DocBuilder->Instance, $options, "instance", "i"))
-	return (false);
+    $DocBuilder->Code = GetOption($options, "engine", "e", "html");
 
-    if (!isset($DocBuiler->Instance["FullName"]) && isset($DocBuilder->Instance["Login"]))
+    if (!isset($DocBuilder->Instance["FullName"]) && isset($DocBuilder->Instance["Login"]))
 	$DocBuilder->Instance["FullName"] = $DocBuilder->Instance["Login"];
-    if (!isset($DocBuilder->Instance["Medals"]))
-	$DocBuilder->Instance["Medals"] = [];
-    else
-	MustBeAnArray($DocBuilder->Instance["Medals"]);
+
     if (!isset($DocBuilder->Instance["AcquiredMedals"]))
 	$DocBuilder->Instance["AcquiredMedals"] = [];
     else
-	MustBeAnArray($DocBuilder->Instance["AcquiredMedals"]);
+	$DocBuilder->Instance["AcquiredMedals"] = MustBeAnArray($DocBuilder->Instance["AcquiredMedals"]);
 
-    $extern = true;
+    $confdir = dirname(GetOption($options, "configuration", "c", DOCBUILDER_DEFAULT_CONFIGURATION));
     $DocBuilder->LineHeight = 0.5; // Valeur par défaut.
-    $Style = DOCBUILDER_DEFAULT_STYLE;
+    $DocBuilder->Style = "";
+    $StyleFile = DOCBUILDER_DEFAULT_STYLE;
     if (isset($DocBuilder->Configuration["Style"]))
     {
-	// Le champ Style de la configuration peut etre un fichier OU une donnée directement
 	$Style = $DocBuilder->Configuration["Style"];
-	if (!file_exists($Style))
-	    $extern = false;
-    }
 
-    if ($extern == false) // On a du CSS directement dans le champ!
-	$DocBuilder->Style = MergeData($Style);
-    // On a un fichier a charger...
-    else if (!LoadFile($DocBuilder->Style, $options, "style", "s", $Style, false))
-	return (false);
-
-    // On charge le CSS.
-    $CSS = new CssParser; // Merci.
-    $CSS->load_string($DocBuilder->Style);
-    $CSS->parse();
-    foreach ($CSS->parsed as &$cnt)
-    {
-	foreach ($cnt as $s => &$r)
+	// Est ce qu'on a du CSS directement ou pas ?
+	if (strstr($Style, "{") === false)
 	{
-	    if ($s != "*")
-		continue ;
-	    foreach ($r as $prop => &$val)
+	    // Non, alors c'est probablement un chemin.
+	    // On ajoute la position du fichier de configuration qui le specifie
+	    if (substr($Style, 0, 1) != "/")
+		$StyleFile = $confdir."/".$Style;
+	    else
+		$StyleFile = $Style;
+
+	    // On a un probleme....
+	    if (!file_exists($StyleFile))
 	    {
-		if ($prop == "line-height" && prg_match("^[0-9]+cm$", $val))
-		{
-		    $DocBuilder->LineHeight = (float)$val;
-		    break 3;
-		}
+		echo sprintf("$argv[0]: Specified file {$StyleFile} for style does not exist.\n");
+		return (false);
 	    }
-	    // Si aucune hauteur de ligne n'a été prévue... on en établie une de force.
-	    $r["line-height"] = $DocBuilder->LineHeight."cm";
-	    $DocBuilder->Style = $CSS->glue();
-	    $DocBuilder->Warnings[] = "No line-height was specified inside the '*' rule of CSS. ".
-				      "Setting {$DocBuilder->LineHeight}cm."
-				      ;
 	}
+	else
+	    $DocBuilder->Style = MergeData($Style);
     }
 
     if (isset($DocBuilder->Configuration["Format"]))
@@ -116,6 +55,42 @@ function Prepare($options)
     else if ($DocBuilder->Format == "PDFA5")
 	$DocBuilder->PageHeight = 17.5; // 21 - 3.5. 1cm5 en haut, 2cm en bas (pour le numero de page)
 
+    if ($DocBuilder->Code == "html")
+    {
+	// On va recherche ou definir la specification de la hauteur d'une ligne.
+	$CSS = new CssParser; // Merci a l'auteur de cette lib.
+	// On charge le CSS par defaut de DocBuilder
+	$CSS->load_string(file_get_contents(__DIR__."/../style/default.css"));
+	if ($DocBuilder->Format == "PDFA4")
+	    $CSS->load_string(file_get_contents(__DIR__."/../style/big_pdf.css"));
+	else if ($DocBuilder->Format == "PDFA5")
+	    $CSS->load_string(file_get_contents(__DIR__."/../style/small_pdf.css"));
+
+	// On charge le CSS indiqué directement dans le fichier de conf
+	if ($DocBuilder->Style != "")
+	    $CSS->load_string($DocBuilder->Style);
+	// Ou on charge le CSS qui est dans le fichier indiqué dans la conf
+	else if ($StyleFile != "")
+	{
+	    $CSS->load_string(file_get_contents($StyleFile));
+	    $StyleFile = NULL;
+	}
+
+	// On charge aussi le CSS indiqué dans la ligne de commande
+	if (LoadFile($DocBuilder->Style, $options, "style", "s", $StyleFile, false) != NULL)
+	    $CSS->load_string($DocBuilder->Style);
+
+	// On parse le tout
+	$CSS->parse();
+	// On rassemble tout dans un seul et meme fichier
+	// Afin d'avoir les propriétés qui se mélangent.
+	$css = $CSS->glue();
+	$CSS = new CssParser();
+	$CSS->load_string($css);
+	$CSS->parse();
+	CompleteStyle($CSS);
+    }
+
     $DocBuilder->OutputFile = GetOption($options, "output", "o", "/dev/stdout");
 
     if (isset($DocBuilder->Instance["Language"]))
@@ -125,9 +100,8 @@ function Prepare($options)
     else if (isset($DocBuilder->Configuration["Language"]))
 	$DocBuilder->Language = $DocBuilder->Configuration["Language"];
     else
-	$DocBuilder->Language = "FR"; // C'est un logiciel francais, donc par défaut c'est francais.
-
-    $DocBuilder->Code = GetOption($options, "engine", "e", "html");
+	// C'est un logiciel francais, donc par défaut c'est francais.
+	$DocBuilder->Language = GetOption($options, "language", "l", "FR");
 
     if (isset($options["no-pretty"]))
 	$DocBuilder->Pretty = false;
@@ -137,5 +111,5 @@ function Prepare($options)
 	$DocBuilder->SmallOpening = true;
 
     $DocBuilder->GlobalMedals = GetGlobalMedals();
-    return ($DocBuilder);
+    return (true);
 }

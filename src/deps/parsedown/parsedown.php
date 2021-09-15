@@ -1,4 +1,4 @@
-<?php
+<?php // @codeCoverageIgnoreStart
 
 #
 #
@@ -1992,3 +1992,5 @@ class Parsedown
                    'wbr', 'time',
     );
 }
+
+// @codeCoverageIgnoreEnd

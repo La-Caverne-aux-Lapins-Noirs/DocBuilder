@@ -1,7 +1,4 @@
-<?php
-
-require_once (__DIR__."/../pdf/BuildPdf.php");
-require_once (__DIR__."/../web/BuildWeb.php");
+<?php // @codeCoverageIgnoreStart
 
 function BuildDocument()
 {
@@ -13,3 +10,4 @@ function BuildDocument()
 	BuildWeb();
 }
 
+// @codeCoverageIgnoreEnd

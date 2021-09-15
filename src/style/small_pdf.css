@@ -1,0 +1,23 @@
+/* Jason Brillante "Damdoshi"
+** Hanged Bunny Studio 2014-2021
+** Pentacle Technologie 2008-2021
+**
+** DocBuilder CSS
+*/
+
+@page
+{
+    size:		11cm 18cm;
+    margin:		0mm 0mm 0mm 0mm;
+}
+
+.page
+{
+    size:		11cm 18cm;
+    height:		18cm;
+    width:		11cm;
+    position:		relative;
+    background-color:	white;
+    page-break-after:	always;
+}
+

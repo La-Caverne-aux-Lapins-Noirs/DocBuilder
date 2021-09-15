@@ -1,4 +1,4 @@
-<?php
+<?php // @codeCoverageIgnoreStart
 
 function StopSubRecord($close = false)
 {
@@ -12,3 +12,5 @@ function StopSubRecord($close = false)
     $SubOutput = "";
     return (true);
 }
+
+// @codeCoverageIgnoreEnd

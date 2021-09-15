@@ -1,5 +1,4 @@
-<?php
-
+<?php // @codeCoverageIgnoreStart
 
 /**
  * CSSPARSER
@@ -164,5 +163,4 @@ class CssParser {
 
 }
 
-
-?>
+// @codeCoverageIgnoreEnd

@@ -1,4 +1,4 @@
-<?php
+<?php // @codeCoverageIgnoreStart
 
 function CloseDocument()
 {
@@ -11,3 +11,4 @@ function CloseDocument()
     // Si c'est pas un format listé, ce n'est pas grave, il n'y aura juste pas de fermeture
 }
 
+// @codeCoverageIgnoreEnd

@@ -15,6 +15,7 @@ class CDocBuilder
     public $Style = "";
     public $Type = "";
     public $Code = "html";
+    public $Format = "";
 
     public $GlobalMedals = [];
     public $MedalsDir = "";
@@ -25,6 +26,7 @@ class CDocBuilder
 
     public $PageHeight = 0;
     public $LineHeight = 0;
+    public $TitleHeight = [];
 
     public $KeepTrace = false;
     public $Pretty = true;
