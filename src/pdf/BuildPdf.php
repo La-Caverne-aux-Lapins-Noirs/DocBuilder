@@ -4,6 +4,20 @@ function BuildPdfExercise($ex, $num)
 {
     extract($GLOBALS);
 
+    if ($DocBuilder->Format == "PDFA4")
+    {
+	// Indique qu'il ne faut pas terminer la page après l'exercice.
+	if ($ex["NoNewPage"])
+	    ;
+    }
+    else if ($DocBuilder->Format == "PDFA5")
+    {
+	// Indique qu'il faut mettre fin à la page après l'exercice.
+	if ($ex["NewPage"])
+	    ;
+    }
+    
+    /*
     // Actions spécifiques de mise en page.
     if ($ex == "Idle")
 	return (true);
@@ -20,6 +34,7 @@ function BuildPdfExercise($ex, $num)
 	// Tout exercice renseigné sans utilisation de OpenPage/ClosePage est un chapitre
 	return (AddChapter($ex, $num));
     return (AddInstruction($ex, $num));
+     */
 }
 
 function BuildPdfBody($exercises, &$depth)

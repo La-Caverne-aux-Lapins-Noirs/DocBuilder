@@ -16,6 +16,15 @@ function CompleteStyle(&$css)
 	    foreach ($decl as $s)
 	    {
 		$s = trim($s);
+		if ($s == ".page_content")
+		{
+		    foreach ($r as $prop => &$val)
+		    {
+			if ($prop == "height" && preg_match("/^[0-9]+cm$/", $val))
+			    $DocBuilder->PageHeight = (float)$val;
+			$new[$s][$prop] = $val;
+		    }
+		}
 		if ($s == "*" || $s == "p")
 		{
 		    foreach ($r as $prop => &$val)

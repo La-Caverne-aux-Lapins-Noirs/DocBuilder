@@ -2,7 +2,7 @@
 
 function CloseDocument()
 {
-    global $DocBuilder;
+    extract($GLOBALS);
 
     if ($DocBuilder->Code == "html")
 	require (__DIR__."/template/close_document_html.php");

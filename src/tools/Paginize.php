@@ -6,7 +6,7 @@ function Paginize($text)
 
     if ($DocBuilder->Code == "latex")
     {
-	$text = str_replace("@PAGEBREAK", "\newpage", $text);
+	echo str_replace("@PAGEBREAK", "\\newpage", $text);
 	return ;
     }
     else if ($DocBuilder->Code != "html")
@@ -53,7 +53,7 @@ function Paginize($text)
 	    }
 
 	    $Y += $DocBuilder->LineHeight;
-	    echo "<!-- CURSOR: $Y / $DocBuilder->PageHeight -->\n";
+	    // echo "<!-- CURSOR: $Y / $DocBuilder->PageHeight -->\n";
 	    $line += 1;
 	}
 

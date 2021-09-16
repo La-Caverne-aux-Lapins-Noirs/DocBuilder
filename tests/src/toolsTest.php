@@ -333,13 +333,131 @@ class toolsTest extends XTestCase
     public function testPaginize()
     {
 	global $DocBuilder;
+	global $Ex;
 
+	$DocBuilder->Format = "PDFA4";
+	
 	$DocBuilder->Code = "latex";
-	$this->assertSame(Paginize("A@PAGEBREAKB"), "A\newpageB");
+	ob_start();
+	Paginize("A@PAGEBREAKB");
+	$out = ob_get_contents();
+	ob_end_clean();
+	$this->assertSame($out, "A\\newpageB");
+
+	$DocBuilder->Code = "rubber";
+	ob_start();
+	Paginize("A@PAGEBREAKB");
+	$out = ob_get_contents();
+	ob_end_clean();
+	$this->assertSame($out, "");
 
 	$DocBuilder->Code = "html";
-	$text = "<p>A<br />B</p><h1>C</h1>";
-	$this->assertSame(Paginize($text), "");
+	ob_start();
+	Paginize("<p>A<br />B</p><h1>C</h1>");
+	$out = ob_get_contents();
+	ob_end_clean();
+	$out = explode("\n", $out);
+	foreach ($out as &$l)
+	    $l = trim($l);
+	$out = implode("\n", $out);
+	$this->assertSame($out,
+			  "<div class=\"page\">\n".
+			  "<table class=\"page_header\">\n".
+			  "<tr><td class=\"left_align page_matter_logo\">\n".
+			  "</td><td class=\"right_align page_activity_name\">\n".
+			  "</td></tr>\n".
+			  "</table>\n".
+			  "<div class=\"page_content\">\n".
+			  "<p>A<br />B</p><h1>C</h1>    </div>\n".
+			  "<table class=\"page_footer\">\n".
+			  "<tr><td class=\"page_activity_logo\">\n".
+			  "</td><td class=\"page_counter\">\n".
+			  "2 / @PAGECOUNT@\n".
+			  "</td><td class=\"page_school_logo\">\n".
+			  "</td></tr>\n".
+			  "</table>\n".
+			  "</div>\n"
+	);
+
+	// On verifie la pagination.
+	// 18cm de haut, 11cm de large
+	// Dont 16cm de haut pour le contenu
+	$DocBuilder->Format = "PDFA5";
+	$DocBuilder->PageHeight = 16;
+	$DocBuilder->LineHeight = 0.3; // 53 lignes
+	$DocBuilder->TitleHeight["h1"] = 1.0;
+	$DocBuilder->TitleHeight["h2"] = 1.0;
+	$DocBuilder->TitleHeight["h3"] = 1.0;
+	$DocBuilder->TitleHeight["h4"] = 1.0;
+	$DocBuilder->TitleHeight["h5"] = 1.0;
+	ob_start();
+	Paginize(file_get_contents(__DIR__."/../res/triple_page.htm"));
+	$out = ob_get_contents();
+	ob_end_clean();
+	$out = explode("\n", $out);
+	foreach ($out as &$l)
+	    $l = trim($l);
+	$out = implode("\n", $out);
+	$this->assertSame($out, file_get_contents(__DIR__."/../res/triple_page_generated.htm"));
+
+	// Pour la marque de coté
+	$Ex["SideMark"] = "!!!";
+	ob_start();
+	Paginize(file_get_contents(__DIR__."/../res/sidemark.htm"));
+	$out = ob_get_contents();
+	ob_end_clean();
+	$out = explode("\n", $out);
+	foreach ($out as &$l)
+	    $l = trim($l);
+	$out = implode("\n", $out);
+	$sidemark =
+	    "<div class=\"page\">\n".
+	    "<table class=\"page_header\">\n".
+	    "<tr><td class=\"center_align page_activity_name\">\n".
+	    "</td></tr>\n".
+	    "</table>\n".
+	    "<div class=\"page_sidemark\">\n".
+	    "!!!	</div>\n".
+	    "<div class=\"page_content page_shift\">\n".
+	    "ABC    </div>\n".
+	    "<table class=\"page_footer\">\n".
+	    "<tr><td class=\"page_counter\">\n".
+	    "1	</td></tr>\n".
+	    "</table>\n".
+	    "</div>\n"
+	    ;
+	$this->assertSame($out, $sidemark);
+
+	ob_start();
+	$DocBuilder->Format = "PDFA4";
+	Paginize(file_get_contents(__DIR__."/../res/sidemark.htm"));
+	$out = ob_get_contents();
+	ob_end_clean();
+	$out = explode("\n", $out);
+	foreach ($out as &$l)
+	    $l = trim($l);
+	$out = implode("\n", $out);
+	$sidemark =
+	    "<div class=\"page\">\n".
+	    "<table class=\"page_header\">\n".
+	    "<tr><td class=\"left_align page_matter_logo\">\n".
+	    "</td><td class=\"right_align page_activity_name\">\n".
+	    "</td></tr>\n".
+	    "</table>\n".
+	    "<div class=\"page_sidemark\">\n".
+	    "!!!	</div>\n".
+	    "<div class=\"page_content page_shift\">\n".
+	    "ABC    </div>\n".
+	    "<table class=\"page_footer\">\n".
+	    "<tr><td class=\"page_activity_logo\">\n".
+	    "</td><td class=\"page_counter\">\n".
+	    "2 / @PAGECOUNT@\n".
+	    "</td><td class=\"page_school_logo\">\n".
+	    "</td></tr>\n".
+	    "</table>\n".
+	    "</div>\n"
+	    ;
+	$this->assertSame($out, $sidemark);
     }
     public function testSubKeepContent()
     {

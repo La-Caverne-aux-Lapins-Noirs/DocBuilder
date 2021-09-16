@@ -13,6 +13,7 @@
     border:		0px;
     clear:		0px;
     line-height:	0.5cm;
+    font-size:		0.3cm;
     font-family:	Font;
 }
 
@@ -85,4 +86,9 @@ li
 .right_align
 {
     text-align:		right;
+}
+
+.middle_align, .center_align
+{
+    text-align:		center;
 }

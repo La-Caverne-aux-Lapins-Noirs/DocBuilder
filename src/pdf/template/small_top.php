@@ -1,8 +1,6 @@
 <div class="page">
     <table class="page_header">
-	<tr><td class="left_align page_matter_logo">
-	    <?=PrintImage($DocBuilder->Activity, "SmallMatterLogo", "Matter", "@@", "", false); ?>
-	</td><td class="right_align page_activity_name">
+	<tr><td class="center_align page_activity_name">
 	    <?=MustPrint($DocBuilder->Activity, "Activity"); ?>
 	</td></tr>
     </table>
