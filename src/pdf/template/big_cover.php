@@ -1,0 +1,50 @@
+<div class="page">
+    <div class="page_content" style="height: 29.7cm !important;">
+	<div id="banner">
+	    <div id="codename">
+		<?=TryPrint($DocBuilder->Instance, "CodeName"); ?>
+	    </div>
+	    <div id="school_logo">
+		<?=PrintImage($DocBuilder->Configuration, "SchoolLogo", "School", "@@", "", false); ?>
+	    </div>
+	    <div id="activity_logo">
+		<?=PrintImage($DocBuilder->Configuration, "ActivityLogo", "Activity", "@@", "", false); ?>
+	    </div>
+	</div>
+
+	<div id="matter_logo">
+	    <?=PrintImage($DocBuilder->Activity, "MatterLogo", "Matter", "@@", "", false); ?>
+	</div>
+
+	<p id="activity_info">
+	    <?php
+	    if (($rev = TryPrint($DocBuilder->Instance, "Manager")) != "")
+		echo "<b>".Translate("Manager")."</b>: ".$rev."<br />";
+	    if (($rev = TryPrint($DocBuilder->Instance, "Mail")) != "")
+		echo "<b>".Translate("Mail")."</b>: <".$rev."><br />";
+	    if (($rev = TryPrint($DocBuilder->Activity, "Author")) != "")
+		echo "<b>".Translate("Author")."</b>: ".$rev."<br />";
+	    if (($rev = TryPrint($DocBuilder->Activity, "Revision")) != "")
+		echo "<b>".Translate("Revision")."</b>: ".$rev."<br />";
+	    if (($rev = TryPrint($DocBuilder->Activity, "LastRevision")) != "")
+		echo "<b>".Translate("LastRevision")."</b>: ".$rev."<br />";
+	    ?>
+	</p>
+    </div>
+</div>
+
+<?php
+require ("big_top.php");
+echo PrintMarkup($DocBuilder->Activity, "FrontMessage", '<div class="front_message">@@</div>');
+echo Translate("Copyright");
+?>
+
+<?php if (count($DocBuilder->GlobalMedals) > 0) { ?>
+    <div id="global_medal_list">
+	<?php require ("medal_list.php"); ?>
+    </div>
+<?php } ?>
+
+<?php
+require ("big_bottom.php");
+?>

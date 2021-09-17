@@ -18,6 +18,7 @@ function CompleteStyle(&$css)
 		$s = trim($s);
 		if ($s == ".page_content")
 		{
+		    LogText($s);
 		    foreach ($r as $prop => &$val)
 		    {
 			if ($prop == "height" && preg_match("/^[0-9]+cm$/", $val))
@@ -25,7 +26,7 @@ function CompleteStyle(&$css)
 			$new[$s][$prop] = $val;
 		    }
 		}
-		if ($s == "*" || $s == "p")
+		else if ($s == "*" || $s == "p")
 		{
 		    foreach ($r as $prop => &$val)
 		    {

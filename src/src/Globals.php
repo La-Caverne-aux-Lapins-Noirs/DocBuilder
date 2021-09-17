@@ -7,3 +7,4 @@ $PageCount = 1;
 $ChapterCount = 0;
 $SubOutput = "";
 $NewPage = false;
+$Ex = NULL;

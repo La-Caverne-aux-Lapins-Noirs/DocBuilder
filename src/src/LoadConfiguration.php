@@ -14,5 +14,6 @@ function LoadConfiguration($options)
     if (!LoadFile($DocBuilder->Instance, $options, "instance", "i"))
 	return (false);
 
+    $DocBuilder->Instance["GenerationDate"] = date("d/m/Y H:i:s", time());
     return (true);
 }

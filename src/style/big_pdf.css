@@ -70,3 +70,50 @@
     height:		2cm;
     width:		100%;
 }
+
+#banner
+{
+    position:		relative;
+    width:		100%;
+    height:		4cm;
+    border-top:		1mm black solid;
+    border-bottom:	1mm black solid;
+}
+
+#school_logo
+{
+    position:		absolute;
+    left:		0px;
+    top:		0px;
+    text-align:		left;
+    width:		33%;
+}
+
+#activity_logo
+{
+    position:		absolute;
+    right:		0px;
+    top:		0px;
+    text-align:		left;
+    width:		65%;
+}
+
+#matter_logo
+{
+    position:		absolute;
+    left:		0px;
+    top:		7cm;
+    width:		100%;
+    height:		15cm;
+}
+
+#activity_info
+{
+    position:		absolute;
+    left:		0px;
+    top:		22cm;
+    height:		3cm;
+    width:		100%;
+    border-bottom:	1mm black solid;
+}
+

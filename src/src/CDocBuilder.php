@@ -30,6 +30,8 @@ class CDocBuilder
 
     public $KeepTrace = false;
     public $Pretty = true;
+
+    public $SubRecording = false;
 };
 
 function GetDocBuilder()

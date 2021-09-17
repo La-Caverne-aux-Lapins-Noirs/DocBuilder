@@ -57,10 +57,16 @@ class prepareTest extends XTestCase
 		"h5" => [
 		    "line-height" => "5cm"
 		],
+		".page_content" => [
+		    "height" => "29.7cm"
+		],
 	    ]
 	];
+	LogText("-------------------");
 	CompleteStyle($css);
+	LogText("-------------------");
 	$this->assertTrue(abs($DocBuilder->LineHeight - 2) < 0.001);
+	$this->assertTrue(abs($DocBuilder->PageHeight - 29.7) < 0.001);
 	$this->assertTrue(abs($DocBuilder->TitleHeight["h1"] - 1) < 0.001);
 	$this->assertTrue(abs($DocBuilder->TitleHeight["h2"] - 2) < 0.001);
 	$this->assertTrue(abs($DocBuilder->TitleHeight["h3"] - 3) < 0.001);
@@ -152,6 +158,7 @@ class prepareTest extends XTestCase
 	$this->assertSame($DocBuilder->Activity, $ref);
 
 	$ref["AcquiredMedals"] = ["pvc"];
+	$ref["GenerationDate"] = $DocBuilder->Instance["GenerationDate"];
 	$ref["FullName"] = "Jason Brillante";
 	$this->assertSame($DocBuilder->Instance, $ref);
 

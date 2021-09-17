@@ -1,6 +1,18 @@
-7<?php
+<?php
 
 require_once ("xtestcase.php");
+
+function Accumulate($ex, $depth) // Pour tester BrowseExercises
+{
+    global $AccumulationTest;
+
+    $str = "";
+    foreach ($depth as $d)
+    {
+	$str .= $d;
+    }
+    $AccumulationTest[] = $ex.$str;
+}
 
 class toolsTest extends XTestCase
 {
@@ -336,7 +348,7 @@ class toolsTest extends XTestCase
 	global $Ex;
 
 	$DocBuilder->Format = "PDFA4";
-	
+
 	$DocBuilder->Code = "latex";
 	ob_start();
 	Paginize("A@PAGEBREAKB");
@@ -469,5 +481,76 @@ class toolsTest extends XTestCase
 	$this->assertSame(SubKeepContent("b"), "");
 	$this->assertSame($SubOutput, "ab");
     }
- }
+    public function testToRoman()
+    {
+	$this->assertSame(ToRoman(3), "III");
+	$this->assertSame(ToRoman(4), "IV");
+	$this->assertSame(ToRoman(5), "V");
+	$this->assertSame(ToRoman(8), "VIII");
+	$this->assertSame(ToRoman(9), "IX");
+	$this->assertSame(ToRoman(10), "X");
+	$this->assertSame(ToRoman(14), "XIV");
+	$this->assertSame(ToRoman(42), "XLII");
+    }
+    public function testMergeNumber()
+    {
+	$this->assertSame(MergeNumber([10]), "X");
+	$this->assertSame(MergeNumber([10, 2]), "X 2");
+	$this->assertSame(MergeNumber([10, 2, 4]), "X 2.4");
+	$this->assertSame(MergeNumber([10, 2, 4, 6]), "X 2.4.6");
+    }
+    public function testArrayPush()
+    {
+	$a = [];
+	$b = ArrayPush($a, 1);
+	$c = ArrayPush($b, 2);
+	$d = ArrayPush($c, 3);
+	$e = ArrayPush($d, 4);
+	$this->assertSame($e, [1, 2, 3, 4]);
+    }
+    public function testBrowseExercices()
+    {
+	global $AccumulationTest;
 
+	$array = [
+	    "A",
+	    [
+		"B",
+		"B"
+	    ],
+	    [
+		[
+		    "C",
+		    "C"
+		],
+		[
+		    "D",
+		    ["NoDoc" => true],
+		    "D",
+		]
+	    ],
+	    [
+		[
+		    "E",
+		    "E"
+		],
+		[
+		    "F",
+		    "F",
+		]
+	    ]
+	];
+	$ref = [
+	    "A1",
+	    "B21", "B22",
+	    "C311", "C312",
+	    "D321", "D322",
+	    "E411", "E412",
+	    "F421", "F422"
+	];
+	$depth = [];
+	$AccumulationTest = [];
+	BrowseExercises($array, $depth, "Accumulate");
+	$this->assertSame($AccumulationTest, $ref);
+    }
+}
