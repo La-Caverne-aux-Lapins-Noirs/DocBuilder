@@ -5,15 +5,15 @@
 		<?=TryPrint($DocBuilder->Instance, "CodeName"); ?>
 	    </div>
 	    <div id="school_logo">
-		<?=PrintImage($DocBuilder->Configuration, "SchoolLogo", "School", "@@", "", false); ?>
+		<?=PrintImage($DocBuilder->Configuration, "SchoolLogo", "School", "<h1>@@</h1>", "", false); ?>
 	    </div>
 	    <div id="activity_logo">
-		<?=PrintImage($DocBuilder->Configuration, "ActivityLogo", "Activity", "@@", "", false); ?>
+		<?=PrintImage($DocBuilder->Configuration, "ActivityLogo", "Activity", "<h1>@@</h1>", "", false); ?>
 	    </div>
 	</div>
 
 	<div id="matter_logo">
-	    <?=PrintImage($DocBuilder->Activity, "MatterLogo", "Matter", "@@", "", false); ?>
+	    <?=PrintImage($DocBuilder->Activity, "MatterLogo", "Matter", "<h1>@@</h1>", "", false); ?>
 	</div>
 
 	<p id="activity_info">
@@ -32,19 +32,3 @@
 	</p>
     </div>
 </div>
-
-<?php
-require ("big_top.php");
-echo PrintMarkup($DocBuilder->Activity, "FrontMessage", '<div class="front_message">@@</div>');
-echo Translate("Copyright");
-?>
-
-<?php if (count($DocBuilder->GlobalMedals) > 0) { ?>
-    <div id="global_medal_list">
-	<?php require ("medal_list.php"); ?>
-    </div>
-<?php } ?>
-
-<?php
-require ("big_bottom.php");
-?>

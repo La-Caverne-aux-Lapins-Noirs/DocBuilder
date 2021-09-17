@@ -3,6 +3,7 @@
 function CompleteStyle(&$css)
 {
     global $DocBuilder;
+    $regex = "/[-+]?[0-9]*\.?[0-9]*cm/";
 
     $glob = false;
     // On parcoure les fichiers
@@ -21,7 +22,7 @@ function CompleteStyle(&$css)
 		    LogText($s);
 		    foreach ($r as $prop => &$val)
 		    {
-			if ($prop == "height" && preg_match("/^[0-9]+cm$/", $val))
+			if ($prop == "height" && preg_match($regex, $val))
 			    $DocBuilder->PageHeight = (float)$val;
 			$new[$s][$prop] = $val;
 		    }
@@ -30,7 +31,7 @@ function CompleteStyle(&$css)
 		{
 		    foreach ($r as $prop => &$val)
 		    {
-			if ($prop == "line-height" && preg_match("/^[0-9]+cm$/", $val))
+			if ($prop == "line-height" && preg_match($regex, $val))
 			    $DocBuilder->LineHeight = (float)$val;
 			$new[$s][$prop] = $val;
 		    }
@@ -39,7 +40,7 @@ function CompleteStyle(&$css)
 		{
 		    foreach ($r as $prop => &$val)
 		    {
-			if ($prop == "line-height" && preg_match("/^[0-9]+cm$/", $val))
+			if ($prop == "line-height" && preg_match($regex, $val))
 			    $DocBuilder->TitleHeight[$s] = (float)$val;
 			$new[$s][$prop] = $val;
 		    }

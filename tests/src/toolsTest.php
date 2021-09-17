@@ -553,4 +553,37 @@ class toolsTest extends XTestCase
 	BrowseExercises($array, $depth, "Accumulate");
 	$this->assertSame($AccumulationTest, $ref);
     }
+    public function testWriteLabel()
+    {
+	global $DocBuilder;
+	
+	$DocBuilder->Dictionnary = ["A" => "C"];
+	$DocBuilder->Language = "FR";
+	ob_start();
+	WriteLabel(["A" => ["B", "D"]], "A");
+	$out = ob_get_contents();
+	ob_end_clean();
+	$this->assertSame($out, "<b>C</b>: B, D<br />");
+
+	ob_start();
+	WriteLabel(["A" => ["B", "D"]], "B");
+	$out = ob_get_contents();
+	ob_end_clean();
+	$this->assertSame($out, "");
+    }
+    public function testWriteTable()
+    {
+	global $DocBuilder;
+
+	ob_start();
+	$DocBuilder->Dictionnary = ["A" => "C", "B" => "D"];
+	$DocBuilder->Language = "FR";
+	WriteTable(["A" => ["1", "2"], "B" => ["3", "4"]], ["A", "B"]);
+	$out = ob_get_contents();
+	ob_end_clean();
+	$this->assertSame($out,
+			  "<table><tr><th>C</th><th></th>".
+			  "</tr><tr><td>1<br />2</td><td>3<br />4</td></tr></table>"
+	);
+    }
 }

@@ -19,7 +19,7 @@ function BuildPdfExercise($ex, $num)
 	return ;
     }
 
-    BuildDocument($ex, $num);
+    BuildEntry($ex, $num);
 
     // En fonction du format, on peut fermer la page sous condition.
     if ($DocBuilder->Format == "PDFA4")
