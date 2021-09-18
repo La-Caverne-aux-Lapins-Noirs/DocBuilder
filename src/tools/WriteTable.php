@@ -6,7 +6,8 @@ function WriteTable($doc, $fil)
 	return ;
     $sum = 0;
     foreach ($fil as $f)
-	$sum += count($doc[$f]);
+	if (isset($doc[$f]))
+	    $sum += count($doc[$f]);
     if ($sum == 0)
 	return ;
     echo "<table><tr>";

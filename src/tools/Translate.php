@@ -25,6 +25,7 @@ function Translate($field)
     if (preg_match("/^[_a-zA-Z][_a-zA-Z0-9]*$/", $field) == false)
 	return ($field);
 
+    LogText($field);
     // Si c'en est un, alors on regarde si le texte recherché est dispo dans le dico de la langue en cours
     if (isset($DocBuilder->Dictionnary[$DocBuilder->Language][$field]))
 	return ($DocBuilder->Dictionnary[$DocBuilder->Language][$field]);

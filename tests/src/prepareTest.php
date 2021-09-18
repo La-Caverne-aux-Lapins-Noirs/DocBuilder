@@ -62,9 +62,7 @@ class prepareTest extends XTestCase
 		],
 	    ]
 	];
-	LogText("-------------------");
 	CompleteStyle($css);
-	LogText("-------------------");
 	$this->assertTrue(abs($DocBuilder->LineHeight - 2) < 0.001);
 	$this->assertTrue(abs($DocBuilder->PageHeight - 29.7) < 0.001);
 	$this->assertTrue(abs($DocBuilder->TitleHeight["h1"] - 1) < 0.001);

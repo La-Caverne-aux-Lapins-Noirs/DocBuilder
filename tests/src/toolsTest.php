@@ -556,10 +556,11 @@ class toolsTest extends XTestCase
     public function testWriteLabel()
     {
 	global $DocBuilder;
-	
-	$DocBuilder->Dictionnary = ["A" => "C"];
+
+	$DocBuilder->Dictionnary["FR"] = ["A" => "C"];
 	$DocBuilder->Language = "FR";
 	ob_start();
+	LogText("!!!!!");
 	WriteLabel(["A" => ["B", "D"]], "A");
 	$out = ob_get_contents();
 	ob_end_clean();
@@ -576,14 +577,50 @@ class toolsTest extends XTestCase
 	global $DocBuilder;
 
 	ob_start();
-	$DocBuilder->Dictionnary = ["A" => "C", "B" => "D"];
+	$DocBuilder->Dictionnary["FR"] = ["A" => "C", "B" => "D"];
 	$DocBuilder->Language = "FR";
 	WriteTable(["A" => ["1", "2"], "B" => ["3", "4"]], ["A", "B"]);
 	$out = ob_get_contents();
 	ob_end_clean();
 	$this->assertSame($out,
-			  "<table><tr><th>C</th><th></th>".
+			  "<table><tr><th>C</th><th>D</th>".
 			  "</tr><tr><td>1<br />2</td><td>3<br />4</td></tr></table>"
 	);
+
+	ob_start();
+	WriteTable([], []);
+	$out = ob_get_contents();
+	ob_end_clean();
+	$this->assertSame($out, "");
+
+	ob_start();
+	WriteTable(["C" => ["1", "2"]], ["A", "B"]);
+	$out = ob_get_contents();
+	ob_end_clean();
+	$this->assertSame($out, "");
+    }
+    public function testPrintTitle()
+    {
+	$Surface =
+	    "<h3 style=\"left-margin: 1cm;\">".
+	    "I 1 - Name".
+	    "</h3>"
+	    ;
+	ob_start();
+	PrintTitle(["Name" => "Name"], [1, 1]);
+	$out = ob_get_contents();
+	ob_end_clean();
+	$this->assertSame($Surface, $out);
+
+	$Deep =
+	    "<p style=\"left-margin: 3cm;\">".
+	    "I 1.1.1.1 - Name".
+	    "</p>"
+	    ;
+	ob_start();
+	PrintTitle(["Name" => "Name"], [1, 1, 1, 1, 1]);
+	$out = ob_get_contents();
+	ob_end_clean();
+	$this->assertSame($Deep, $out);
     }
 }
