@@ -560,7 +560,6 @@ class toolsTest extends XTestCase
 	$DocBuilder->Dictionnary["FR"] = ["A" => "C"];
 	$DocBuilder->Language = "FR";
 	ob_start();
-	LogText("!!!!!");
 	WriteLabel(["A" => ["B", "D"]], "A");
 	$out = ob_get_contents();
 	ob_end_clean();
