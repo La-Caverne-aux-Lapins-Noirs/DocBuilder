@@ -5,6 +5,8 @@ function BuildPdfOpening()
     extract($GLOBALS);
 
     OpenDocument();
+    if (!file_exists(__DIR__."/".tolower($DocBuilder->Format)."/"))
+	continue ;
 
     if ($DocBuilder->Format == "PDFA4")
     {

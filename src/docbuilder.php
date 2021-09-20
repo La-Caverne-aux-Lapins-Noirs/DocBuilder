@@ -1,5 +1,4 @@
 <?php
-
 require_once (__DIR__."/select/index.php");
 require_once (__DIR__."/tools/index.php");
 require_once (__DIR__."/deps/index.php");
