@@ -390,6 +390,7 @@ class toolsTest extends XTestCase
 			  "</table>\n".
 			  "</div>\n"
 	);
+	LogText($out);
 
 	// On verifie la pagination.
 	// 18cm de haut, 11cm de large

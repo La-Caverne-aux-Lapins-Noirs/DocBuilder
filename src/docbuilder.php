@@ -1,5 +1,4 @@
 <?php
-require_once (__DIR__."/select/index.php");
 require_once (__DIR__."/tools/index.php");
 require_once (__DIR__."/deps/index.php");
 require_once (__DIR__."/src/index.php");
@@ -26,7 +25,7 @@ function main($argc, array $argv)
     // Construction du document en mémoire
     extract($GLOBALS);
     ob_start("KeepContent");
-    BuildDocument();
+    Build();
     ob_end_flush();
 
     ////////////////////////////////////////////////////////////////////////////////////

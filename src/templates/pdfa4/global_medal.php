@@ -1,3 +1,5 @@
+<?php StartSubRecord(); ?>
+
 <?=PrintMarkup($DocBuilder->Activity, "FrontMessage", '<div class="front_message">@@</div>'); ?>
 <?=Translate("Copyright"); ?>
 
@@ -7,3 +9,4 @@
     </div>
 <?php } ?>
 
+<?php StopSubRecord(); ?>

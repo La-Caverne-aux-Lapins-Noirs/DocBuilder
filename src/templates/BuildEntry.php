@@ -4,6 +4,7 @@ function BuildEntry($ex, $Num)
 {
     extract($GLOBALS);
 
+    // On établis des variables remarquables utilisables dans les modèles
     $Title = MergeNumber($Num)." - ".$ex["Name"];
     $Document = $ex["Document"];
 
@@ -18,8 +19,8 @@ function BuildEntry($ex, $Num)
 	if (count($Document[$f]) > 3)
 	    $Table = true;
 
+    // On commence la génération de l'entrée
     require (__DIR__."/template/entry.php");
-    
     foreach ($document["Texts"] as $text)
     {
 	if (isset($text["Prototype"]))
@@ -33,4 +34,8 @@ function BuildEntry($ex, $Num)
 	    require (__DIR__."/template/text.php");
 	}
     }
+
+    // On effectue l'eventuelle cloture
+    if (file_exists($file = __DIR__."/".strtolower($DocBuilder->Format)."/post_entry.php"))
+	require ($file);
 }

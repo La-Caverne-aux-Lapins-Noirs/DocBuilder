@@ -1,49 +1,26 @@
 <?php
 
-function BuildPdfExercise($ex, $num)
-{
-    extract($GLOBALS);
-
-    $Ex = $ex;
-    $ChapterCount = MergeNumber($num);
-
-    // Si aucune page n'est ouverte, on en ouvre une.
-    if ($DocBuilder->SubRecording == false)
-	StartSubRecord();
-
-    // Page blanche
-    if ($ex == "Blank")
-    {
-	StopSubRecord();
-	StartSubRecord();
-	return ;
-    }
-
-    BuildEntry($ex, $num);
-
-    // En fonction du format, on peut fermer la page sous condition.
-    if ($DocBuilder->Format == "PDFA4")
-    {
-	// On achève la page, sauf si l'inverse est demandé
-	if (!isset($ex["Document"]["NoNewPage"]))
-	    StopSubRecord();
-	return ;
-    }
-    if ($DocBuilder->Format == "PDFA5")
-    {
-	// On fait une nouvelle page seulement is c'est demandé
-	if (isset($ex["Document"]["NewPage"]))
-	    StopSubRecord();
-	return ;
-    }
-}
-
-function BuildPdf()
+function Build()
 {
     extract($GLOBALS);
 
     $Depth = [];
-    BuildPdfOpening();
-    BuildPdfBody($DocBuilder->Activity["Exercises"], $Depth);
+    if (!file_exists(($dir = __DIR__."/".strtolower($DocBuilder->Format))))
+	return ;
+
+    if (file_exists(($file = __DIR__."/misc/open_document_".$DocBuilder->Code.".php")))
+	require_once ($file);
+
+    if (file_exists(($file = $dir."/cover.php")))
+	require_once ($file);
+    if (file_exists(($file = $dir."/global_medal.php")))
+	require_once ($file);
+    if (file_exists(($file = $dir."/table_of_content.php")))
+	require_once ($file);
+
+    BrowseExercises($DocBuilder->Activity["Exercises"], $Depth, "BuildEntry");
+
+    if (file_exists(($file = __DIR__."/misc/close_document_".$DocBuilder->Code.".php")))
+	require_once ($file);
     CloseDocument();
 }

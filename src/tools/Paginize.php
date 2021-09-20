@@ -3,6 +3,7 @@
 function Paginize($text)
 {
     global $DocBuilder;
+    global $PageCount;
 
     if ($DocBuilder->Code == "latex")
     {

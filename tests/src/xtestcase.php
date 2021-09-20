@@ -1,4 +1,5 @@
 <?php
+// @codeCoverageIgnoreStart
 
 use PHPUnit\Framework\TestCase;
 
@@ -7,9 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 require_once (__DIR__."/../../src/deps/index.php");
 require_once (__DIR__."/../../src/tools/index.php");
-require_once (__DIR__."/../../src/select/index.php");
-require_once (__DIR__."/../../src/pdf/index.php");
-require_once (__DIR__."/../../src/web/index.php");
+require_once (__DIR__."/../../src/templates/index.php");
 require_once (__DIR__."/../../src/src/index.php");
 
 define("DEBUG", 1);
@@ -48,3 +47,5 @@ class XTestCase extends TestCase
 
     }
 }
+
+// @codeCoverageIgnoreStop
