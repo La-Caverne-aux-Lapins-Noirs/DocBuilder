@@ -1,11 +1,15 @@
 <?php
 
-function BuildEntry($Ex, $Num)
+function BuildEntry($ex, $num)
 {
     extract($GLOBALS);
 
+    $Ex = $ex;
+    $Num = $num;
+    if ($DocBuilder->SubRecording == false)
+	StartSubRecord(true);
+
     // On établis des variables remarquables utilisables dans les modèles
-    
     $Title = isset($Ex[$Field = "Name"]) ? $Ex[$Field] : "";
     $Document = isset($Ex[$Field = "Document"]) ? $Ex[$Field] : [];
 

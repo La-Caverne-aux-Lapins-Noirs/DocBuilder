@@ -384,13 +384,12 @@ class toolsTest extends XTestCase
 			  "<table class=\"page_footer\">\n".
 			  "<tr><td class=\"page_activity_logo\">\n".
 			  "</td><td class=\"page_counter\">\n".
-			  "2 / @PAGECOUNT@\n".
+			  "1 / @PAGECOUNT@\n".
 			  "</td><td class=\"page_school_logo\">\n".
 			  "</td></tr>\n".
 			  "</table>\n".
 			  "</div>\n"
 	);
-	LogText($out);
 
 	// On verifie la pagination.
 	// 18cm de haut, 11cm de large
@@ -464,7 +463,7 @@ class toolsTest extends XTestCase
 	    "<table class=\"page_footer\">\n".
 	    "<tr><td class=\"page_activity_logo\">\n".
 	    "</td><td class=\"page_counter\">\n".
-	    "2 / @PAGECOUNT@\n".
+	    "1 / @PAGECOUNT@\n".
 	    "</td><td class=\"page_school_logo\">\n".
 	    "</td></tr>\n".
 	    "</table>\n".

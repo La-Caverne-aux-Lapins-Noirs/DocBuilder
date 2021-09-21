@@ -1,3 +1,4 @@
 <?php
 if (!isset($Ex["Document"]["NoNewPage"]))
-    StopSubRecord();
+    StopSubRecord(true);
+

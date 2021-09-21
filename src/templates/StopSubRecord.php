@@ -2,8 +2,7 @@
 
 function StopSubRecord($close = false)
 {
-    global $SubOutput;
-    global $DocBuilder;
+    extract($GLOBALS);
 
     $DocBuilder->SubRecording = false;
     if ($close && file_exists($file = __DIR__."/".strtolower($DocBuilder->Format)."/bottom.php"))
