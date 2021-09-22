@@ -2,7 +2,7 @@
 
 function StartSubRecord($open = false)
 {
-    global $DocBuilder;
+    extract($GLOBALS);
 
     $DocBuilder->SubRecording = true;
     ob_start("SubKeepContent");
