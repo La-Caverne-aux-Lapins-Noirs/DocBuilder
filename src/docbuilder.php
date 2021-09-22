@@ -2,6 +2,7 @@
 require_once (__DIR__."/tools/index.php");
 require_once (__DIR__."/deps/index.php");
 require_once (__DIR__."/src/index.php");
+require_once (__DIR__."/templates/index.php");
 
 function main($argc, array $argv)
 {

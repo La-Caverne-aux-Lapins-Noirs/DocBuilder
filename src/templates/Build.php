@@ -22,5 +22,4 @@ function Build()
 
     if (file_exists(($file = __DIR__."/misc/close_document_".$DocBuilder->Code.".php")))
 	require_once ($file);
-    CloseDocument();
 }

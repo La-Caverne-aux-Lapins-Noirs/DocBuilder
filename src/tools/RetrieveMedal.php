@@ -16,7 +16,7 @@ function RetrieveMedal($name)
 	$medal["Description"] = sprintf(Translate("FunctionSDone"), $name);
 	$medal["Type"] = "band";
 	$json = json_encode($medal, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-	shell_exec("echo '$json' | mergeconf -if .json -o $target.dab");
+	shell_exec("echo '$json' | mergeconf -if .json -o $target.dab 2> /dev/null");
 	$medal["Icon"] = $DocBuilder->MedalsDir."/$name.png";
     }
     else

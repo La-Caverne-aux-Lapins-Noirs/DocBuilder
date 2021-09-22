@@ -76,8 +76,11 @@ function Prepare($options)
 	    $StyleFile = NULL;
 	}
 
+	// Pour éviter l'affichage du message d'erreur car -s est optionnelle
+	if ($StyleFile == NULL)
+	    $StyleFile = "";
 	// On charge aussi le CSS indiqué dans la ligne de commande
-	if (LoadFile($DocBuilder->Style, $options, "style", "s", $StyleFile, false) != NULL)
+	if (LoadFile($DocBuilder->Style, $options, "style", "s", $StyleFile) != false)
 	    $CSS->load_string($DocBuilder->Style);
 
 	// On parse le tout

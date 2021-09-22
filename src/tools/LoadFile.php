@@ -9,6 +9,8 @@ function LoadFile(&$out, $opts, $long, $short, $default = NULL, $dabsic = true)
 	echo sprintf("$argv[0]: Missing parameter: $long configuration (-$short file / --$long=file).\n");
 	return (false);
     }
+    if ($File === "")
+	return (false);
     if ($dabsic)
     {
 	if (!($out = LoadDabsic($File)))

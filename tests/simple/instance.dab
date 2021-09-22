@@ -1,0 +1,22 @@
+''''''''''''''''''''''''''''''''''''''''''
+'Information sur l'instance de l'activité'
+''''''''''''''''''''''''''''''''''''''''''
+
+' Ce genre de fichier est fait pour être généré par l'intranet.
+
+' La langue de l'instance. Cette langue surplombera toutes les autres qui auraient été spécifiées
+' En cas d'absence, c'est celle de l'activité qui sera utilisée.
+Language="FR"
+
+CodeName="PRG-TEST-FOOBAR"
+
+' Le timestamp de la date maximale de rendu du travail. OBLIGATOIRE.
+DeliveryDate=42
+
+' Le login de l'élève. OBLIGATOIRE.
+Login="Damdoshi"
+
+' Nom complet pour le watermark. Sera le login si omis.
+FullName="Jason Brillante"
+
+AcquiredMedals="fixed_loop"
