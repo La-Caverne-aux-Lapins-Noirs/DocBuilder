@@ -31,7 +31,7 @@ function main($argc, array $argv)
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Resolve "!@@@nbr@@@!" pattern by setting page numbers, resolve @PAGENUMBER@ also
-    BuildSummaryLink();
+    PostProcess();
     //////////////////////////////////////////////////////////////////////////
     // Conclusion de l'execution du programme et envoi du texte sur la sortie
     GenerateOutput();

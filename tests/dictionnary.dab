@@ -2,6 +2,7 @@
 [FR
   Author = "Auteur"
   Revision = "Révision"
+  LastRevision = "Dernière révision datant du"
   Manager = "Responsable"
   Mail = "Courriel"
   Matter = "Matière"
@@ -24,6 +25,7 @@
 [EN
   Author = "Author"
   Revision = "Version"
+  LastRevision = "Last revision date"
   Manager = "Manager"
   Mail = "Mail"
   Matter = "Class"

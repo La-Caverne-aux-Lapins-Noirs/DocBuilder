@@ -5,8 +5,9 @@ function TryPrint(&$cnf, $field, $text = true, $ctx = "Global")
 {
     global $DocBuilder;
 
+    if ($DocBuilder->Dictionnary == $cnf)
+	return (Translate($field));
     // Si on peut afficher, on affiche. Sinon on enregistre une erreur.
-    // Attention: $cnf[$field] peut-être un tableau avec des cases pour chaque langage
     if (!isset($cnf[$field]))
     {
 	$DocBuilder->Warnings[] = "$ctx: $field is missing.";

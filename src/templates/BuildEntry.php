@@ -10,7 +10,8 @@ function BuildEntry($ex, $num)
 	StartSubRecord(true);
 
     // On établis des variables remarquables utilisables dans les modèles
-    $Title = isset($Ex[$Field = "Name"]) ? $Ex[$Field] : "";
+    if (($Title = isset($Ex[$Field = "Name"]) ? $Ex[$Field] : "") !== "")
+	$DocBuilder->ExercicePage[Translate($Title)] = $PageCount;
     $Document = isset($Ex[$Field = "Document"]) ? $Ex[$Field] : [];
 
     $Fields = [
@@ -22,6 +23,8 @@ function BuildEntry($ex, $num)
     $Table = false;
     foreach ($Fields as $f)
     {
+	if (!isset($Document[$f]))
+	    continue ;
 	$Document[$f] = MustBeAnArray($Document[$f]);
 	if (count($Document[$f]) > 3)
 	    $Table = true;

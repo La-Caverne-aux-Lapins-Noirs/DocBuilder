@@ -1,5 +1,5 @@
 <div class="page">
-    <div class="page_content" style="height: 29.7cm !important;">
+    <div class="page_content">
 	<div id="banner">
 	    <div id="codename">
 		<?=TryPrint($DocBuilder->Instance, "CodeName"); ?>
@@ -8,7 +8,7 @@
 		<?=PrintImage($DocBuilder->Configuration, "SchoolLogo", "School", "<h1>@@</h1>", "", false); ?>
 	    </div>
 	    <div id="activity_logo">
-		<?=PrintImage($DocBuilder->Configuration, "ActivityLogo", "Activity", "<h1>@@</h1>", "", false); ?>
+		<?=PrintImage($DocBuilder->Activity, "ActivityLogo", "Activity", "<h1>@@</h1>", "", false); ?>
 	    </div>
 	</div>
 

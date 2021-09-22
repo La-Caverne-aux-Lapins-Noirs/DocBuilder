@@ -9,8 +9,10 @@ class CDocBuilder
 
     public $Language = "FR";
     public $Configuration = [];
+    public $ConfigurationFile = "";
     public $Dictionnary = [];
     public $Activity = [];
+    public $ActivityFile = "";
     public $Instance = [];
     public $Style = "";
     public $Type = "";

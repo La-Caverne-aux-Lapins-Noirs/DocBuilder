@@ -50,21 +50,22 @@ function Prepare($options)
     else
 	$Format = DOCBUILDER_DEFAULT_FORMAT;
     $DocBuilder->Format = GetOption($options, "format", "f", $Format);
+
+    /*
     if ($DocBuilder->Format == "PDFA4")
 	$DocBuilder->PageHeight = 20; // 20 Centimètres de contenu sur 29. Le reste est pour le cadre.
     else if ($DocBuilder->Format == "PDFA5")
 	$DocBuilder->PageHeight = 17.5; // 21 - 3.5. 1cm5 en haut, 2cm en bas (pour le numero de page)
+     */
 
     if ($DocBuilder->Code == "html")
     {
 	// On va recherche ou definir la specification de la hauteur d'une ligne.
 	$CSS = new CssParser; // Merci a l'auteur de cette lib.
 	// On charge le CSS par defaut de DocBuilder
-	$CSS->load_string(file_get_contents(__DIR__."/../style/default.css"));
-	if ($DocBuilder->Format == "PDFA4")
-	    $CSS->load_string(file_get_contents(__DIR__."/../style/big_pdf.css"));
-	else if ($DocBuilder->Format == "PDFA5")
-	    $CSS->load_string(file_get_contents(__DIR__."/../style/small_pdf.css"));
+	$CSS->load_string(file_get_contents(__DIR__."/../templates/style.css"));
+	if (file_exists($st = __DIR__."/../templates/".strtolower($DocBuilder->Format)."/style.css"))
+	    $CSS->load_string(file_get_contents($st));
 
 	// On charge le CSS indiqué directement dans le fichier de conf
 	if ($DocBuilder->Style != "")
@@ -114,5 +115,18 @@ function Prepare($options)
 	$DocBuilder->SmallOpening = true;
 
     $DocBuilder->GlobalMedals = GetGlobalMedals();
+
+    DevelopPath(
+	dirname($DocBuilder->ConfigurationFile), $DocBuilder->Configuration, [
+	    "SchoolLogo", "SmallSchoolLogo"
+    ]);
+
+    DevelopPath(
+	dirname($DocBuilder->ActivityFile), $DocBuilder->Activity, [
+	    "MatterLogo", "SmallMatterLogo", "ActivityLogo", "SmallActivityLogo"
+    ]);
+
+    // Il faudra probablement rajouter les images contenus DANS les fichiers.
+
     return (true);
 }

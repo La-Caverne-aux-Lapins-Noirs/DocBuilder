@@ -1,11 +1,10 @@
 <?php StartSubRecord(); ?>
-
 <h2><?=MustPrint($DocBuilder->Dictionnary, "Index"); ?></h2>
 <div id="table_of_content">
     <?php
     $Depth = [];
-    BrowseExercises($Ex, $Depth, "PrintTitle");
+    BrowseExercises($DocBuilder->Activity["Exercises"], $Depth, "PrintTableContentEntry");
     ?>
 </div>
+<?php StopSubRecord();
 
-<?php StopSubRecord(); ?>

@@ -1,4 +1,3 @@
-
 ''''''''''''''''''''''''''''''''''''''
 'Information sur l'activité elle-même'
 ''''''''''''''''''''''''''''''''''''''
@@ -47,13 +46,36 @@ Mail="Jason Brillante at home"
 {Exercises
   [
     Type = "Builtin"
-    [Document
-      Description = "Super!"
+    Document = "./test/simple/markdown.md"
+    Medals = "basic_line", "fixed_loop"
+    [Name
+      FR = "Premier chapitre"
+      EN = "First chapter"
     ]
-    [Name = "super"
-      FR = "Super"
-      EN = "Hyper"
+  ],
+  [
+    Type = "Function"
+    [Document
+      Prototype = "void lel(void)", "int get(int x, double r)"
+      SideMark = "CE TEXTE EST SUR LE COTE"
+      Description = [Text(abc)
+        # Wesh
+
+        Ce bloc est un bloc _litteral_ qui gère le *markdown*!
+      abc]
+    ]
+    [Name
+      FR = "chapitre deux"
+      EN = "Second chapter"
+    ]
+  ],
+  [
+    Name = "e89_split"
+    Type = "Function"
+    Medals="function"
+    [Document
+      Prototype = "const char **e89_split(const char *str, char c)"
+      Description = "Ceci est ", "la _description_!"
     ]
   ]
 }
-

@@ -7,7 +7,6 @@
 	></div>
     <?php } ?>
 <?php } ?>
-
 <?php foreach ($DocBuilder->GlobalMedals as $medal) { ?>
     <?php if ($medal["Type"] == "band") { ?>
 	<div
@@ -16,4 +15,4 @@
 	    title="<?=Translate($medal["Name"]); ?>"
 	></div>
     <?php } ?>
-<?php } ?>
+<?php }
