@@ -2,7 +2,7 @@
 Dépendances
 ===========
 
-sudo apt-get install libtidy-dev php-tidy
+sudo apt-get install libtidy-dev php-tidy texlive texlive-lang-french texlive-latex-extra
 
 Utilisation du logiciel
 =======================

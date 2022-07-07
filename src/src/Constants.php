@@ -8,6 +8,34 @@
 @define("DOCBUILDER_DEFAULT_DICTIONNARY", "/opt/technocore/dictionnary.dab");
 // Les médailles sont communes avec l'infosphere
 @define("DOCBUILDER_DEFAULT_MEDALS_DIR", "/opt/technocore/medals");
-@define("DOCBUILDER_DEFAULT_FORMAT", "PDFA4");
-@define("DOCBUILDER_DEFAULT_LANGUAGE", "html");
+//
+@define("DOCBUILDER_DEFAULT_TYPE", "pdfa4subject");
+
+$Types = [
+    "pdfa4subject" => [
+	"engine" => "html",
+	"page" => [21, 29.7],
+	"pager" => "a4_decorated",
+	"mandatory" => [
+	    "matter", "company", "activity", "student", "limit_date", "codename", "generation_date"
+	]
+    ],
+    "school_report" => [
+	"engine" => "html",
+	"page" => [21, 29.7],
+	"pager" => "a4_administrative",
+	"mandatory" => [
+	    // A remplir
+	]
+    ],
+    "letter" => [
+	"engine" => "html",
+	"page" => [21, 29.7],
+	"pager" => "a4_administrative",
+	"mandatory" => [
+	    "company", "company_mail", "generation_date"
+	]
+    ]
+];
+
 // @codeCoverageIgnoreEnd

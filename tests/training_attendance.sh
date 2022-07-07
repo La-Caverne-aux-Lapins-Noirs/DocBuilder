@@ -3,17 +3,17 @@
 echo "\033[00m"
 
 if [ -z "$1" ]; then
-    ./$0 ./tests/simple
+    ./$0 ./tests/training_attendance
     exit
 fi
 
 ./docbuilder \
+    -c ./tests/docbuilder.dab \
     -a $1/activity.dab \
     -i $1/instance.dab \
-    -t training_attendence \
-    -c ./tests/docbuilder.dab \
+    -t letter \
     -d ./tests/dictionnary.dab \
     -m ./tests/res/medal/ \
-    -o output.pdf \
+    -o ./tests/html/output.pdf \
     --keep-trace \
     --language FR

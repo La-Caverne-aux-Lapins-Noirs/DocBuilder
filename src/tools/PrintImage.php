@@ -16,7 +16,12 @@ function PrintImage($cnf, $pic, $label, $label_replace = "", $props = "", $manda
 	$label = TryPrint($cnf, $label, true, $ctx);
     }
     if ($out != "")
-	echo "<img src='$out' alt='$label' $props />\n";
+    {
+	if (($ext = strtolower(pathinfo($out, PATHINFO_EXTENSION))) == "jpeg")
+	    $ext = "jpg";
+	$out = base64_encode(file_get_contents($out));
+	echo "<img src='data:image/$ext;base64,$out' alt='$label' $props />\n";
+    }
     else if ($label != "" && $label_replace != "")
 	echo str_replace("@@", $label, $label_replace)."\n";
 }

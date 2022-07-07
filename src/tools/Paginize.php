@@ -19,7 +19,7 @@ function Paginize($text)
     // On ouvre une première page.
     OpenPage();
     $open = true;
-
+    
     // Ensuite on déroule toutes les lignes du chapitre.
     for ($line = 0; $line < count($text); )
     {

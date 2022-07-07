@@ -8,14 +8,17 @@ function TryPrint(&$cnf, $field, $text = true, $ctx = "Global")
     if ($DocBuilder->Dictionnary == $cnf)
 	return (Translate($field));
     // Si on peut afficher, on affiche. Sinon on enregistre une erreur.
-    if (!isset($cnf[$field]))
+    $data = &ResolveAddress($cnf, $field);
+    if ($data == NULL)
     {
-	$DocBuilder->Warnings[] = "$ctx: $field is missing.";
+	if (!is_array($field))
+	    $field = [$field];
+	$DocBuilder->Warnings[] = "$ctx: ".implode(".", $field)." is missing.";
 	// On etablit une valeur pour eviter d'écrire plusieurs fois le message d'erreur.
-	$cnf[$field] = "";
-	return ("");
+	return ($data = "");
     }
     if (!$text)
-	return ($cnf[$field]);
-    return (Translate($cnf[$field]));
+	return ($data);
+    return (Translate($data));
 }
+

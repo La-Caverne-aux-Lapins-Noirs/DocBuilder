@@ -31,7 +31,7 @@ function BuildEntry($ex, $num)
     }
 
     // On commence la génération de l'entrée
-    require (__DIR__."/".strtolower($DocBuilder->Format)."/entry.php");
+    require (__DIR__."/".strtolower($DocBuilder->Type)."/entry.php");
 
     // On parcoure
     if (isset($Document["Texts"]))
@@ -52,6 +52,6 @@ function BuildEntry($ex, $num)
     }
 
     // On effectue l'eventuelle cloture
-    if (file_exists($file = __DIR__."/".strtolower($DocBuilder->Format)."/post_entry.php"))
+    if (file_exists($file = __DIR__."/".strtolower($DocBuilder->Type)."/post_entry.php"))
 	require ($file);
 }

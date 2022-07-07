@@ -6,8 +6,10 @@ function StartSubRecord($open = false)
 
     $DocBuilder->SubRecording = true;
     ob_start("SubKeepContent");
-    if ($open && file_exists($file = __DIR__."/".strtolower($DocBuilder->Format)."/top.php"))
-	require ($file);
+    /*
+       if ($open && file_exists($file = __DIR__."/".strtolower($DocBuilder->Pager)."/top.php"))
+       require ($file);
+     */
     return (true);
 }
 

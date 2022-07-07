@@ -2,23 +2,47 @@
 'Configuration de DocBuilder'
 '''''''''''''''''''''''''''''
 
+Translate(string a):string = [Function
+  If [a][[].Language] != "" Then
+    Return [a][[].Language]
+  Return a.FR
+]
+  
 'Fichier CSS utilisé pour la mise en page. Si non spécifié, c'est /etc/technocore/default.css
 Style="res/simple.css"
-'Format par défaut quand l'option -f n'est pas spécifiée. Par défaut c'est PDF.
-'Les valeurs valides sont PDF, Web, Schoolbook et Pocketbook
-Format="PDF"
 'Langue par défaut des documents générés. Par défaut c'est FRANCAIS mösieur.
 'Les valeurs valides sont FR et EN actuellement.
 Language="FR"
-
+EOL="<br />"
+SOL="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+  
 'Le nom de l'école. OBLIGATOIRE.
 ' Peut-être un noeud dont les enfants seraient nommés d'après les langages
-[School
-  EN = "The Cavern With Black Bunnies In It"
-  FR = "La Caverne Aux Lapins Noirs"
-]
-'Le logo de l'école. Un fichier PNG. OBLIGATOIRE.
-SchoolLogo="./res/school_logo.png"
-'Le logo de l'école pour les pieds de page, en largeur.
-SmallSchoolLogo="./res/small_school_logo.png"
+[Company
+  [Name
+    EN = "EFRITS"
+    FR = "EFRITS"
+  ]
+  [LegalName
+    EN = "EFRITS SAS"
+    FR = "EFRITS SAS"
+  ]
 
+  'Le logo de l'école. Un fichier PNG. OBLIGATOIRE.
+  Logo="./res/lapin_noir.png"
+  'Le logo de l'école pour les pieds de page, en largeur.
+  SmallLogo="./res/gros_lapin_noir.png"
+  Mail = "contact@efrits.fr"
+
+  City = "Styx"
+  
+  Address = [Text($,EOF)
+    42 Avenue du Boulevard des Rues
+    68666 $(_.City)
+    France
+  EOF]
+  Credentials = [Text($,EOF)
+    Entreprise immatriculée au RCS de Créteil sous le numéro 909 292 773
+    Centre de formation enregistrée sous le numéro AAA BBB CCC
+  EOF]
+]

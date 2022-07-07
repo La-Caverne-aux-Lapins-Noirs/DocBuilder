@@ -5,23 +5,23 @@ function Build()
     extract($GLOBALS);
 
     $Depth = [];
-    if (!file_exists(($dir = __DIR__."/".strtolower($DocBuilder->Format))))
+    if (!file_exists(($dire = __DIR__."/".strtolower($DocBuilder->Code))))
+    {
+	$DocBuilder->Errors[] = "Global: {$DocBuilder->Type} is not a supported document generator.";
 	return ;
-
-    if (file_exists(($file = __DIR__."/misc/open_document_".$DocBuilder->Code.".php")))
+    }
+    if (!file_exists(($dirt = __DIR__."/".strtolower($DocBuilder->Type))))
+    {
+	$DocBuilder->Errors[] = "Global: {$DocBuilder->Type} is not a supported document type.";
+	return ;
+    }
+	
+    if (file_exists(($file = "$dire/open_document.php")))
 	require_once ($file);
 
-    if (file_exists(($file = $dir."/cover.php")))
-	require_once ($file);
-    if (file_exists(($file = $dir."/global_medal.php")))
-	require_once ($file);
-    /*
-    if (file_exists(($file = $dir."/table_of_content.php")))
-	require_once ($file);
-
-    BrowseExercises($DocBuilder->Activity["Exercises"], $Depth, "BuildEntry");
-     */
-
-    if (file_exists(($file = __DIR__."/misc/close_document_".$DocBuilder->Code.".php")))
+     require_once ("$dirt/build.php");
+    
+    if (file_exists(($file = "$dire/close_document.php")))
 	require_once ($file);
 }
+

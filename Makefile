@@ -8,18 +8,8 @@ install:
 $(CHECK):
 		@php -l $@ > /dev/null
 check:		$(CHECK)
-		@(cd tests/ && ./run.sh)
-		@./docbuilder \
-		 -a tests/simple/activity.dab \
-		 -i tests/simple/instance.dab \
-		 -f PDFA5 \
-		 -c tests/simple/configuration.dab \
-		 -d tests/simple/dictionnary.dab \
-		 -m tests/simple/medals/ \
-		 -o output.pdf \
-		 --keep-trace \
-		 --engine html \
-		 --language FR
+#		@(cd tests/ && ./run.sh)
+		@(./tests/training_attendance.sh)
 
 .PHONY:		$(CHECK) check all install
 

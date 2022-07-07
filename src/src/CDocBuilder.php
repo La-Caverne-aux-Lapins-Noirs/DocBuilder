@@ -6,18 +6,20 @@ class CDocBuilder
     public $OutputFile = "";
     public $Warnings = [];
     public $Errors = [];
+    public $Debugs = [];
 
     public $Language = "FR";
+    public $Dictionnary = [];
+
     public $Configuration = [];
     public $ConfigurationFile = "";
-    public $Dictionnary = [];
-    public $Activity = [];
     public $ActivityFile = "";
-    public $Instance = [];
-    public $Style = "";
+    public $InstanceFile = "";
+    
     public $Type = "";
-    public $Code = "html";
-    public $Format = "";
+    public $Style = "";
+    public $Code = "";
+    public $Pager = "";
 
     public $GlobalMedals = [];
     public $MedalsDir = "";

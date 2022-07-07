@@ -6,9 +6,10 @@ function DevelopPath($dir, array &$act, array $fields)
 	return ;
     foreach ($fields as $f)
     {
-	if (isset($act[$f]))
-	{
-	    $act[$f] = $dir."/".$act[$f];
-	}
+	if (($final = ResolveAddress($act, $f)) == NULL)
+	    continue ;
+	if ($final == [])
+	    $final = "";
+	$final = $dir."/".$final;
     }
 }

@@ -6,12 +6,18 @@ function GenerateOutput()
 
     // Si des erreurs critiques ont été rencontrées, on les décrit puis on ajoute
     // les mises en gardes.
+    if (count($DocBuilder->Debugs))
+    {
+	fprintf(STDERR, "Debug(s) about scripts:\n");
+	foreach ($DocBuilder->Debugs as $w)
+            fprintf(STDERR, "- $w.\n");
+    }
     if (count($DocBuilder->Errors))
     {
 	fprintf(STDERR, "GENERATION FAILURE:\nError(s) found in scripts:\n");
 	foreach ($DocBuilder->Errors as $e)
 	    fprintf(STDERR, "- $e.\n");
-	fprintf(STDERR, "Warnings about scripts:\n");
+	fprintf(STDERR, "Warning(s) about scripts:\n");
 	foreach ($DocBuilder->Warnings as $w)
             fprintf(STDERR, "- $w.\n");
 	exit(1);
@@ -34,13 +40,19 @@ function GenerateOutput()
 	    $DocBuilder->Output = Prettyficator($DocBuilder->Output);
 	// Encode special characters
 	$DocBuilder->Output = LanguageEncoder($DocBuilder->Output);
+
+	$ext = pathinfo($DocBuilder->OutputFile, PATHINFO_EXTENSION);
 	
-	if (strtolower(substr($DocBuilder->Format, 0, 3)) == "pdf")
+	if (strtolower($ext) == "pdf")
 	{
 	    $tmp = $DocBuilder->OutputFile.".htm";
 	    file_put_contents($tmp, $DocBuilder->Output);
 	    $out = shell_exec(
-		"chromium-browser --headless --disable-gpu ".
+		"chromium ".
+		"--headless ".
+		"--disable-gpu ".
+		"--run-all-compositor-stages-before-draw ".
+		"--print-to-pdf-no-header ".
 		"--print-to-pdf='".$DocBuilder->OutputFile."' ".
 		"file://".getcwd()."/".$tmp
 	    );

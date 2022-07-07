@@ -8,6 +8,7 @@ function PostProcess()
     {
 	$DocBuilder->Output = str_replace("!@@@$name@@@!", $page, $DocBuilder->Output);
     }
+
     $DocBuilder->Output = str_replace("@PAGECOUNT@", "$PageCount", $DocBuilder->Output);
 }
 

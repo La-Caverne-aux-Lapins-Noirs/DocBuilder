@@ -3,21 +3,35 @@
 function LoadConfiguration($options)
 {
     global $DocBuilder;
-
-    if (!LoadFile($DocBuilder->Configuration, $options, "configuration", "c", DOCBUILDER_DEFAULT_CONFIGURATION))
-	return (false);
+    global $Types;
+    global $argv;
+    
     $DocBuilder->ConfigurationFile = GetOption($options, "configuration", "c", DOCBUILDER_DEFAULT_CONFIGURATION);
-
+    $DocBuilder->ActivityFile = GetOption($options, "activity", "a", "");
+    $DocBuilder->InstanceFile = GetOption($options, "instance", "i", "");
+    
+    if (!($DocBuilder->Configuration = LoadDabsic([$DocBuilder->ConfigurationFile, $DocBuilder->ActivityFile, $DocBuilder->InstanceFile])))
+        return (false);
+    
+    $DocBuilder->ConfigurationFile = GetOption($options, "configuration", "c", DOCBUILDER_DEFAULT_CONFIGURATION);
+    $DocBuilder->ActivityFile = GetOption($options, "activity", "a", "");
     if (!LoadFile($DocBuilder->Dictionnary, $options, "dictionnary", "d", DOCBUILDER_DEFAULT_DICTIONNARY))
 	return (false);
+
+    if (isset($DocBuilder->Configuration["Type"]))
+	$DocBuilder->Type = $DocBuilder->Configuration["Type"];
+    else
+	$DocBuilder->Type = DOCBUILDER_DEFAULT_TYPE;
+    $DocBuilder->Type = GetOption($options, "type", "t", $DocBuilder->Type);
+    if (!isset($Types[$DocBuilder->Type]))
+        return (false);
+    $DocBuilder->Code = $Types[$DocBuilder->Type]["engine"];
+    $DocBuilder->PageHeight = $Types[$DocBuilder->Type]["page"][1];
+    $DocBuilder->Pager = $Types[$DocBuilder->Type]["pager"];
+
     $DocBuilder->MedalsDir = GetOption($options, "medals", "m", DOCBUILDER_DEFAULT_MEDALS_DIR);
-    if (!LoadFile($DocBuilder->Activity, $options, "activity", "a"))
-	return (false);
-    $DocBuilder->ActivityFile = GetOption($options, "activity", "a", DOCBUILDER_DEFAULT_CONFIGURATION);
 
-    if (!LoadFile($DocBuilder->Instance, $options, "instance", "i"))
-	return (false);
-
-    $DocBuilder->Instance["GenerationDate"] = date("d/m/Y H:i:s", time());
+    $DocBuilder->Configuration["GenerationTime"] = date("d/m/Y H:i:s", time());
+    $DocBuilder->Configuration["GenerationDate"] = date("d/m/Y", time());
     return (true);
 }

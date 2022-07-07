@@ -6,16 +6,6 @@ function Prepare($options)
 {
     extract($GLOBALS);
 
-    $DocBuilder->Code = GetOption($options, "engine", "e", "html");
-
-    if (!isset($DocBuilder->Instance["FullName"]) && isset($DocBuilder->Instance["Login"]))
-	$DocBuilder->Instance["FullName"] = $DocBuilder->Instance["Login"];
-
-    if (!isset($DocBuilder->Instance["AcquiredMedals"]))
-	$DocBuilder->Instance["AcquiredMedals"] = [];
-    else
-	$DocBuilder->Instance["AcquiredMedals"] = MustBeAnArray($DocBuilder->Instance["AcquiredMedals"]);
-
     $confdir = dirname(GetOption($options, "configuration", "c", DOCBUILDER_DEFAULT_CONFIGURATION));
     $DocBuilder->LineHeight = 0.5; // Valeur par défaut.
     $DocBuilder->Style = "";
@@ -45,26 +35,13 @@ function Prepare($options)
 	    $DocBuilder->Style = MergeData($Style);
     }
 
-    if (isset($DocBuilder->Configuration["Format"]))
-	$Format = $DocBuilder->Configuration["Format"];
-    else
-	$Format = DOCBUILDER_DEFAULT_FORMAT;
-    $DocBuilder->Format = GetOption($options, "format", "f", $Format);
-
-    /*
-    if ($DocBuilder->Format == "PDFA4")
-	$DocBuilder->PageHeight = 20; // 20 Centimètres de contenu sur 29. Le reste est pour le cadre.
-    else if ($DocBuilder->Format == "PDFA5")
-	$DocBuilder->PageHeight = 17.5; // 21 - 3.5. 1cm5 en haut, 2cm en bas (pour le numero de page)
-     */
-
     if ($DocBuilder->Code == "html")
     {
 	// On va recherche ou definir la specification de la hauteur d'une ligne.
 	$CSS = new CssParser; // Merci a l'auteur de cette lib.
 	// On charge le CSS par defaut de DocBuilder
 	$CSS->load_string(file_get_contents(__DIR__."/../templates/style.css"));
-	if (file_exists($st = __DIR__."/../templates/".strtolower($DocBuilder->Format)."/style.css"))
+	if (file_exists($st = __DIR__."/../templates/".strtolower($DocBuilder->Pager)."/style.css"))
 	    $CSS->load_string(file_get_contents($st));
 
 	// On charge le CSS indiqué directement dans le fichier de conf
@@ -97,14 +74,10 @@ function Prepare($options)
 
     $DocBuilder->OutputFile = GetOption($options, "output", "o", "/dev/stdout");
 
-    if (isset($DocBuilder->Instance["Language"]))
-	$DocBuilder->Language = $DocBuilder->Instance["Language"];
-    else if (isset($DocBuilder->Activity["Language"]))
-	$DocBuilder->Language = $DocBuilder->Activity["Language"];
-    else if (isset($DocBuilder->Configuration["Language"]))
+    if (isset($DocBuilder->Configuration["Language"]))
 	$DocBuilder->Language = $DocBuilder->Configuration["Language"];
     else
-	// C'est un logiciel francais, donc par défaut c'est francais.
+	// C'est un logiciel francais, donc par défaut c'est francais, non mais.
 	$DocBuilder->Language = GetOption($options, "language", "l", "FR");
 
     if (isset($options["no-pretty"]))
@@ -114,16 +87,25 @@ function Prepare($options)
     if (isset($options["small-opening"]))
 	$DocBuilder->SmallOpening = true;
 
+    DevelopPath(
+	dirname($DocBuilder->ConfigurationFile), $DocBuilder->Configuration, [
+	    ["Company", "Logo"], ["Company", "SmallLogo"]
+    ]);
+    
+    if (!isset($DocBuilder->Configuration["FullName"]) && isset($DocBuilder->Configuration["Login"]))
+	$DocBuilder->Configuration["FullName"] = $DocBuilder->Configuration["Login"];
+    if (!isset($DocBuilder->Configuration["AcquiredMedals"]))
+	$DocBuilder->Configuration["AcquiredMedals"] = [];
+    else
+	$DocBuilder->Configuration["AcquiredMedals"] = MustBeAnArray($DocBuilder->Configuration["AcquiredMedals"]);
     $DocBuilder->GlobalMedals = GetGlobalMedals();
 
     DevelopPath(
-	dirname($DocBuilder->ConfigurationFile), $DocBuilder->Configuration, [
-	    "SchoolLogo", "SmallSchoolLogo"
-    ]);
-
-    DevelopPath(
-	dirname($DocBuilder->ActivityFile), $DocBuilder->Activity, [
-	    "MatterLogo", "SmallMatterLogo", "ActivityLogo", "SmallActivityLogo"
+	dirname($DocBuilder->ActivityFile), $DocBuilder->Configuration, [
+	    ["Matter", "Logo"],
+	    ["Matter", "SmallLogo"],
+	    ["Activity", "Logo"],
+	    ["Activity", "SmallLogo"]
     ]);
 
     // Il faudra probablement rajouter les images contenus DANS les fichiers.

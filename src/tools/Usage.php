@@ -13,6 +13,7 @@ function Usage()
 		     $Options->Description[$i]
 	);
     }
+    echo sprintf("\n\tCurrently supported types are:\n\t\t%s\n", implode("\n\t\t", array_keys($Types)));
     return (1);
 }
 

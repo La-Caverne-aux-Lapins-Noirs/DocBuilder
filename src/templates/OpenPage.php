@@ -6,6 +6,6 @@ function OpenPage()
     global $PageCount;
     global $Ex;
 
-    if (file_exists($file = __DIR__."/../templates/".strtolower($DocBuilder->Format)."/top.php"))
+    if (file_exists($file = __DIR__."/../templates/".strtolower($DocBuilder->Pager)."/top.php"))
 	require ($file);
 }

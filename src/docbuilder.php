@@ -4,6 +4,8 @@ require_once (__DIR__."/deps/index.php");
 require_once (__DIR__."/src/index.php");
 require_once (__DIR__."/templates/index.php");
 
+$MarkDown = GetMarkdown();
+
 function main($argc, array $argv)
 {
     if ($argc == 1)
