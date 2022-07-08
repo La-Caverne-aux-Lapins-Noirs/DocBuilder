@@ -3,12 +3,11 @@
 class Options
 {
     // ActivityFile (Template), Instance information, Optional style
-    public $ShortOptions = "a:i:s:t:o:c:d:m:l:";
+    public $ShortOptions = "a:i:s:t:o:c:d:m:l:b:";
     public $LongOptions = [
 	"activity:",
 	"instance:",
 	"style:",
-	"type:",
 	"output:",
 	"configuration:",
 	"dictionnary:",
@@ -16,12 +15,12 @@ class Options
 	"no-pretty",
 	"keep-trace",
 	"language:",
+	"bulk:"
     ];
     public $Description = [
 	"The Dabsic file describing the activity you want to generate the document. Mandatory.",
 	"The Dabsic file describing the instance of the activity. Mandatory.",
 	"The style of the documentation you want to generate. Default is /etc/technocore/default.css.",
-	"The document you want to generate. (pdfa4subject, school_reports, etc.). Default is pdfa4subject.",
 	"The output file. Default is stdout.",
 	"DocBuilder configuration file. Default is /etc/technocore/docbuilder.dab.",
 	"DocBuilder's dictionnary file. Default is /etc/technocore/dictionnary.dab.",
@@ -29,7 +28,8 @@ class Options
 	"Compact the generated code.",
 	"Keep generated code after rendering into PDF.",
 	"Language of the generated document. Default is FR (french).",
-	"The type of document to generate"
+	"The type of document to generate",
+	"Define configuration file that indicates all options and allows bulk processing"
     ];
 };
 

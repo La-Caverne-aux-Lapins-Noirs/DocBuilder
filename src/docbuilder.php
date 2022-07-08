@@ -19,6 +19,8 @@ function main($argc, array $argv)
     global $Options;
 
     $options = getopt($Options->ShortOptions, $Options->LongOptions);
+    if (($bulk = GetOption($options, "bulk", "b", "")) != "")
+	return (BulkProcessing($bulk));
     if (LoadConfiguration($options) == false)
 	return (1);
     if (Prepare($options) == false)

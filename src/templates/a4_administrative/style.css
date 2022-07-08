@@ -12,6 +12,20 @@
     margin:		0mm 0mm 0mm 0mm;
 }
 
+ul
+{
+    list-style-type:	none;
+}
+ul li
+{
+    text-indent:	-5px;
+}
+ul li:before
+{
+    content:		"- ";
+    text-indent:	-5px;
+}
+
 .page
 {
     size:		21cm 29.7cm;
@@ -83,9 +97,9 @@
     width:		calc(100% - 4cm);
     border-top:		0.5mm black solid;
     color:		gray;
-    font-size:		xx-small;
+    font-size:		0.2cm;
     text-align:		center;
-    line-height:	0.3cm;
+    line-height:	0.25cm;
     padding-top:	0.2cm;
 }
 
@@ -97,81 +111,12 @@
     width:		100%;
 }
 
-/*
-.page_footer td
+.signature
 {
-    width:		calc(100% / 3);
-}
-
-.page_footer img
-{
-    height:		1cm;
-}
-
-#banner
-{
-    position:		relative;
     width:		100%;
-    height:		5cm;
-    border-top:		1mm black solid;
-    border-bottom:	1mm black solid;
 }
 
-#codename
+.signature td
 {
-    position: relative;
-    top: -1cm;
-    line-height: 1cm;
-    font-size: 0.75cm;
+    width:		40%;
 }
-
-#school_logo
-{
-    position:		absolute;
-    left:		0px;
-    top:		0.5cm;
-    text-align:		left;
-    width:		4cm;
-}
-
-#activity_logo
-{
-    position:		absolute;
-    right:		0px;
-    top:		0.5cm;
-    text-align:		right;
-    width:		calc(100% - 4cm);
-}
-
-
-#school_logo > img, #activity_logo > img
-{
-    height:		4cm;
-}
-
-#matter_logo
-{
-    position:		absolute;
-    left:		0px;
-    top:		7cm;
-    width:		100%;
-    height:		15cm;
-    text-align:		center;
-}
-
-#matter_logo > img
-{
-    width:		15cm;
-    height:		15cm;
-}
-
-#activity_info
-{
-    position:		absolute;
-    left:		0px;
-    top:		24cm;
-    width:		100%;
-    border-bottom:	1mm black solid;
-}
-
-*/

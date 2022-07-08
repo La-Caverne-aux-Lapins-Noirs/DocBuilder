@@ -108,6 +108,12 @@ function Prepare($options)
 	    ["Activity", "SmallLogo"]
     ]);
 
+    // Valeurs par défauts repiqués depuis un autre champ
+    if (!isset($DocBuilder->Configuration["Company"]["LegalAddress"]))
+	$DocBuilder->Configuration["Company"]["LegalAddress"] = $DocBuilder->Configuration["Company"]["Address"];
+    if (!isset($DocBuilder->Configuration["Company"]["LegalCity"]))
+	$DocBuilder->Configuration["Company"]["LegalCity"] = $DocBuilder->Configuration["Company"]["City"];
+    
     // Il faudra probablement rajouter les images contenus DANS les fichiers.
 
     return (true);

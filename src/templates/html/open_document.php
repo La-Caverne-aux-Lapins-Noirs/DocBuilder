@@ -30,7 +30,6 @@
 	    "codename" => "CodeName",
 	    "generation_date" => "GenerationTime"
 	];
-	Debug($DocBuilder->Type);
 	foreach ($Meta as $k => $v)
 	    PrintMeta($DocBuilder->Configuration, $k, $v, in_array($k, $Types[$DocBuilder->Type]["mandatory"]));
 	?>

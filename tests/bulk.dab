@@ -1,0 +1,22 @@
+
+[*
+** Toutes ces valeurs entrainent des boucles lorsqu'il y en a plusieurs
+** dans un champ. Toutes les combinaisons sont executées.
+*]
+
+Style = "res/simple.css"
+Dictionnary = "./tests/dictionnary.dab"
+Medal = "./tests/res/medal"
+
+Configuration = "./tests/docbuilder.dab"
+Activity = "./tests/training_attendance/activity.dab"
+Instance = "./tests/training_attendance/instance.dab"
+
+[*
+** Options globales
+*]
+  
+' Ce fichier est l'unique fichier de sortie. Tous les PDFs générés y seront réunis
+Output = "./tests/html/output.pdf"
+KeepTrace = true
+Language = "FR"

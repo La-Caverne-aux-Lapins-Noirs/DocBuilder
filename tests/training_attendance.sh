@@ -11,9 +11,9 @@ fi
     -c ./tests/docbuilder.dab \
     -a $1/activity.dab \
     -i $1/instance.dab \
-    -t letter \
     -d ./tests/dictionnary.dab \
     -m ./tests/res/medal/ \
     -o ./tests/html/output.pdf \
+    -l EN \
     --keep-trace \
     --language FR

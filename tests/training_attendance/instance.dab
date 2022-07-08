@@ -11,11 +11,14 @@
 
 Address = "33 Rue Delaporte 94700 Maisons-Alfort"
 Date = "12 Juin 2022"
-Duration = 7
-RealDuration = 7
+Duration = "7 heures"
+RealDuration = "7 heures"
 ELearning = false
-TrainingType = "Action de formation"
+[TrainingType
+  FR = "Action de formation"
+  EN = "Training action"
+]
 
-
-
-
+[Representative
+  Signature = ""
+]  

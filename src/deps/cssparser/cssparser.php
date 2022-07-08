@@ -1,5 +1,4 @@
 <?php // @codeCoverageIgnoreStart
-
 /**
  * CSSPARSER
  * Copyright (C) 2009 Peter Kröner
@@ -18,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+// Ce parseur n'est pas terrible, il a juste le mérite d'exister - Jason
 
 /**
  * CSS PARSER

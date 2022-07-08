@@ -1,3 +1,4 @@
+Language="FR"
 '''''''''''''''''''''''''''''
 'Configuration de DocBuilder'
 '''''''''''''''''''''''''''''
@@ -10,9 +11,7 @@ Translate(string a):string = [Function
   
 'Fichier CSS utilisé pour la mise en page. Si non spécifié, c'est /etc/technocore/default.css
 Style="res/simple.css"
-'Langue par défaut des documents générés. Par défaut c'est FRANCAIS mösieur.
-'Les valeurs valides sont FR et EN actuellement.
-Language="FR"
+Font="./res/futura.woff2"
 EOL="<br />"
 SOL="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
   
@@ -35,14 +34,20 @@ SOL="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
   Mail = "contact@efrits.fr"
 
   City = "Styx"
+  LegalCity = "Maisons-Alfort"
   
   Address = [Text($,EOF)
     42 Avenue du Boulevard des Rues
     68666 $(_.City)
     France
   EOF]
+  LegalAddress = [Text($,EOF)
+    33 Rue Delaporte
+    94700 $(_.LegalCity)
+    France
+  EOF]
   Credentials = [Text($,EOF)
     Entreprise immatriculée au RCS de Créteil sous le numéro 909 292 773
-    Centre de formation enregistrée sous le numéro AAA BBB CCC
+    Centre de formation professionnel immatriculé sous le numéro AAA BBB CCC auprès de la DRIEETS Ile-de-france
   EOF]
 ]
