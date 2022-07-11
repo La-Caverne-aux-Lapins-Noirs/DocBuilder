@@ -3,7 +3,7 @@
 class Options
 {
     // ActivityFile (Template), Instance information, Optional style
-    public $ShortOptions = "a:i:s:t:o:c:d:m:l:b:";
+    public $ShortOptions = "a:i:s:o:c:d:m:l:b:n k";
     public $LongOptions = [
 	"activity:",
 	"instance:",
@@ -12,24 +12,23 @@ class Options
 	"configuration:",
 	"dictionnary:",
 	"medals:",
-	"no-pretty",
-	"keep-trace",
 	"language:",
-	"bulk:"
+	"bulk:",
+	"no-pretty",
+	"keep-trace"
     ];
     public $Description = [
-	"The Dabsic file describing the activity you want to generate the document. Mandatory.",
-	"The Dabsic file describing the instance of the activity. Mandatory.",
-	"The style of the documentation you want to generate. Default is /etc/technocore/default.css.",
-	"The output file. Default is stdout.",
-	"DocBuilder configuration file. Default is /etc/technocore/docbuilder.dab.",
-	"DocBuilder's dictionnary file. Default is /etc/technocore/dictionnary.dab.",
-	"Medals directory. Default is /etc/technocore/medals.",
-	"Compact the generated code.",
-	"Keep generated code after rendering into PDF.",
-	"Language of the generated document. Default is FR (french).",
-	"The type of document to generate",
-	"Define configuration file that indicates all options and allows bulk processing"
+	"The Dabsic file describing the specificities of the type of document you want to generate the document. Mandatory",
+	"The Dabsic file describing the specificities of the document. Mandatory",
+	"The style of the documentation you want to generate. Default is /etc/technocore/default.css",
+	"The output file. Default is stdout",
+	"DocBuilder configuration file. Configure information about the company. Default is /etc/technocore/docbuilder.dab",
+	"DocBuilder's dictionnary file. Default is /etc/technocore/dictionnary.dab",
+	"Medals directory. Default is /etc/technocore/medals",
+	"Language of the generated document. Default is FR (french)",
+	"Define configuration file that indicates all options and allows bulk processing",
+	"Compact the generated code",
+	"Keep generated code after rendering into PDF"
     ];
 };
 

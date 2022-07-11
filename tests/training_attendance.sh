@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "\033[00m"
+echo -n "\033[00m"
 
 if [ -z "$1" ]; then
     ./$0 ./tests/training_attendance
@@ -14,6 +14,5 @@ fi
     -d ./tests/dictionnary.dab \
     -m ./tests/res/medal/ \
     -o ./tests/html/output.pdf \
-    -l EN \
     --keep-trace \
-    --language FR
+    --language EN

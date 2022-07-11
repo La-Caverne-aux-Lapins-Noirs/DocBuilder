@@ -10,7 +10,7 @@ Translate(string a):string = [Function
 ]
   
 'Fichier CSS utilisé pour la mise en page. Si non spécifié, c'est /etc/technocore/default.css
-Style="res/simple.css"
+Style="./res/efrits.css"
 Font="./res/futura.woff2"
 EOL="<br />"
 SOL="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"

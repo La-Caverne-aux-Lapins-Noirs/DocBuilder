@@ -4,7 +4,7 @@
 ** dans un champ. Toutes les combinaisons sont executées.
 *]
 
-Style = "res/simple.css"
+Style = "./res/efrits.css"
 Dictionnary = "./tests/dictionnary.dab"
 Medal = "./tests/res/medal"
 
@@ -12,11 +12,20 @@ Configuration = "./tests/docbuilder.dab"
 Activity = "./tests/training_attendance/activity.dab"
 Instance = "./tests/training_attendance/instance.dab"
 
+Language = "FR","EN"
+  
 [*
 ** Options globales
 *]
+
+' Permet d'indiquer qu'il faut rassembler les documents par instance
+' Est mutuellement exclusif avec Output. Output Directory par défaut est ./.
+' Gathering peut prendre comme valeur n'importe quel nom parmi les champs cidessus.
+'Gathering = "Instance"
+'OutputDirectory = "./"
   
 ' Ce fichier est l'unique fichier de sortie. Tous les PDFs générés y seront réunis
+' Est mutuellement exclusif avec Gathering
 Output = "./tests/html/output.pdf"
+
 KeepTrace = true
-Language = "FR"

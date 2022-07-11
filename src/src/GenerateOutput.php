@@ -46,21 +46,26 @@ function GenerateOutput()
 	if (strtolower($ext) == "pdf")
 	{
 	    $tmp = $DocBuilder->OutputFile.".htm";
+	    system("rm -f $tmp");
 	    file_put_contents($tmp, $DocBuilder->Output);
-	    $out = shell_exec(
+	    $out = [];
+	    $result = 0;
+	    exec(
 		"chromium ".
 		"--headless ".
 		"--disable-gpu ".
 		"--run-all-compositor-stages-before-draw ".
 		"--print-to-pdf-no-header ".
-		"--print-to-pdf='".$DocBuilder->OutputFile."' ".
-		"file://".getcwd()."/".$tmp
+		"--print-to-pdf='".$DocBuilder->OutputFile."~' ".
+		"file://".getcwd()."/".$tmp,
+		$out, $result
 	    );
 	    if ($DocBuilder->KeepTrace == false)
 		shell_exec("rm -f $tmp");
-	    if ($out != "")
+	    RemoveLastPage($DocBuilder->OutputFile);
+	    if ($result != 0)
 	    {
-		fprintf(STDERR, "%s\n", $out);
+		fprintf(STDERR, "PDF Generation failed: %s\n", implode("\n", $out));
 		exit(1);
 	    }
 	}

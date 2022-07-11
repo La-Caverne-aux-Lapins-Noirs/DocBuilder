@@ -19,7 +19,7 @@ function Prepare($options)
 	{
 	    // Non, alors c'est probablement un chemin.
 	    // On ajoute la position du fichier de configuration qui le specifie
-	    if (substr($Style, 0, 1) != "/")
+	    if (substr($Style, 0, 1) != "/" && 0) // Non, c'est une mauvaise idée ?
 		$StyleFile = $confdir."/".$Style;
 	    else
 		$StyleFile = $Style;
@@ -58,7 +58,7 @@ function Prepare($options)
 	if ($StyleFile == NULL)
 	    $StyleFile = "";
 	// On charge aussi le CSS indiqué dans la ligne de commande
-	if (LoadFile($DocBuilder->Style, $options, "style", "s", $StyleFile) != false)
+	if (LoadFile($DocBuilder->Style, $options, "style", "s", $StyleFile, false) != false)
 	    $CSS->load_string($DocBuilder->Style);
 
 	// On parse le tout
