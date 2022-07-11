@@ -14,7 +14,7 @@ function BulkProcessing($bulk)
     $generated = [];
     $keep_trace = @$conf["KeepTrace"] ? "--keep-trace" : "";
     $no_pretty = @$conf["NoPretty"] ? "--no-pretty" : "";
-    if (isset($conf["Output"]))
+    if (isset($conf["Output"]) && !isset($conf["OutputDirectory"]))
 	$conf["OutputDirectory"] = pathinfo($conf["Output"], PATHINFO_DIRNAME);
     $output_dir = @$conf["OutputDirectory"];
     foreach ([
@@ -100,13 +100,40 @@ function BulkProcessing($bulk)
     }
 
     if (!isset($conf["Gathering"]))
+    {
+	if (!isset($conf["Output"]))
+	{
+	    echo "Missing Output field in configuration.\n";
+	    return (false);
+	}
 	return (MergePdf($conf["Output"], $generated));
+    }
  
     if (strlen($output_dir) == 0)
 	$output_dir = "./";
+    $gens = [];
     foreach ($generated as $k => $v)
+    {
 	if (MergePdf("$output_dir$k.pdf", $v) == false)
 	    return (false);
+	$gens[] = $output_dir.$k.".pdf";
+    }
+    $gens = implode(" ", $gens);
+    if (isset($conf["Output"]))
+    {
+	$out = $conf["Output"];
+	$ext = pathinfo($conf["Output"], PATHINFO_EXTENSION);
+	if ($ext == "zip")
+	    XSystem("zip -jr $out $gens");
+	else if ($ext == "gz")
+	    XSystem("tar cvfz $out -C $output_dir $gens");
+	else if ($ext == "tar")
+	    XSystem("tar cvf $out -C $output_dir $gens");
+	else
+	{
+	    echo "Unknown archive format $ext precised in Output field.\n";
+	    return (false);
+	}
 
     return (true);
 }
