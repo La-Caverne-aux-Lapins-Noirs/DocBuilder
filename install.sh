@@ -14,9 +14,11 @@ APT="
   gcc
   g++
   git
-  chromium-browser
+  texlive texlive-lang-french lexlive-latex-extra
+  chromium
   libtidy-dev
   php-tidy
+  pdftk
 "
 # Dépendences à résoudre depuis github
 GIT="
