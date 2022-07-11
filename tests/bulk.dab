@@ -28,4 +28,5 @@ Language = "FR","EN"
 ' Est mutuellement exclusif avec Gathering
 Output = "./tests/html/output.pdf"
 
-KeepTrace = true
+KeepTrace = false
+

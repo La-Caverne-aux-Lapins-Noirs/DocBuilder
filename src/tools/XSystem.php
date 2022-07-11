@@ -2,7 +2,7 @@
 
 function XSystem($cmd)
 {
-    system("echo $cmd");
+    //system("echo $cmd");
     return (system($cmd));
 }
 
