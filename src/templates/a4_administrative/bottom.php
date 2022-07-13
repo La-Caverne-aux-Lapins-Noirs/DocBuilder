@@ -19,14 +19,14 @@
 			<?php } else { ?>
 			    <?=Repeat("&nbsp;", 10); ?>
 			<?php } ?>
-			
+
 			<?=Translate("DoneWhere"); ?>
 			<?php if (strlen(@$DocBuilder->Configuration["Representative"]["Signature"])) { ?>
 			    <?=MustPrint($DocBuilder->Configuration, ["Company", "City"]); ?>.<br />
 			<?php } else { ?>
 			    <?=Repeat("&nbsp;", 20); ?>.<br />
 			<?php } ?>
-			
+
 			<?=MustPrint($DocBuilder->Configuration, ["Representative", "Name"]); ?>,
 			<?=MustPrint($DocBuilder->Configuration, ["Representative", "Role"]); ?><br />
 			<?=Translate("Signature"); ?>
@@ -37,6 +37,9 @@
 		    <?php } ?>
 		</td></tr>
   	    </table>
+	    <?php if (isset($DocBuilder->Configuration["BottomNotice"])) { ?>
+		<p class="bottom_notice"><?=Translate($DocBuilder->Configuration["BottomNotice"]); ?></p>
+	    <?php } ?>
         </div>
     </div>
     <div class="page_footer">

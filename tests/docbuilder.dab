@@ -8,13 +8,13 @@ Translate(string a):string = [Function
     Return [a][[].Language]
   Return a.FR
 ]
-  
+
 'Fichier CSS utilisé pour la mise en page. Si non spécifié, c'est /etc/technocore/default.css
 Style="./res/efrits.css"
 Font="./res/futura.woff2"
 EOL="<br />"
 SOL="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-  
+
 'Le nom de l'école. OBLIGATOIRE.
 ' Peut-être un noeud dont les enfants seraient nommés d'après les langages
 [Company
@@ -35,7 +35,7 @@ SOL="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 
   City = "Styx"
   LegalCity = "Maisons-Alfort"
-  
+
   Address = [Text($,EOF)
     42 Avenue du Boulevard des Rues
     68666 $(_.City)

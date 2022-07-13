@@ -1,5 +1,8 @@
 
+@include "inc/lisa.dab"
+
 Type = "letter"
+
 
 [Title
   Big = true
@@ -33,16 +36,8 @@ $(SOL)I, $([].Representative.Name), $([].Representative.Role[[].Language]) of $(
 ]
 
 [Representative
-  Name = "Lisa Monpierre"
-  [Role
-    FR = "Présidente"
-    EN = "President"
-  ]
-  Gender = "e"
-
   PrintAddress = true
   PrintSignatureForm = true
-  Signature = ""
 ]
 
 [Customer
@@ -72,9 +67,5 @@ ELearning = false
   FR = "Action de formation"
   EN = "Training action"
 ]
-
-[Representative
-  Signature = ""
-]  
 
 *]

@@ -32,6 +32,15 @@ $(SOL)I, $([].Representative.Name), $([].Representative.Role[[].Language]) of $(
   EOF]
 ]
 
+[BottomNotice
+  FR = [Text($,EOF)
+    Notice de bas de page
+  EOF]
+  EN = [Text($,EOF)
+    Foot document notice
+  EOF]
+]
+
 [Representative
   Name = "Lisa Monpierre"
   [Role

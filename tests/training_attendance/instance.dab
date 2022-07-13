@@ -14,6 +14,7 @@ Date = "12 Juin 2022"
 Duration = "7 heures"
 RealDuration = "7 heures"
 ELearning = false
+
 [TrainingType
   FR = "Action de formation"
   EN = "Training action"
@@ -21,4 +22,5 @@ ELearning = false
 
 [Representative
   Signature = ""
-]  
+]
+

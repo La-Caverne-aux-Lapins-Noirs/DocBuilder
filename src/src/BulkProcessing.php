@@ -8,7 +8,7 @@ function ExtractName($str)
 function BulkProcessing($bulk)
 {
     global $argv;
-    
+
     if (($conf = LoadDabsic($bulk)) == NULL)
 	return (false);
     $generated = [];
@@ -34,7 +34,7 @@ function BulkProcessing($bulk)
 		$conf[$f] = [$conf[$f]];
 	}
     }
-    
+
     foreach ($conf["Style"] as $style)
     {
 	if ($style != "")
@@ -108,7 +108,7 @@ function BulkProcessing($bulk)
 	}
 	return (MergePdf($conf["Output"], $generated));
     }
- 
+
     if (strlen($output_dir) == 0)
 	$output_dir = "./";
     $gens = [];
@@ -134,7 +134,6 @@ function BulkProcessing($bulk)
 	    echo "Unknown archive format $ext precised in Output field.\n";
 	    return (false);
 	}
-
+    }
     return (true);
 }
-
