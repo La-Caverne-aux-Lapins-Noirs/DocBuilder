@@ -11,7 +11,13 @@ function LoadDabsic($file)
 	    if (is_array($f))
 		$f = implode(" ", $f);
 	    else if (!file_exists($f))
-		$f = TempDab($f);
+	    {
+		if (($f = TempDab($f)) === false)
+		{
+		    echo "$argv[0]: Cannot create temporary file $f.";
+		    return (NULL);
+		}
+	    }
 	}
 	$file = implode(" ", $file);
     }

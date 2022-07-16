@@ -15,7 +15,7 @@ class CDocBuilder
     public $ConfigurationFile = "";
     public $ActivityFile = "";
     public $InstanceFile = "";
-    
+
     public $Type = "";
     public $Style = "";
     public $Code = "";

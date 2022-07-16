@@ -82,7 +82,7 @@ li
 
 .page
 {
-    position:		relative;
+    position:		absolute;
     line-height:	0.5cm;
     font-size:		0.3cm;
 }

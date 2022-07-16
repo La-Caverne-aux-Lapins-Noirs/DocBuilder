@@ -21,8 +21,10 @@ function CompleteStyle(&$css)
 		{
 		    foreach ($r as $prop => &$val)
 		    {
-			if ($prop == "height" && preg_match($regex, $val))
-			    $DocBuilder->PageHeight = (float)$val;
+			/*
+			   if ($prop == "height" && preg_match($regex, $val))
+			   $DocBuilder->PageHeight = (float)$val;
+			 */
 			$new[$s][$prop] = $val;
 		    }
 		}

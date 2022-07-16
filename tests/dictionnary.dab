@@ -26,6 +26,7 @@
   the = "le"
   Object = "Objet"
   To = "A"
+  Initials = "Paraphes"
 ]
 
 [EN
@@ -54,5 +55,6 @@
   the = "the"
   Object = "Object"
   To = "To"
+  Initials = "Initials"
 ]
 

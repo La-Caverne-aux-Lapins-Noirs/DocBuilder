@@ -31,7 +31,6 @@ ul li:before
     size:		21cm 29.7cm;
     height:		29.7cm;
     width:		21cm;
-    position:		relative;
     background-color:	white;
     page-break-after:	always;
     text-align:		justify;
@@ -129,3 +128,49 @@ ul li:before
     font-style:		italic;
 }
 
+.top_notice
+{
+    padding-bottom:	0.3cm;
+    width:		100%;
+    text-align:		center;
+    font-style:		italic;
+}
+
+.table
+{
+    margin-top:		0.5cm;
+    margin-bottom:	0.5cm;
+    width:		100%;
+}
+
+.table tr th, .table tr td
+{
+    border:		1px solid darkgray;
+    height:		1cm;
+    text-align:		center;
+    vertical-align:	middle;
+}
+
+.table tr td:first-child
+{
+    width:		50%;
+}
+
+.table tr th
+{
+    background-color:	lightgray;
+}
+
+h1, h2, h3, h4, h5
+{
+    text-align:		left;
+}
+
+h5
+{
+    font-size:		large !important;
+    font-weight:	bolder !important;
+    line-height:	1em;
+    padding-top:	1em;
+    padding-bottom	1em;
+}

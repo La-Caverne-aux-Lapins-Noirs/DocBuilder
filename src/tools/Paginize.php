@@ -4,6 +4,7 @@ function Paginize($text)
 {
     global $DocBuilder;
     global $PageCount;
+    global $Page;
 
     if ($DocBuilder->Code == "latex")
     {
@@ -19,7 +20,7 @@ function Paginize($text)
     // On ouvre une première page.
     OpenPage();
     $open = true;
-    
+
     // Ensuite on déroule toutes les lignes du chapitre.
     for ($line = 0; $line < count($text); )
     {
@@ -43,6 +44,7 @@ function Paginize($text)
 		{
 		    echo $parts[$i]; // On affiche le texte situe avant le page break sur l'ancienne page
 		    ClosePage(); // On ferme donc la page courante
+		    $Page += 1;
 		    OpenPage(); // On ouvre la nouvelle page
 		}
 		echo $parts[$i];

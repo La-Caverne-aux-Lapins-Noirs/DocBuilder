@@ -1,4 +1,5 @@
-            <br /><br /><br /><br /><br />
+	    <br /><br /><br />
+	    @@KEEPLAST[
             <table class="signature">
 		<tr><td class="left_align">
     		    <?php if (@$DocBuilder->Configuration["Customer"]["PrintSignatureForm"]) { ?>
@@ -40,11 +41,22 @@
 	    <?php if (isset($DocBuilder->Configuration["BottomNotice"])) { ?>
 		<p class="bottom_notice"><?=Translate($DocBuilder->Configuration["BottomNotice"]); ?></p>
 	    <?php } ?>
+	    @@KEEPLAST]
         </div>
     </div>
     <div class="page_footer">
-	<?=MustPrint($DocBuilder->Configuration, ["Company", "LegalName"]); ?><br />
-	<?=strip_tags(MustPrint($DocBuilder->Configuration, ["Company", "LegalAddress"])); ?><br />
-	<?=MustPrint($DocBuilder->Configuration, ["Company", "Credentials"]); ?>
+	<?php if (@$DocBuilder->Configuration["Initials"]) { ?>
+	    <table style="width: 100%;"><tr><td style="width: 80%;">
+	<?php } ?>
+	    <?=MustPrint($DocBuilder->Configuration, ["Company", "LegalName"]); ?><br />
+	    <?=strip_tags(MustPrint($DocBuilder->Configuration, ["Company", "LegalAddress"])); ?><br />
+	    <?=MustPrint($DocBuilder->Configuration, ["Company", "Credentials"]); ?>
+	<?php if (@$DocBuilder->Configuration["Initials"]) { ?>
+	    </td><td style="border: 1px solid black;">
+		<span style="font-size: smaller;">
+		    <?=Translate("Initials"); ?>
+		</span>
+	    </td></tr></table>
+	<?php } ?>
     </div>
 </div>

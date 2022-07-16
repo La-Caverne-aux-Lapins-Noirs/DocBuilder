@@ -5,11 +5,11 @@ function LoadConfiguration($options)
     global $DocBuilder;
     global $Types;
     global $argv;
-    
+
     $DocBuilder->ConfigurationFile = GetOption($options, "configuration", "c", DOCBUILDER_DEFAULT_CONFIGURATION);
     $DocBuilder->ActivityFile = GetOption($options, "activity", "a", "");
     $DocBuilder->InstanceFile = GetOption($options, "instance", "i", "");
-    
+
     if (!($DocBuilder->Configuration = LoadDabsic([
 	$DocBuilder->ConfigurationFile,
 	// Par défaut c'est FRANCAIS mösieur.
@@ -18,7 +18,7 @@ function LoadConfiguration($options)
 	$DocBuilder->InstanceFile])
     ))
         return (false);
-    
+
     $DocBuilder->ConfigurationFile = GetOption($options, "configuration", "c", DOCBUILDER_DEFAULT_CONFIGURATION);
     $DocBuilder->ActivityFile = GetOption($options, "activity", "a", "");
     if (!LoadFile($DocBuilder->Dictionnary, $options, "dictionnary", "d", DOCBUILDER_DEFAULT_DICTIONNARY))
@@ -38,6 +38,6 @@ function LoadConfiguration($options)
 
     $DocBuilder->Configuration["GenerationTime"] = date("d/m/Y H:i:s", time());
     $DocBuilder->Configuration["GenerationDate"] = date("d/m/Y", time());
-  
+
     return (true);
 }

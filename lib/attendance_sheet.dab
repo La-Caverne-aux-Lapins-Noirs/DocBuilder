@@ -1,19 +1,10 @@
 
 Type = "letter"
 
-[Representative
-  Name = "Lisa Monpierre"
-  [Role
-    FR = "Présidente"
-    EN = "President"
-  ]
-  Gender = "e"
-  Signature = "" 'Le fichier n'est pas encore fournit...
-]
 
 [Title
-  Top = true
   Big = true
+  Top = true
   FR = "Feuille d'émargement du " # [].Date
   EN = "Attendance sheet for " # [].Date
   PageNumber = true

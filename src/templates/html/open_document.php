@@ -42,3 +42,4 @@
 	</style>
     </head>
     <body>
+	<?php $Page = 1; ?>

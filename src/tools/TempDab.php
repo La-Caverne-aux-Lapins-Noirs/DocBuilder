@@ -8,7 +8,7 @@ function CloseFiles()
     foreach ($ToClose as $k => $v)
     {
 	fclose($v);
-	unlink($k);
+	// unlink($k);
     }
 }
 
@@ -16,13 +16,12 @@ function TempDab($data, $ext = ".dab")
 {
     global $ToClose;
 
-    $tmp = tempnam(sys_get_temp_dir(), "");
-    $ntmp = "$tmp$ext";
-    rename($tmp, $ntmp);
-    $h = fopen($ntmp, "w");
+    $tmp = "./.".uniqid().$ext;
+    if (($h = fopen($tmp, "w")) === false)
+	return (false);
     fwrite($h, $data);
-    $ToClose[$ntmp] = $h;
-    return ($ntmp);
+    $ToClose[$tmp] = $h;
+    return ($tmp);
 }
 
 register_shutdown_function("CloseFiles");

@@ -13,7 +13,7 @@ Translate(string a):string = [Function
 Style="./res/efrits.css"
 Font="./res/futura.woff2"
 EOL="<br />"
-SOL="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+SOL="@ALINEA@"
 
 'Le nom de l'école. OBLIGATOIRE.
 ' Peut-être un noeud dont les enfants seraient nommés d'après les langages
@@ -46,8 +46,14 @@ SOL="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
     94700 $(_.LegalCity)
     France
   EOF]
+  Code = "909 292 773"
+  Registrar = "R.C.S Créteil"
+  [Training
+    Code = "AAA BBB CCC"
+    Registrar = "DRIEETS Ile-de-France"
+  ]
   Credentials = [Text($,EOF)
-    Entreprise immatriculée au RCS de Créteil sous le numéro 909 292 773
-    Centre de formation professionnel immatriculé sous le numéro AAA BBB CCC auprès de la DRIEETS Ile-de-france
+    Entreprise immatriculée au $([].Company.Registrar) sous le numéro $([].Company.Code)
+    Centre de formation professionnel immatriculé sous le numéro $([].Company.Training.Code) auprès de la $([].Company.Training.Registrar)
   EOF]
 ]

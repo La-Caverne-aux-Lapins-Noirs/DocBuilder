@@ -9,6 +9,10 @@
   Gender = ""
   Address = "42, ici même"
 ]
+CustomerCount = 10
+Price = 1337
+ReservationPrice = Price * 0.1
+Format = "FaceToFace"
 
 Trainer = "Michel Jojoba, Mechil Bojaba, Jochel Mibajo"
 Date = "13/06/2022"
