@@ -1,0 +1,19 @@
+/* Jason Brillante "Damdoshi"
+** Hanged Bunny Studio 2014-2021
+** Pentacle Technologie 2008-2021
+**
+** DocBuilder CSS
+*/
+
+@font-face
+{
+    font-family:	TheFont;
+    src:		DocumentBuilderFont;
+}
+
+@font-face
+{
+    font-family:	ShellFont;
+    src:		ConsoleFont;
+}
+

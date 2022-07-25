@@ -29,7 +29,10 @@ function LoadConfiguration($options)
     else
 	$DocBuilder->Type = DOCBUILDER_DEFAULT_TYPE;
     if (!isset($Types[$DocBuilder->Type]))
+    {
+	echo "$argv[0]: Type {$DocBuilder->Type} not found.\n";
         return (false);
+    }
     $DocBuilder->Code = $Types[$DocBuilder->Type]["engine"];
     $DocBuilder->PageHeight = $Types[$DocBuilder->Type]["page"][1];
     $DocBuilder->Pager = $Types[$DocBuilder->Type]["pager"];

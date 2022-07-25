@@ -41,10 +41,8 @@ $Fields = [
     "Table" => "DisplayTable",
     "Content" => "DisplayContent"
 ];
-
 ?>
 
-<?php StartSubRecord(true); ?>
 <?php if (@$DocBuilder->Configuration["Title"]["Big"]) { ?>
     <h1 style="text-align: center;"><?=Translate($DocBuilder->Configuration["Title"]); ?></h1>
     <br />
@@ -69,17 +67,22 @@ $Fields = [
 $Cnt = 0;
 $Cnt += isset($DocBuilder->Configuration["Content"]);
 $Cnt += isset($DocBuilder->Configuration["Table"]);
-?>
 
-<?php if (isset($DocBuilder->Configuration["Order"])) { ?>
-    <?php foreach ($DocBuilder->Configuration["Order"] as $order) { ?>
-	<?php $Fields[$order](); ?>
-	<?=$Cnt > 1 ? PageBreak() : ""; ?>
-    <?php } ?>
-<?php } else { ?>
-    <?php DisplayContent(); ?>
-    <?=$Cnt > 1 ? PageBreak() : ""; ?>
-    <?php DisplayTable(); ?>
-<?php } ?>
+if (isset($DocBuilder->Configuration["Order"]))
+{
+    foreach ($DocBuilder->Configuration["Order"] as $order)
+    {
+	$Fields[$order]();
+	if ($Cnt > 1)
+	    echo PageBreak();
+    }
+}
+else
+{
+    DisplayContent();
+    if ($Cnt > 1)
+	echo PageBreak();
+    DisplayTable();
+}
 
-<?php StopSubRecord(true); ?>
+

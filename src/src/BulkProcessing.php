@@ -76,8 +76,9 @@ function BulkProcessing($bulk)
 					echo "Unknown gathering {$conf["Gathering"]}\n";
 					return (false);
 				    }
-				    $gerated[ExtractName($$axis)][] = $gen;
+				    $generated[ExtractName($$axis)][] = $gen;
 				}
+				Ekko("Generating ".ExtractName($$axis)." $gen");
 				XSystem(str_replace("\n", "", "
 				    {$argv[0]}
 				    $configuration
@@ -114,6 +115,7 @@ function BulkProcessing($bulk)
     $gens = [];
     foreach ($generated as $k => $v)
     {
+	Ekko("Merging $output_dir$k.pdf ".implode(" ", $v));
 	if (MergePdf("$output_dir$k.pdf", $v) == false)
 	    return (false);
 	$gens[] = $output_dir.$k.".pdf";

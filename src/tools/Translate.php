@@ -11,6 +11,11 @@ function UseMarkDown($str)
 	if (substr($str, -4) == "</p>")
 	    $str = substr($str, 0, -4);
     }
+    $str = str_replace("<pre>", "<p>", $str);
+    $str = str_replace("</pre>", "</p>", $str);
+    $str = str_replace("<code>", "", $str);
+    $str = str_replace("</code>", "", $str);
+    $str = str_replace("@NEWLINE", "<br />", $str);
     return ($str);
 }
 

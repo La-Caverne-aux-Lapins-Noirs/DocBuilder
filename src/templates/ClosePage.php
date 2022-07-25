@@ -9,4 +9,5 @@ function ClosePage()
 
     if (file_exists($file = __DIR__."/../templates/".strtolower($DocBuilder->Pager)."/bottom.php"))
 	require ($file);
+    return (false);
 }

@@ -1,0 +1,9 @@
+
+CodeName = "PRG-GFX-RAIDEN"
+Login = "AdminEquipe", "Equipier", "Equipier"
+DeliveryDate = "30/03/2022 14:59:00"
+Token = "Bouzouk"
+
+TeamSize = 1, 1
+Medal = "procedure", "set_pixel"
+AuthorizedFunction = "strlen", "strcpy"

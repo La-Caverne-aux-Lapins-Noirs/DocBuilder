@@ -1,10 +1,12 @@
 <?php
 
+$Buffer = "";
+
 function KeepContent($buf)
 {
-    global $DocBuilder;
+    global $Buffer;
 
-    $DocBuilder->Output .= $buf;
+    $Buffer .= $buf;
     return ("");
 }
 

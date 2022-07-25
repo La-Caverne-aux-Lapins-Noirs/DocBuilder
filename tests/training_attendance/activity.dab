@@ -12,88 +12,42 @@ Type = "letter"
 ]
 
 [Title
-  Top = true
   Big = true
-  FR = "Feuille d'émargement du " # [].Date
-  EN = "Attendance sheet for " # [].Date
-  PageNumber = true
+  FR = "Certificat de réalisation"
+  EN = "Certificate of completion"
 ]
 
 [Content
   FR = [Text($,EOF)
-##### Organisation de la formation
-
-$(SOL)Organisme de formation professionnelle $([].Company.Name[[].Language]), situé au $([].Company.LegalAddress).
-$(SOL)Déclaration d'activité N°$([].Company.Training.Code) auprès de $([].Company.Training.Registrar).
-$(SOL)Numéro SIRET $([].Company.Code). $([].Company.Registrar).
-$(SOL)Représenté par $([].Representative.Name), en qualité de $([].Representative.Role[[].Language]).
-
-##### Objet, nature et durée de la formation professionnelle
+$(SOL)Je, soussigné$([].Representative.Gender) $([].Representative.Name), $([].Representative.Role[[].Language]) de $([].Company.LegalName[[].Language]) et dispensateur de l'action concourant au développement des compétences atteste que $([].Customer.Name) $([].Customer.Company <> "" ? "de la société " # [].Customer.Company : "") a suivi l'action :
 
 * Nom de la session : $([].Name[[].Language])
-* Lieu de la formation : $([].Address)
 * Date(s) de la formation : $([].Dates)
 * Durée de la formation : $([].Duration)
 * Type d'action de formation (au sens de l'article 6313-1 du code du travail) : $([].TrainingType[[].Language])
-* Formateurs : $([].Trainer)
+* Durée effectivement suivie par $([].Customer.Gender == "e" ? "la" : "le") stagiaire de $([].RealDuration) soit un taux de présence et de réalisation de $(100 * real([].RealDuration) / real([].Duration))%
+* Suivi détaillée de l'assiduité en e-learning : $([].ELearning ? "Oui" : "Non")
 
   EOF]
-
   EN = [Text($,EOF)
-##### Training organisation
-
-$(SOL)Professional training center $([].Company.Name[[].Language]), located at $([].Company.LegalAddress).
-$(SOL)Activity number $([].Company.Training.Code) registered with $([].Company.Training.Registrar).
-$(SOL)SIRET company number $([].Company.Code). $([].Company.Registrar).
-$(SOL)Represented by $([].Representative.Name) as $([].Representative.Role[[].Language]).
-
-##### Object, nature and duration of the training
+$(SOL)I, $([].Representative.Name), $([].Representative.Role[[].Language]) of $([].Company.LegalName[[].Language]) and provider of the actions contributing to the development of skill certify that $([].Customer.Name)$([].Customer.Company <> "" ? " from company " # [].Customer.Company : "") has completed the following action:
 
 * Name of the session: $([].Name[[].Language])
-* Place: $([].Address)
 * Dates of the training: $([].Dates)
 * Duration: $([].Duration)
 * Type of training: $([].TrainingType[[].Language])
-* Trainers: $([].Trainer)
-
+* Effective duration followed by the trainee is $([].RealDuration), so the presence and achievement rate is $(100 * real([].RealDuration) / real([].Duration))%
+* E-learning attendance following: $([].ELearning ? "Yes" : "No")
   EOF]
 ]
 
-[Table
-  FR = [CSV
-    Nom;Matin;Après-midi
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-  ]
-  EN = [CSV
-    Name;Morning;Afternoon
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-    ;;
-  ]
+[BottomNotice
+  FR = [Text($,EOF)
+    Sans préjudice des délais imposés par les règles fiscales, comptables ou commerciales, je m’engage à conserver l’ensemble des pièces justificatives qui ont permis d’établir le présent certificat pendant une durée de 3 ans à compter de la fin de l’année du dernier paiement. En cas de cofinancement des fonds européens la durée de conservation est étendue conformément aux obligations conventionnelles spécifiques. 
+  EOF]
+  EN = [Text($,EOF)
+    Without prejudice to the deadlines imposed by tax, accounting or commercial rules, I undertake to keep all the supporting documents which have made it possible to establish this certificate for a period of 3 years from the end of the year of the last payment. In the event of co-financing of European funds, the retention period is extended in accordance with the specific contractual obligations.
+  EOF]
 ]
 
 [Representative
@@ -106,29 +60,3 @@ $(SOL)Represented by $([].Representative.Name) as $([].Representative.Role[[].La
   PrintAddress = false
 ]
 
-[*
-
-'Instance section
-[Name
-  FR = "Formation JavaScript"
-  EN = "Javascript training"
-]
-
-[Customer
-  Name = "Fabrice Boissier"
-  Gender = ""
-]
-
-Date = "13 Juin 2022"
-Trainer = ""
-Address = "33 Rue Delaporte 94700 Maisons-Alfort"
-Dates = "12 Juin 2022 - 14 Juin 2022"
-Duration = "7 heures"
-RealDuration = "7 heures"
-ELearning = false
-[TrainingType
-  FR = "Action de formation"
-  EN = "Training action"
-]
-
-*]

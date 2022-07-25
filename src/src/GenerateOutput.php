@@ -55,7 +55,7 @@ function GenerateOutput()
 	    "--run-all-compositor-stages-before-draw ".
 	    "--print-to-pdf-no-header ".
 	    "--print-to-pdf='".$DocBuilder->OutputFile."~' ".
-	    "file://".getcwd()."/".$tmp,
+	    "file://".getcwd()."/".$tmp." > /dev/null 2> /dev/null ",
 	    $out, $result
 	);
 	if ($DocBuilder->KeepTrace == false)

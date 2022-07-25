@@ -43,27 +43,3 @@ $(SOL)I, $([].Representative.Name), $([].Representative.Role[[].Language]) of $(
   PrintAddress = false
 ]
 
-[*
-
-'Instance section
-[Name
-  FR = "Formation JavaScript"
-  EN = "Javascript training"
-]
-
-[Customer
-  Name = "Fabrice Boissier"
-  Gender = ""
-]
-
-Address = "33 Rue Delaporte 94700 Maisons-Alfort"
-Dates = "12 Juin 2022"
-Duration = "7 heures"
-RealDuration = "7 heures"
-ELearning = false
-[TrainingType
-  FR = "Action de formation"
-  EN = "Training action"
-]
-
-*]

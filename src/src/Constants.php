@@ -9,15 +9,24 @@
 // Les médailles sont communes avec l'infosphere
 @define("DOCBUILDER_DEFAULT_MEDALS_DIR", "/opt/technocore/medals");
 //
-@define("DOCBUILDER_DEFAULT_TYPE", "pdfa4subject");
+@define("DOCBUILDER_DEFAULT_TYPE", "subject");
+
+@define("NO_BASE64", false);
 
 $Types = [
-    "pdfa4subject" => [
+    "subject" => [
 	"engine" => "html",
 	"page" => [21, 29.7],
 	"pager" => "a4_decorated",
 	"mandatory" => [
-	    "matter", "company", "activity", "student", "limit_date", "codename", "generation_date"
+	    "matter",
+	    "company",
+	    "activity",
+	    "student",
+	    "limit_date",
+	    "codename",
+	    "generation_date",
+	    "token"
 	]
     ],
     "school_report" => [

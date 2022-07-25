@@ -1,0 +1,200 @@
+/* Jason Brillante "Damdoshi"
+** EFRITS SAS 2022-2022
+** Hanged Bunny Studio 2014-2021
+** Pentacle Technologie 2008-2022
+**
+** DocBuilder CSS
+*/
+
+.header_block
+{
+    position:		absolute;
+    top:		1cm;
+    left:		2cm;
+    height:		1.2em;
+    width:		calc(100% - 4cm);
+    border-bottom:	1px solid black;
+    font-size:		large;
+}
+
+.matter
+{
+    position:		absolute;
+    top:		0cm;
+    left:		0cm;
+    height:		1em;
+    width:		calc(75%);
+    text-align:		left;
+    font-size:		large;
+}
+
+.key
+{
+    position:		absolute;
+    top:		0cm;
+    right:		0cm;
+    height:		1em;
+    width:		calc(25%);
+    text-align:		right;
+    font-size:		large;
+}
+
+.title_block
+{
+    position:		absolute;
+    width:		100%;
+    height:		5cm;
+    left:		0cm;
+    top:		4cm;
+    border-top:		1px solid black;
+    border-bottom:	1px solid black;
+}
+
+.matter_logo
+{
+    position:		absolute;
+    top:		-0.5cm;
+    left:		0.5cm;
+    width:		6cm;
+    height:		6cm;
+    background-size:	contain;
+    background-position:center center;
+    background-repeat:	no-repeat;
+}
+
+.activity_logo
+{
+    position:		absolute;
+    top:		0.25cm;
+    right:		0.5cm;
+    width:		calc(100% - 6cm - 1cm - 1cm);
+    height:		4.5cm;
+    background-size:	contain;
+    background-position:center center;
+    background-repeat:	no-repeat;
+}
+
+.one_liner
+{
+    position:		absolute;
+    top:		9.75cm;
+    height:		2cm;
+    font-size:		large;
+    text-align:		center;
+    width:		100%;
+}
+
+.description
+{
+    position:		absolute;
+    top:		12cm;
+    left:		2cm;
+    width:		calc(100% - 4cm);
+    height:		6cm;
+}
+
+.footer_block
+{
+    position:		absolute;
+    bottom:		2cm;
+    left:		2cm;
+    width:		calc(100% - 4cm);
+    height:		5cm;
+    border-bottom:	1px solid black;
+}
+
+.no_share
+{
+    position:		absolute;
+    bottom:		1cm;
+    left:		2cm;
+    width:		calc(100% - 4cm);
+    height:		1cm;
+    font-size:		small;
+    text-align:		left;
+}
+
+
+.company_block
+{
+    position:		absolute;
+    bottom:		1cm;
+    right:		2cm;
+    width:		calc(100% - 4cm);
+    height:		1cm;
+    font-size:		small;
+    text-align:		right;
+}
+
+.metadata
+{
+    position:		absolute;
+    left:		0cm;
+    bottom:		0.5cm;
+    width:		60%;
+    text-align:		left;
+    /* height:		10cm; */
+}
+
+.metadata ul, .metadata ul li
+{
+    margin-left:	0.25cm;
+    padding-left:	0.0cm;
+    list-style:		none;
+}
+
+.company_logo
+{
+    position:		absolute;
+    right:		0cm;
+    bottom:		0.5cm;
+    width:		39%;
+    height:		5cm;
+    background-position:bottom right;
+    background-size:	contain;
+    background-repeat:	no-repeat;
+}
+
+.concerned_files
+{
+    position:		absolute;
+    left:		0cm;
+    top:		0cm;
+    background-color:	lightgray;
+    width:		50%;
+    padding:		0.2cm 0.2cm 0.2cm 0.2cm;
+}
+
+.page_content > h1, .page_content > h2, .page_content > h3, .page_content > h4, .page_content > h5
+{
+    position:		absolute;
+    top:		0cm;
+    right:		0cm;
+    width:		49%;
+}
+
+.top_block
+{
+    width:		100%;
+    height:		1px;
+    margin-bottom:	3cm;
+}
+
+.table_of_content
+{
+    width:		100%;
+}
+
+.index_entry_name h2, .index_entry_name
+{
+    font-size:		0.6cm;
+    text-align:		left;
+    height:		1cm;
+}
+
+.index_entry_page
+{
+    text-align:		right;
+    font-size:		0.6cm;
+    height:		1cm;
+}

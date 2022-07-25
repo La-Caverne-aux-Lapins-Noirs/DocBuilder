@@ -64,9 +64,9 @@ ul li:before
 {
     position:		absolute;
     left:		2cm;
-    top:		3cm;
+    top:		3.5cm;
     width:		17cm;
-    height:		25.7cm;
+    height:		calc(29.7cm - 3.5cm - 3.5cm);
 }
 
 .page_shift

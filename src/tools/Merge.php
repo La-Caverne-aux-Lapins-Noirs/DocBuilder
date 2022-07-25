@@ -1,6 +1,6 @@
 <?php
 
-function _Merge($sep, $data)
+function _Merge(string $sep, $data)
 {
     if (!is_array($data))
 	return ($data);
@@ -15,6 +15,6 @@ function Merge($a, $b = NULL)
 {
     if ($b == NULL)
 	return (_Merge("", $a));
-    return (_Merge($a, $b));
+    return (_Merge($b, $a));
 }
 

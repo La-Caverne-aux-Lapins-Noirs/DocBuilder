@@ -3,7 +3,6 @@
 function Paginize($text)
 {
     global $DocBuilder;
-    global $PageCount;
     global $Page;
 
     if ($DocBuilder->Code == "latex")
@@ -11,56 +10,31 @@ function Paginize($text)
 	echo str_replace("@PAGEBREAK", "\\newpage", $text);
 	return ;
     }
-    else if ($DocBuilder->Code != "html")
+    if ($DocBuilder->Code != "html")
 	return ;
+
+    $Page = 1;
 
     // On éclate le contenu HTML
     $text = SplitContent($text);
-
-    // On ouvre une première page.
+    // On ouvre la première page
     OpenPage();
-    $open = true;
 
-    // Ensuite on déroule toutes les lignes du chapitre.
-    for ($line = 0; $line < count($text); )
+    // Ensuite on déroule toutes les lignes
+    for ($line = 0; $line < count($text); $line += 1)
     {
-	$Y = 0;
-
-	// On boucle tant qu'on a pas rempli la page ou terminé les lignes.
-	while ($Y + $DocBuilder->LineHeight < $DocBuilder->PageHeight && $line < count($text))
+	// On éclate par demande de saut de ligne. Si il n'y en a pas, le tableau fait une seule case.
+	$parts = explode("@PAGEBREAK", $text[$line]);
+	for ($i = 0; $i < count($parts) - 1; ++$i)
 	{
-	    // Si un saut de page est explicitement demandé
-	    // Attention, il ne faut pas que des balises soient ouvertes...
-	    if ($open == false)
-	    {
-		OpenPage();
-		$open = true;
-	    }
-
-	    if (strstr($text[$line], "@PAGEBREAK"))
-	    {
-		$parts = explode("@PAGEBREAK", $text[$line]);
-		for ($i = 0; $i < count($parts) - 1; ++$i)
-		{
-		    echo $parts[$i]; // On affiche le texte situe avant le page break sur l'ancienne page
-		    ClosePage(); // On ferme donc la page courante
-		    $Page += 1;
-		    OpenPage(); // On ouvre la nouvelle page
-		}
-		echo $parts[$i];
-		$Y = 0; // On ramène le "curseur" en haut
-	    }
-	    else
-	    {
-		echo $text[$line]; // Affichage de la ligne entière.
-	    }
-
-	    $Y += $DocBuilder->LineHeight;
-	    // echo "<!-- CURSOR: $Y / $DocBuilder->PageHeight -->\n";
-	    $line += 1;
+	    echo $parts[$i];	// On affiche le texte situe avant le page break sur l'ancienne page
+	    ClosePage();	// On ferme donc la page courante
+	    $Page += 1;		// On change de numéro de page
+	    OpenPage();		// On ouvre la nouvelle page
 	}
-
-	ClosePage();
-	$open = false;
+	echo $parts[$i]; // On affiche la partie situé après le dernier page break, ou la seule case
     }
+
+    // On ferme la dernière page
+    ClosePage();
 }

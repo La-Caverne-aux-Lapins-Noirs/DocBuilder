@@ -12,7 +12,8 @@ Translate(string a):string = [Function
 'Fichier CSS utilisé pour la mise en page. Si non spécifié, c'est /etc/technocore/default.css
 Style="./res/efrits.css"
 Font="./res/futura.woff2"
-EOL="<br />"
+ConsoleFont="./res/lucida_console.woff2"
+EOL="@NEWLINE"
 SOL="@ALINEA@"
 
 'Le nom de l'école. OBLIGATOIRE.
@@ -28,9 +29,9 @@ SOL="@ALINEA@"
   ]
 
   'Le logo de l'école. Un fichier PNG. OBLIGATOIRE.
-  Logo="./res/lapin_noir.png"
+  Logo="./res/efrits.png"
   'Le logo de l'école pour les pieds de page, en largeur.
-  SmallLogo="./res/gros_lapin_noir.png"
+  SmallLogo="./res/efrits.png"
   Mail = "contact@efrits.fr"
 
   City = "Styx"

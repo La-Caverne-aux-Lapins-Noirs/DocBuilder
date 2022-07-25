@@ -29,9 +29,7 @@ function main($argc, array $argv)
     ///////////////////////////////////////
     // Construction du document en mémoire
     extract($GLOBALS);
-    ob_start("KeepContent");
     Build();
-    ob_end_flush();
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Resolve "!@@@nbr@@@!" pattern by setting page numbers, resolve @PAGENUMBER@ also

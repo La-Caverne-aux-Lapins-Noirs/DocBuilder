@@ -1,4 +1,6 @@
 
+Type = "letter"
+
 [Title
   Big = true
   FR = "Certificat de réalisation"
@@ -7,7 +9,7 @@
 
 [Content
   FR = [Text($,EOF)
-$(SOL)Je, soussigné$([].Representative.Gender) $([].Representative.Name), $([].Representative.Role[[].Language]) de $([].Company.LegalName[[].Language]) et dispensateur de l'action concourant au développement des compétences atteste que $([].Customer.Name)$([].Customer.Company <> "" ? "de la société " # [].Customer.Company : "") a suivi l'action :
+$(SOL)Je, soussigné$([].Representative.Gender) $([].Representative.Name), $([].Representative.Role[[].Language]) de $([].Company.LegalName[[].Language]) et dispensateur de l'action concourant au développement des compétences atteste que $([].Customer.Name) $([].Customer.Company <> "" ? "de la société " # [].Customer.Company : "") a suivi l'action :
 
 * Nom de la session : $([].Name[[].Language])
 * Date(s) de la formation : $([].Dates)
@@ -26,7 +28,7 @@ $(SOL)I, $([].Representative.Name), $([].Representative.Role[[].Language]) of $(
 * Type of training: $([].TrainingType[[].Language])
 * Effective duration followed by the trainee is $([].RealDuration), so the presence and achievement rate is $(100 * real([].RealDuration) / real([].Duration))%
 * E-learning attendance following: $([].ELearning ? "Yes" : "No")
-  EOF]]
+  EOF]
 ]
 
 [BottomNotice
@@ -48,27 +50,3 @@ $(SOL)I, $([].Representative.Name), $([].Representative.Role[[].Language]) of $(
   PrintAddress = false
 ]
 
-[*
-
-'Instance section
-[Name
-  FR = "Formation JavaScript"
-  EN = "Javascript training"
-]
-
-[Customer
-  Name = "Fabrice Boissier"
-  Gender = ""
-]
-
-Address = "33 Rue Delaporte 94700 Maisons-Alfort"
-Dates = "12 Juin 2022"
-Duration = "7 heures"
-RealDuration = "7 heures"
-ELearning = false
-[TrainingType
-  FR = "Action de formation"
-  EN = "Training action"
-]
-
-*]

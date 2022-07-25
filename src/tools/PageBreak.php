@@ -6,6 +6,6 @@ function PageBreak()
 {
     global $Page;
 
-    //$Page += 1;
+    $Page += 1;
     return ("@PAGEBREAK");
 }

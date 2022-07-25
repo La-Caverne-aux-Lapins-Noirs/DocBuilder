@@ -5,12 +5,6 @@
 ** DocBuilder CSS
 */
 
-@font-face
-{
-    font-family:	TheFont;
-    src:		DocumentBuilderFont;
-}
-
 *
 {
     margin:		0px 0px 0px 0px;
@@ -102,3 +96,15 @@ li
     text-align:		center;
 }
 
+hr
+{
+    height: 1px;
+    border-top: 1px solid black;
+    margin-top: 0.5cm;
+    margin-bottom: 0.5cm;
+}
+
+._4columns
+{
+    columns: 4;
+}

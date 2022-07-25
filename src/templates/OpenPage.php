@@ -9,4 +9,5 @@ function OpenPage()
 
     if (file_exists($file = __DIR__."/../templates/".strtolower($DocBuilder->Pager)."/top.php"))
 	require ($file);
+    return (true);
 }

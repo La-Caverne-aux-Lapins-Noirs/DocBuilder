@@ -12,8 +12,12 @@
 	---- +-------------------------------------------------------------------------+
 	---- |                      BY JASON BRILLANTE "DAMDOSHI"                      |
 	---- +-------------------------------------------------------------------------+
-	--->
-	<title><?=MustPrint($DocBuilder->Configuration, "Title"); ?></title>
+	   --->
+	<?php if (isset($DocBuilder->Configuration["Document"])) { ?>
+        <title><?=MustPrint($DocBuilder->Configuration, ["Document", $DocBuilder->Language]); ?></title>
+	<?php } else if (isset($DocBuilder->Configuration["Title"])) { ?>
+        <title><?=MustPrint($DocBuilder->Configuration, ["Title", $DocBuilder->Language]); ?></title>
+	<?php } ?>
 	<meta name="generator" content="EFRITS, Hanged Bunny Studio && Pentacle Technologie's Technocore" />
 	<?php
 	$Meta = [
@@ -24,18 +28,23 @@
 	    "company" => ["Company", "Name"],
 	    "revision" => "Revision",
 	    "last_revision" => "LastRevision",
-	    "activity" => "Configuration",
 	    "student" => "Login",
 	    "limit_date" => "DeliveryDate",
 	    "codename" => "CodeName",
-	    "generation_date" => "GenerationTime"
+	    "generation_date" => "GenerationTime",
+	    "token" => "Token"
 	];
+	if (isset($DocBuilder->Configuration["Login"]))
+	    $DocBuilder->Configuration["Login"] = implode(" ", $DocBuilder->Configuration["Login"]);
 	foreach ($Meta as $k => $v)
 	    PrintMeta($DocBuilder->Configuration, $k, $v, in_array($k, $Types[$DocBuilder->Type]["mandatory"]));
 	?>
 	<style>
 	 <?php
+	 require (__DIR__."/../font.css");
 	 if (file_exists($cstyle = __DIR__."/../".strtolower($DocBuilder->Pager)."/style.css"))
+	     require ($cstyle);
+	 if (file_exists($cstyle = __DIR__."/../".strtolower($DocBuilder->Type)."/style.css"))
 	     require ($cstyle);
 	 ?>
 	 <?=$DocBuilder->Style; ?>
