@@ -2,6 +2,6 @@
 
 function XShellExec($cmd)
 {
-    //system("echo $cmd");
+    // Ekko($cmd);
     return (shell_exec($cmd));
 }

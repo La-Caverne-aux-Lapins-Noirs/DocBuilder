@@ -15,6 +15,8 @@ Font="./res/futura.woff2"
 ConsoleFont="./res/lucida_console.woff2"
 EOL="@NEWLINE"
 SOL="@ALINEA@"
+MedalDir = "/home/damdoshi/GenerateIcon/lib/medal/"
+GenIcon = "/home/damdoshi/GenerateIcon/lib/genicon.dab"
 
 'Le nom de l'école. OBLIGATOIRE.
 ' Peut-être un noeud dont les enfants seraient nommés d'après les langages

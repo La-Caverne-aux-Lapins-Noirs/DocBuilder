@@ -6,8 +6,7 @@ echo PageBreak();
 require ("02_table_of_contents.php");
 echo PageBreak();
 
-
-$i = 0;
+$Cnt = 0;
 foreach ($DocBuilder->Configuration["Exercises"] as $Ex)
 {
     if (isset($Ex["NoDoc"]))
@@ -19,7 +18,7 @@ foreach ($DocBuilder->Configuration["Exercises"] as $Ex)
 	require ("authorized_functions_chapter.php");
     else if ($Ex["Type"] == "Function" || $Ex["Type"] == "Program")
 	require ("function.php");
-    if ($i + 1 < count($DocBuilder->Configuration["Exercises"]))
+    if ($Cnt + 1 < count($DocBuilder->Configuration["Exercises"]))
 	echo PageBreak();
-    $i += 1;
+    $Cnt += 1;
 }

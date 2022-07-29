@@ -30,6 +30,7 @@
   Initials = "Paraphes"
   DoNotShare = "CE DOCUMENT EST STRICTEMENT PERSONNEL ET SA REDIFFUSION EST INTERDITE."
   CheckedFiles = "Fichiers concernés"
+  CheckedArtefacts = "Artefacts considérés"
   AllFilesMatching = "tous les fichiers correspondant à"
   Directory = "Dossier"
   DeliveryRootDirectory = "dossier racine du rendu"
@@ -39,7 +40,15 @@
   Keywords = "Mot-clefs"
   None = "Aucun(e)"
   FunctionAuthorized = "Fonction(s) autorisée(s)"
+  FunctionForbidden = "Fonction(s) interdite(s)"
+  KeywordAuthorized = "Mot-clef(s) autorisée(s)"
+  KeywordForbidden = "Mot-clef(s) interdit(s)"
+  AddFunctionAuthorized = "Fonction(s) autorisée(s) supplémentaire(s)"
+  AddFunctionForbidden = "Fonction(s) interdite(s) supplémentaire(s)"
+  AddKeywordAuthorized = "Mot-clef(s) autorisée(s) supplémentaire(s)"
+  AddKeywordForbidden = "Mot-clef(s) interdit(s) supplémentaire(s)"
 ]
+
 
 [EN
   Author = "Author"
@@ -71,6 +80,7 @@
   Initials = "Initials"
   DoNotShare = "THIS DOCUMENT IS STRICTLY PERSONNAL AND MUST NOT BE REDISTRIBUTED."
   CheckedFiles = "Checked files"
+  CheckedArtefacts = "Considered artifacts"
   AllFilesMatching = "all files matching"
   Directory = "Directory"
   DeliveryRootDirectory = "delivery root directory"
@@ -80,5 +90,12 @@
   Keywords = "Keywords"
   None = "None"
   FunctionAuthorized = "Authorized function(s)"
+  FunctionForbidden = "Forbidden function(s)"
+  KeywordAuthorized = "Authorized keyword(s)"
+  KeywordForbidden = "Forbidden keyword(s)"
+  AddFunctionAuthorized = "Additional authorized function(s)"
+  AddFunctionForbidden = "Additional forbidden function(s)"
+  AddKeywordAuthorized = "Additional authorized keyword(s)"
+  AddKeywordForbidden = "Additional forbidden keyword(s)"
 ]
 

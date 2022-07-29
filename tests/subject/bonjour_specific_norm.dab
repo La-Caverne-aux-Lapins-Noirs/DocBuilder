@@ -1,0 +1,6 @@
+' Norme
+
+[MaximumFunctionLength
+  Value = 1
+  Points = 20
+]

@@ -50,7 +50,7 @@ function PostProcess()
 	    $Generated[] = "<div class='code'>".$Doc[$i];
 	}
 	else if (substr($Doc[$i], 0, 1) == "]")
-	    $Generated[] = "</div>".$Doc[$i];
+	    $Generated[] = "</div>".substr($Doc[$i], 1);
 	else
 	    $Generated[] = $Doc[$i];
     }
@@ -104,4 +104,30 @@ function PostProcess()
 	$DocBuilder->Output = str_replace("ConsoleFont", "Arial", $DocBuilder->Output);
 
     $DocBuilder->Output = str_replace("@@HLINE", "<hr />", $DocBuilder->Output);
+
+    $fnds = [];
+    if (preg_match_all('/\[imgd[ ]*([ a-zA-Z0-9_\.\:\"\'\/\\;]*)\][ ]*([a-zA-Z0-9_\.\/\\\\]+)[ ]*\[\/img\]/', $DocBuilder->Output, $fnds, PREG_SET_ORDER) !== false)
+    {
+	foreach ($fnds as $fnd)
+	{
+	    $DocBuilder->Output = str_replace(
+		$fnd[0],
+		"<div class='docdivpicture' style='background-image: url(".Base64Picture(trim($fnd[2]))."); ".trim($fnd[1]).";'></div>",
+		$DocBuilder->Output
+	    );
+	}
+    }
+
+    $fnds = [];
+    if (preg_match_all('/\[img[ ]*([ a-zA-Z0-9_\.\:\"\'\/\\;]*)\][ ]*([a-zA-Z0-9_\.\/\\\\]+)[ ]*\[\/img\]/', $DocBuilder->Output, $fnds, PREG_SET_ORDER) !== false)
+    {
+	foreach ($fnds as $fnd)
+	{
+	    $DocBuilder->Output = str_replace(
+		$fnd[0],
+		"<img class='docpicture' src='".Base64Picture(trim($fnd[2]))."' style='".trim($fnd[1]).";' />",
+		$DocBuilder->Output
+	    );
+	}
+    }
 }

@@ -4,9 +4,10 @@ function MakeAList($lst, $hd = "", $class = "")
 {
     if (count($lst) == 0)
 	return ("");
-    $gen = ["<ul class='$class'>"];
+    $gen = [];
     if ($hd != "")
-	$gen[] = $hd.":";
+	$gen[] = "<p>$hd:<br /><br /></p>";
+    $gen[] = "<ul class='$class'>";
     foreach ($lst as $l)
 	$gen[] = "<li>$l</li>";
     $gen[] = "</ul>";

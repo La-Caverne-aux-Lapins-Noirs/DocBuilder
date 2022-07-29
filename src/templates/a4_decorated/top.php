@@ -4,7 +4,7 @@
 	<table class="page_header">
 	    <tr><td class="left_align page_matter_logo">
 		<?=PrintImage($DocBuilder->Configuration, ["Matter", "SmallLogo"], NULL, "@@", "", false); ?>
-	    </td><td class="right_align page_activity_name">
+	    </td><td class="right_align page_activity_name" style="vertical-align: bottom;">
 		<?=MustPrint($DocBuilder->Configuration, "Matter"); ?>
 	    </td></tr>
 	</table>

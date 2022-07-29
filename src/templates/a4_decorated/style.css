@@ -42,7 +42,10 @@
 .page_header img
 {
     z-index:		1;
-    height:		1cm;
+    height:		2cm;
+    width:		4cm;
+    object-fit:		contain;
+    object-position:	bottom left;
 }
 
 .page_content
@@ -87,9 +90,25 @@
     width:		calc(100% / 3);
 }
 
-.page_footer img
+.page_activity_logo img
 {
-    height:		1cm;
+    z-index:		1;
+    height:		2cm;
+    width:		100%;
+    object-fit:		contain;
+    object-position:	top left;
+    padding-top:	0.1cm;
+}
+
+
+.page_school_logo img
+{
+    z-index:		1;
+    height:		2cm;
+    width:		100%;
+    object-fit:		contain;
+    object-position:	top right;
+    padding-top:	0.1cm;
 }
 
 .code, .alert, .hint, .shell, .warning

@@ -2,7 +2,7 @@
 Dependencies
 ============
 
-sudo apt-get install libtidy-dev php-tidy texlive texlive-lang-french texlive-latex-extra chromium pdftk
+sudo apt-get install libtidy-dev php-tidy texlive texlive-lang-french texlive-latex-extra chromium-browser pdftk
 
 Usage
 =====

@@ -198,3 +198,73 @@
     font-size:		0.6cm;
     height:		1cm;
 }
+
+.medal_list
+{
+    width:		100%;
+}
+
+.medal_list td
+{
+    height:		1.5cm;
+    width:		50%;
+    position:		relative;
+    background-color:	lightgray;
+    border:		0.1cm solid white;
+    border-top-left-radius: calc(2cm / 2);
+    border-bottom-left-radius: calc(2cm / 2);
+    border-top-right-radius: 0.5cm;
+    border-bottom-right-radius: 0.5cm;
+}
+
+.medal_picture
+{
+    position:		absolute;
+    left:		0.0cm;
+    top:		0.0cm;
+    height:		1.5cm;
+    width:		1.5cm;
+    background-size:	contain;
+    background-repeat:	no-repeat;
+}
+
+.medal_description
+{
+    position:		absolute;
+    left:		1.7cm;
+    top:		0.1cm;
+    width:		calc(100% - 1.9cm);
+    height:		calc(100% - 0.2cm);
+}
+
+.medal_description h5
+{
+    position:		absolute;
+    top:		0cm;
+    left:		0cm;
+    height:		0.4cm;
+    line-height:	0.4cm;
+    text-align:		left;
+    font-size:		1em;
+    font-weight:	bold;
+    width:		100%;
+    font-size:		small;
+}
+
+.medal_description p
+{
+    position:		absolute;
+    width:		calc(100% - 0.2cm);
+    top:		0.4cm;
+    left:		0.2cm;
+    height:		0.9cm;
+    line-height:	0.3cm;
+    text-align:		justify;
+    font-size:		x-small;
+    overflow:		hidden;
+}
+
+.docpicture
+{
+    width:		100%;
+}

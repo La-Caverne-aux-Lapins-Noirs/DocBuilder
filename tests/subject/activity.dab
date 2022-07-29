@@ -53,21 +53,6 @@ Type = "subject"
   ]
 ]
 
-'Elements de configuration de Crawler représentant la valeur par défaut
-'pour tous les exercices
-[Norm
-  'Si ce bloc n'est pas défini, tout est autorisé sauf ce qui est interdit
-  [Authorized
-    Keyword = "if", "while", "for"
-    Function = "open", "close", "read", "write"
-  ]
-  'L'interdiction l'emporte sur l'autorisation
-  [Forbidden
-    Keyword = "goto", "auto"
-    Function = "printf"
-  ]
-]
-
 {Exercises
   [
     Type = "Delivery"
@@ -177,17 +162,17 @@ Type = "subject"
       EN = "Authorized Functions"
     ]
     Critical = true 'On s'arrete...
+    NoEvaluation = true 'Pour qu'evaluator ne se lance pas (Parceque les exercices evaluent eux meme les fonction interdites, par exemple)
 
     'Sera utilisé pour verifier les fonctions
     Files = "!*.c" '! signifiera recursivement
     Directory = "." 'Donc on a tous les fichiers .c à partir de la racine du dépot
     Compile = "gcc -Wextra -Wall -c @FILES@ -o @OFILES "
     [Norm
-      [Authorized
-        Function = "open", "close", "read", "write"
-      ]
-      [Forbidden
-        Function = "printf"
+      @insert "norm.dab"
+      [Function
+        Authorized = "open", "close", "read", "write"
+        Forbidden = "printf"
       ]
     ]
 
@@ -203,11 +188,9 @@ Type = "subject"
         des travaux de groupe, cette autorisation n'est donnée que si l'intégralité des équipiers
         disposent de cette autorisation.$(EOL)$(EOL)
 
-        $(SOL)Pour cette activité, les fonctions auquel vous avez le droit sont les suivantes:$(EOL)$(EOL)
-
         @@DEFINED_FUNCTIONS$(EOL)
 
-        $(SOL)Ci-dessous, la liste des fonctions dont nous vous reconnaissons le droit d'utilisation:$(EOL)$(EOL)
+        $(SOL)Ci-dessous, la liste des fonctions dont nous vous reconnaissons le droit d'utilisation du fait de vos réussites précédentes:$(EOL)$(EOL)
 
         @@WON_FUNCTIONS
       EOF]
@@ -230,6 +213,8 @@ Type = "subject"
 
         @ALERT[Fais bien attention au nom de celle-ci!@ALERT]
 
+        [img]res/ds9.png[/img]
+
         @CODE[
           int bonjour(int c);
         @CODE]
@@ -251,15 +236,12 @@ Type = "subject"
 
     'Tout CCCrawler peut-être configuré ici. CCCrawler s'executes sur le tableau Files.
     [Norm
+      Describe = true 'Indique qu'il faut générer la description de cette norme dans le document
+      @insert "bonjour_specific_norm.dab";
       'Si ce bloc n'est pas défini, tout est autorisé sauf ce qui est interdit
-      [Authorized
-        Keyword = "if", "while", "for"
-        Function = "open", "close", "read", "write"
-      ]
-      'L'autorisation l'emporte sur l'interdiction: elle est plus restrictive
-      [Forbidden
-        Keyword = "goto", "auto"
-        Function = "printf"
+      [Function
+        Authorized = "open", "close", "read", "write"
+        Forbidden = "printf"
       ]
     ]
 
