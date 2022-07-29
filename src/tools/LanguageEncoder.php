@@ -26,6 +26,13 @@ function LanguageEncoder($str)
 
     $str = str_replace("€", "&euro;", $str);
 
+    $str = str_replace("’", "&apos;", $str);
+
+    $str = str_replace("«", "&#171;", $str);
+    $str = str_replace("»", "&#187;", $str);
+
+    $str = str_replace("–", "&ndash;", $str);
+
     //$str = utf8_encode($str);
     return ($str);
 }

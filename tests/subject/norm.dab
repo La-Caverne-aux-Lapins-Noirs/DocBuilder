@@ -473,3 +473,9 @@ PASCAL_CASE = 3 'ThisIsIt
   Points = 5
 ]
 
+[Function
+  'Les deux éléments ici sont mutuellement exclusif. C'est l'un OU l'autre
+  'Crawler ne s'en sert a priori pas car il peut être grugé.
+  Authorized = "" 'Fonctions autorisées... très restrictif!
+  Forbidden = "" 'Fonctions interdites... moins restrictif!
+]
