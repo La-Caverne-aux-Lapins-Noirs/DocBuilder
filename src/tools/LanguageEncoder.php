@@ -24,12 +24,19 @@ function LanguageEncoder($str)
     $str = str_replace("î", "&icirc;", $str);
     $str = str_replace("ï", "&iuml;", $str);
 
+    $str = str_replace("Ô", "&Ocirc;", $str);
+    $str = str_replace("Ö", "&Ouml;", $str);
+
     $str = str_replace("ô", "&ocirc;", $str);
     $str = str_replace("ö", "&ouml;", $str);
 
     $str = str_replace("ù", "&ugrave;", $str);
     $str = str_replace("û", "&ucirc;", $str);
     $str = str_replace("ü", "&uuml;", $str);
+
+    $str = str_replace("Ù", "&Ugrave;", $str);
+    $str = str_replace("Û", "&Ucirc;", $str);
+    $str = str_replace("Ü", "&Uuml;", $str);
 
     $str = str_replace("ç", "&ccedil;", $str);
 
