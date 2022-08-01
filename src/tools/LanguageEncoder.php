@@ -39,6 +39,7 @@ function LanguageEncoder($str)
     $str = str_replace("Ü", "&Uuml;", $str);
 
     $str = str_replace("ç", "&ccedil;", $str);
+    $str = str_replace("œ", "&oelig;", $str);
 
     $str = str_replace("€", "&euro;", $str);
 
