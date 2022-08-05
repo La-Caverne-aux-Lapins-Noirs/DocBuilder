@@ -4,10 +4,8 @@ function _Merge(string $sep, $data)
 {
     if (!is_array($data))
 	return ($data);
-    foreach ($data as $d)
-    {
+    foreach ($data as &$d)
 	$d = Merge($d);
-    }
     return (implode($sep, $data));
 }
 

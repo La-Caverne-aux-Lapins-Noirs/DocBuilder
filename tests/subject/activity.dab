@@ -62,21 +62,11 @@ Type = "subject"
       EN = "Delivery"
     ]
 
-    [DeliveryTargetType
-      FR = "le dossier"
-      EN = "the repository"
-    ]
-    DeliveryTarget = "~/wrk/" # [].Matter.Code # "/" # [].Activity.Code # "/"
-    [DeliveryTargetSpace
-      FR = "dans votre espace personnel"
-      EN = "in your personnal space"
-    ]
-
     Medal = "delivery", "clean_repository", "dirty", "empty"
 
     'Ne changez pas cette ligne.
-    [TeamSize
-      _FR = [].TeamSize[0] == [].TeamSize[1] ? [].TeamSize[0] : string([].TeamSize[0]) # " à " # string([].TeamSize[1])
+    [TeamSentence
+      _FR = [].TeamSize[0] == [].TeamSize[1] ? string([].TeamSize[0]) : string([].TeamSize[0]) # " à " # string([].TeamSize[1])
       _EN = [].TeamSize[0] == [].TeamSize[1] ? string([].TeamSize[0]) # " people" : string([].TeamSize[0]) # " to " # string([].TeamSize[1]) # " people"
       FR = [].TeamSize[0] == 1 && [].TeamSize[1] == 1 ? "seul" : "en équipe de " # string(_FR)
       EN = [].TeamSize[0] == 1 && [].TeamSize[1] == 1 ? "alone" : "with a team of " # string(_EN)
@@ -85,17 +75,9 @@ Type = "subject"
     'Sera utilisé pour verifier la norme
     Files = "!*.c" '! signifiera recursivement
     Directory = "." 'Donc on a tous les fichiers .c à partir de la racine du dépot
-    [Norm
-      [Name 'On indique le nom de la norme, car celle-ci ne sera pas décrite dans le sujet faute de place
-        FR = "Norme EFRITS"
-        EN = "EFRITS standard style"
-      ]
-      'La description de la norme qui sera appliquée sur $Directory/$Files
-      @insert "norm.dab"
-    ]
 
     [Document
-      ActivityType = "Exam"
+      ActivityType = "Exam" 'Peut être ré-écrit afin de passer en mode non examen.
       [ActivityTypes
         [Exam
           FR = "De plus, il s'agit d'un examen. Vous n'avez donc **pas** le droit de communiquer avec vos camarades."
@@ -107,50 +89,47 @@ Type = "subject"
         ]
       ]
       FR = [Text($,EOF)
-        $(SOL)Votre travail doit être rendu via $(_._.DeliveryTargetType[[].Language]) $(_._.DeliveryTarget) $(_._.DeliveryTargetSpace[[].Language]).
+        $(SOL)Votre travail doit être rendu via $([].Delivery.Method) dans $([].Delivery.Target) avant le $([].Delivery.Date).
 
-        @ALERT[
+        %ALERT[
           L'évaluateur n'est pas capable de deviner où vous avez rendu. Si vous faites erreur et que le dossier que vous utiliser pour votre livraison est différent, vous ne serez **pas** évalué.
-        @ALERT]
+        %ALERT]
 
-        $(SOL)Ce travail est à effectuer $(_._.TeamSize[[].Language]). $(_.ActivityTypes[_.ActivityType][[].Language]).
+        $(SOL)Ce travail est à effectuer $(_._.TeamSentence[[].Language]). $(_.ActivityTypes[_.ActivityType][[].Language]).
 
         @@HLINE
 
-        $(SOL)Votre rendu doit respecter **strictement** l'ensemble des règles suivantes:
+        $(SOL)Votre rendu doit respecter **strictement** l'ensemble des règles suivantes:$(EOL)
 
-        * Il ne doit contenir **aucun** fichier objet. (*.o)
-        * Il ne doit contenir **aucun** fichier tampon. (*~, #*#)
-        * Il ne doit pas contenir votre production finale.
+        $(SOL)$(SOL)- Il ne doit contenir **aucun** fichier objet. (\*.o)$(EOL)
+        $(SOL)$(SOL)- Il ne doit contenir **aucun** fichier tampon. (\*~, #\*#)$(EOL)
+        $(SOL)$(SOL)- Il ne doit pas contenir votre production finale.$(EOL)
 
-        @ALERT[
+        %ALERT[
           La présence d'un fichier interdit mettra immédiatement fin à votre évaluation.
-        @ALERT]
+        %ALERT]
 
-        $(SOL)Votre programme doit respecter les Tables de la Norme dans leur **integralité**. Vous êtes invités à les observer depuis l'Infosphère.
       EOF]
       EN = [Text($,EOF)
-        Your work must be delivered through $(_._.DeliveryTargetType[[].Language]) $(_._.DeliveryTarget) $(_._.DeliveryTargetSpace[[].Language]).
+        Your work must be delivered through $([].Delivery.Method) in $([].Delivery.Target) before the $([].Delivery.Date).
 
-        @ALERT[
+        %ALERT[
           The evaluator cannot guess where you have delivered your work. If you do not deliver it precisly where it is requested, you will **not** be evaluated.
-        @ALERT]
+        %ALERT]
 
-        This work must be done $(_._.TeamSize[[].Language]). $(_.ActivityTypes[_.ActivityType][[].Language]).
+        This work must be done $(_._.TeamSentence[[].Language]). $(_.ActivityTypes[_.ActivityType][[].Language]).
 
         @@HLINE
 
-        $(SOL)Your delivery must **stricly** respect the following rules:
+        $(SOL)Your delivery must **stricly** respect the following rules:$(EOL)
 
-        * It must not contains **any** object file. (*.o)
-        * It must not contains **any** buffer file. (*~, #*#)
-        * It must not contains your final production.
+        $(SOL)$(SOL)- It must not contains **any** object file. (*.o)$(EOL)
+        $(SOL)$(SOL)- It must not contains **any** buffer file. (*~, #*#)$(EOL)
+        $(SOL)$(SOL)- It must not contains your final production.$(EOL)
 
-        @ALERT[
+        %ALERT[
           The presence of a forbidden file will immediatly stop your evaluation.
-        @ALERT]
-
-        $(SOL)Your program must respect the Tables Of Norm in their integrity. You are invited to observe them through the Infosphere.
+        %ALERT]
       EOF]
     ]
   ],
@@ -168,21 +147,23 @@ Type = "subject"
     Files = "!*.c" '! signifiera recursivement
     Directory = "." 'Donc on a tous les fichiers .c à partir de la racine du dépot
     Compile = "gcc -Wextra -Wall -c @FILES@ -o @OFILES "
+    WonFunction = true
+    Medal = "function_forbidden"
+    [Function
+      Authorized = "open", "close", "read", "write", "ioctl", "strlen", "strcpy", "malloc"
+      Forbidden = "printf"
+    ]
     [Norm
-      @insert "norm.dab"
-      [Function
-        Authorized = "open", "close", "read", "write"
-        Forbidden = "printf"
-      ]
+      '@insert "norm.dab"
     ]
 
     [Document
       FR = [Text($,EOF)
         $(SOL)Nous avons fait le choix de vous interdire l'utilisation des fonctions integrés à votre langage de programmation ou à votre système d'exploitation, à l'exception de celle que nous vous spécifions explicitement. Ce choix est motivé pédagogique: nous allons vous amener à découvrir ces fonctionnalités en vous les faisant reproduire, de sorte à ce qu'en plus de leur maîtrise, vous en compreniez le fonctionnement.
 
-        @ALERT[
+        %ALERT[
           L'utilisation d'une fonction interdite est assimilée à de la triche. La triche provoque l'arrêt de l'évaluation et la perte des médailles que vous auriez pu acquérir lors de cette activité.
-        @ALERT]
+        %ALERT]
 
         $(SOL)Vous avez le droit d'utiliser les fonctions dont nous vous reconnaissons la maîtrise. Lors
         des travaux de groupe, cette autorisation n'est donnée que si l'intégralité des équipiers
@@ -190,15 +171,39 @@ Type = "subject"
 
         @@DEFINED_FUNCTIONS$(EOL)
 
-        $(SOL)Ci-dessous, la liste des fonctions dont nous vous reconnaissons le droit d'utilisation du fait de vos réussites précédentes:$(EOL)$(EOL)
-
-        @@WON_FUNCTIONS
+        @@WON_FUNCTIONS$(EOL)
       EOF]
       EN = [Text($,EOF)
       EOF]
     ]
   ],
 
+  [
+    Type = "Norm"
+    [Name
+      FR = "Norme"
+      EN = "Coding style"
+    ]
+
+    Medal = "sufficient_coding_style", "correct_coding_style", "perfect_coding_style", "bad_style"
+    Files = "!*.c" '! signifiera recursivement
+    Directory = "." 'Donc on a tous les fichiers .c à partir de la racine du dépot
+    [Norm
+      Describe = true
+      'La description de la norme qui sera appliquée sur $Directory/$Files
+      @insert "full_norm.dab"
+    ]
+    [Document
+      FR = [Text($,EOF)
+        $(SOL)Votre programme doit respecter la Table des Normes d'Efrits dans leur **integralité**.
+        $(_._.Norm.Describe == false ? "Vous êtes invités à les observer depuis l'Infosphère." : "")
+      EOF]
+      EN = [Text($,EOF)
+        $(SOL)Your program must respect the Tables Of Norm in their integrity.
+        $(_._.Norm.Describe == false ? "You are invited to observe them on Infosphere." : "")
+      EOF]
+    ]
+  ],
   [
     Type = "Function"
     Critical = false 'Indique si il faut arrêter la correction en cas de non réussite
@@ -211,13 +216,16 @@ Type = "subject"
       FR = [Text($,EOF)
         Programme la fonction ci-dessous.
 
-        @ALERT[Fais bien attention au nom de celle-ci!@ALERT]
+        %CODE[
+          int bonjour(int c);
+        %CODE]
+
+        %ALERT[Fais bien attention au nom de celle-ci!%ALERT]
 
         [img]res/ds9.png[/img]
 
-        @CODE[
-          int bonjour(int c);
-        @CODE]
+        $(SOL)Ils sont beau, non?
+
       EOF]
       EN = [Text($,EOF)
       EOF]
@@ -234,15 +242,15 @@ Type = "subject"
     Compile = "gcc -Wextra -Wall @FILES@ -o @PRODUCTS@ "
     Condition = "first_program" 'Correction et documents ne sont disponible que si ces médailles sont ok
 
+    'Si ce bloc n'est pas défini, tout est autorisé sauf ce qui est interdit
+    [Function
+      Authorized = "open", "close", "read", "write"
+      Forbidden = "printf"
+    ]
     'Tout CCCrawler peut-être configuré ici. CCCrawler s'executes sur le tableau Files.
     [Norm
       Describe = true 'Indique qu'il faut générer la description de cette norme dans le document
-      @insert "bonjour_specific_norm.dab";
-      'Si ce bloc n'est pas défini, tout est autorisé sauf ce qui est interdit
-      [Function
-        Authorized = "open", "close", "read", "write"
-        Forbidden = "printf"
-      ]
+      @insert "bonjour_specific_norm.dab"
     ]
 
     'Tout Evaluator peut-être configuré ici. Evaluator s'execute sur le tableau Files.

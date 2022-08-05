@@ -1,5 +1,7 @@
 <?php
 
+require ("norm.php");
+
 require ("01_first_page.php");
 echo PageBreak();
 
@@ -16,6 +18,8 @@ foreach ($DocBuilder->Configuration["Exercises"] as $Ex)
 	require ("delivery.php");
     else if ($Ex["Type"] == "AuthorizedFunctions")
 	require ("authorized_functions_chapter.php");
+    else if ($Ex["Type"] == "Norm")
+	require ("norm_chapter.php");
     else if ($Ex["Type"] == "Function" || $Ex["Type"] == "Program")
 	require ("function.php");
     if ($Cnt + 1 < count($DocBuilder->Configuration["Exercises"]))

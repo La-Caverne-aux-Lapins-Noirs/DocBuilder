@@ -98,13 +98,50 @@ li
 
 hr
 {
-    height: 1px;
-    border-top: 1px solid black;
-    margin-top: 0.5cm;
-    margin-bottom: 0.5cm;
+    height:		1px;
+    border-top:		1px solid black;
+    margin-top:		0.5cm;
+    margin-bottom:	0.5cm;
 }
 
 ._4columns
 {
-    columns: 4;
+    width:		100%;
+    columns:		4;
+}
+
+._3columns
+{
+    width:		100%;
+    columns:		3;
+}
+
+._8columns
+{
+    margin-left:	0;
+    width:		100%;
+    columns:		8;
+}
+
+._4columns > li
+{
+    margin-left:	0;
+    text-align:		center;
+}
+
+._8columns > li
+{
+    margin-left:	0;
+    text-align:		center;
+}
+
+.small_text
+{
+    font-size:		0.3cm;
+    line-height:	0.3cm;
+}
+
+.gray
+{
+    color:		gray;
 }

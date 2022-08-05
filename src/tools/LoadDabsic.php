@@ -21,16 +21,16 @@ function LoadDabsic($file)
 	}
 	$file = implode(" ", $file);
     }
-    if (($json = @XShellExec("mergeconf -i $file -of .json --resolve 2> /dev/null")) == NULL)
+    if (($json = @XShellExec("mergeconf -i $file -of .json --resolve 2> .dabsic_crash_dump")) == NULL)
     {
-	echo "$argv[0]: Failed to load dabsic $file.";
+	echo "$argv[0]: Failed to load dabsic $file: ".file_get_contents(".dabsic_crash_dump")."\n";
 	return (NULL);
     }
-    if (!($json = json_decode($json, true)))
+    if (!($ret = json_decode($json, true)))
     {
-	echo "$argv[0]: Failed to load json $file: ".json_last_error_msg();
+	echo "$argv[0]: Failed to load json $file: ".json_last_error_msg()."\n$json\n";
 	return (NULL);
     }
-    return ($json);
+    return ($ret);
 }
 

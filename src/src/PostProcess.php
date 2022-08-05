@@ -2,8 +2,9 @@
 
 function FakeBracket($str, $bk)
 {
-    $str = str_replace("@".$bk."[", "<div class='".strtolower($bk)."'>", $str);
-    $str = str_replace("@$bk]", "</div>", $str);
+    $str = preg_replace('/(%'.$bk.'\[)\s*<br[ \/]*>/', '${1}', $str);
+    $str = str_replace("%".$bk."[", "<div class='".strtolower($bk)."'>", $str);
+    $str = str_replace("%$bk]", "</div>", $str);
     return ($str);
 }
 
@@ -35,7 +36,8 @@ function PostProcess()
     $DocBuilder->Output = implode($Generated);
 
     // Les blocs à prettifier
-    $Doc = explode("@CODE", $DocBuilder->Output);
+    $Doc = preg_replace("/(%CODE\[)\s*<br[ \/]*>/", '${1}', $DocBuilder->Output);
+    $Doc = explode("%CODE", $Doc);
     $Generated = [];
     for ($i = 0; $i < count($Doc); ++$i)
     {

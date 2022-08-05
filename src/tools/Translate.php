@@ -4,6 +4,15 @@ function UseMarkDown($str)
 {
     global $MarkDown;
 
+    // Pour permettre l'utilisation du saut de ligne comme organisateur de la configuration
+    // et non comme élément graphique réel, sans pour autant obliger l'utilisation de <br />
+    $str = str_replace("\n\n", "@@NEWLINE", $str);
+    $str = str_replace("\n", " ", $str); // On vire les espaces seuls
+    $str = str_replace("@@NEWLINE", "\n\n", $str);
+    $str = preg_replace('/\s+/', ' ', $str); // On vire les espaces multiples
+    $str = preg_replace('/^\s+/', '', $str); // On vire les espaces de début de ligne
+    $str = preg_replace('/\s+$/', '', $str); // On vire les espaces de fin de ligne
+
     $str = $MarkDown->text($str);
     if (substr($str, 0, 3) == "<p>")
     {
@@ -48,7 +57,7 @@ function Translate($field, $postfix = "")
     // Si c'en est un, alors on regarde si le texte recherché est dispo dans le dico de la langue en cours
     if (isset($DocBuilder->Dictionnary[$DocBuilder->Language][$field.$postfix]))
 	return (UseMarkDown(Merge($DocBuilder->Dictionnary[$DocBuilder->Language][$field.$postfix])));
-    // Sinon, on regarde en francais ou TOUT est censé etre dispo. 
+    // Sinon, on regarde en francais ou TOUT est censé etre dispo.
     if (isset($DocBuilder->Dictionnary["FR"][$field.$postfix]))
     {
 	$DocBuilder->Warnings[] = "Field $field.$postfix cannot be found in $DocBuilder->Language, fallbacking on FR.";

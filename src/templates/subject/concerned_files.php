@@ -1,8 +1,8 @@
 <div class="concerned_files">
     <?php if (!isset($Ex["Directory"]) || $Ex["Directory"] == "") $Ex["Directory"] = "."; ?>
     <b><?=Translate("Directory"); ?></b>: <?=$Ex["Directory"] == "." ? Translate("DeliveryRootDirectory") : $Ex["Directory"]; ?>
-    <br />
     <?php if (isset($Ex["Files"])) { ?>
+	<br />
 	<?php if (!is_array($Ex["Files"])) $Ex["Files"] = [$Ex["Files"]]; ?>
 	<b><?=Translate("CheckedFiles"); ?></b>:
 	<?php
@@ -19,6 +19,7 @@
     <?php } ?>
 
     <?php if (isset($Ex["Artefacts"])) { ?>
+	<br />
 	<?php if (!is_array($Ex["Artefacts"])) $Ex["Artefacts"] = [$Ex["Artefacts"]]; ?>
 	<b><?=Translate("CheckedArtefacts"); ?></b>:
 	<?php

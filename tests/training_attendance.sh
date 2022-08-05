@@ -15,4 +15,4 @@ fi
     -m ./tests/res/medal/ \
     -o ./tests/html/output.pdf \
     --keep-trace \
-    --language EN
+    --language FR

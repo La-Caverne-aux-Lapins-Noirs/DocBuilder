@@ -1,9 +1,16 @@
 
 CodeName = "PRG-GFX-RAIDEN"
 Login = "AdminEquipe", "Equipier", "Equipier"
-DeliveryDate = "30/03/2022 14:59:00"
-Token = "Bouzouk"
+Token = "D4C7D9FE-EC4"
 
-TeamSize = 1, 1
+TeamSize = 1, 3
 Medal = "procedure", "set_pixel"
 AuthorizedFunction = "strlen", "strcpy"
+
+[Delivery
+  'Chemin, adresse svn, adresse git, adresse mercurial, adresse mail
+  Target = "~/wrk/" # [].Matter.Code # "/" # [].Activity.Code # "/"
+  'NFS, SVN, GIT, HG, a@b.c
+  Method = "NFS"
+  Date = "30/03/2022 14:59:00"
+]

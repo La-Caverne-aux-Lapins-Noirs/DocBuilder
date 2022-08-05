@@ -1,6 +1,9 @@
 ' Norme
 
+@insert "crawler.dab"
+
 [MaximumFunctionLength
   Value = 1
   Points = 20
 ]
+

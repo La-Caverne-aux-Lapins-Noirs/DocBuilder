@@ -1,3 +1,4 @@
+<?php if (isset($Ex["Medals"])) $Ex["Medal"] = $Ex["Medals"]; ?>
 <?php if (!isset($Ex["Medal"])) return ; ?>
 <?php if (!is_array($Ex["Medal"])) $Ex["Medal"] = [$Ex["Medal"]]; ?>
 <br /><br />

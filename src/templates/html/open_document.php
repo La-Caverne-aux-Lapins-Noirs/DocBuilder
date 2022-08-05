@@ -21,15 +21,15 @@
 	<meta name="generator" content="EFRITS, Hanged Bunny Studio && Pentacle Technologie's Technocore" />
 	<?php
 	$Meta = [
-	    "author" => "Author",
-	    "mail" => "Mail",
+	    // "author" => ["Document", "Author"],
+	    // "mail" => "Mail",
 	    "matter" => "Matter",
 	    "company_mail" => ["Company", "Mail"],
 	    "company" => ["Company", "Name"],
-	    "revision" => "Revision",
-	    "last_revision" => "LastRevision",
+	    "revision" => ["Document", "Revision"],
+	    "last_revision" => ["Document", "LastRevision"],
 	    "student" => "Login",
-	    "limit_date" => "DeliveryDate",
+	    "limit_date" => ["Delivery", "Date"],
 	    "codename" => "CodeName",
 	    "generation_date" => "GenerationTime",
 	    "token" => "Token"

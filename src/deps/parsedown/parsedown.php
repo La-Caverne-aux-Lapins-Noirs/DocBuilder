@@ -152,7 +152,7 @@ class Parsedown
     # ~
 
     protected $unmarkedBlockTypes = array(
-        'Code',
+        //'Code',
     );
 
     #

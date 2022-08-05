@@ -173,6 +173,11 @@
     width:		49%;
 }
 
+.page_content > p
+{
+    text-align:		justify;
+}
+
 .top_block
 {
     width:		100%;
@@ -268,3 +273,9 @@
 {
     width:		100%;
 }
+
+.function_list
+{
+    list-style:		none;
+}
+

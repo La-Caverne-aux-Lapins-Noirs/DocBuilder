@@ -21,23 +21,23 @@ Type = "letter"
   FR = [Text($,EOF)
 $(SOL)Je, soussigné$([].Representative.Gender) $([].Representative.Name), $([].Representative.Role[[].Language]) de $([].Company.LegalName[[].Language]) et dispensateur de l'action concourant au développement des compétences atteste que $([].Customer.Name) $([].Customer.Company <> "" ? "de la société " # [].Customer.Company : "") a suivi l'action :
 
-* Nom de la session : $([].Name[[].Language])
-* Date(s) de la formation : $([].Dates)
-* Durée de la formation : $([].Duration)
-* Type d'action de formation (au sens de l'article 6313-1 du code du travail) : $([].TrainingType[[].Language])
-* Durée effectivement suivie par $([].Customer.Gender == "e" ? "la" : "le") stagiaire de $([].RealDuration) soit un taux de présence et de réalisation de $(100 * real([].RealDuration) / real([].Duration))%
-* Suivi détaillée de l'assiduité en e-learning : $([].ELearning ? "Oui" : "Non")
+- Nom de la session : $([].Name[[].Language])
+- Date(s) de la formation : $([].Dates)
+- Durée de la formation : $([].Duration)
+- Type d'action de formation (au sens de l'article 6313-1 du code du travail) : $([].TrainingType[[].Language])
+- Durée effectivement suivie par $([].Customer.Gender == "e" ? "la" : "le") stagiaire de $([].RealDuration) soit un taux de présence et de réalisation de $(100 * real([].RealDuration) / real([].Duration))%
+- Suivi détaillée de l'assiduité en e-learning : $([].ELearning ? "Oui" : "Non")
 
   EOF]
   EN = [Text($,EOF)
 $(SOL)I, $([].Representative.Name), $([].Representative.Role[[].Language]) of $([].Company.LegalName[[].Language]) and provider of the actions contributing to the development of skill certify that $([].Customer.Name)$([].Customer.Company <> "" ? " from company " # [].Customer.Company : "") has completed the following action:
 
-* Name of the session: $([].Name[[].Language])
-* Dates of the training: $([].Dates)
-* Duration: $([].Duration)
-* Type of training: $([].TrainingType[[].Language])
-* Effective duration followed by the trainee is $([].RealDuration), so the presence and achievement rate is $(100 * real([].RealDuration) / real([].Duration))%
-* E-learning attendance following: $([].ELearning ? "Yes" : "No")
+- Name of the session: $([].Name[[].Language])
+- Dates of the training: $([].Dates)
+- Duration: $([].Duration)
+- Type of training: $([].TrainingType[[].Language])
+- Effective duration followed by the trainee is $([].RealDuration), so the presence and achievement rate is $(100 * real([].RealDuration) / real([].Duration))%
+- E-learning attendance following: $([].ELearning ? "Yes" : "No")
   EOF]
 ]
 
