@@ -26,6 +26,7 @@ function LoadDabsic($file)
 	echo "$argv[0]: Failed to load dabsic $file: ".file_get_contents(".dabsic_crash_dump")."\n";
 	return (NULL);
     }
+    system("rm -f .dabsic_crash_dump");
     if (!($ret = json_decode($json, true)))
     {
 	echo "$argv[0]: Failed to load json $file: ".json_last_error_msg()."\n$json\n";

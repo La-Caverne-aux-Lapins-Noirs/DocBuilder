@@ -145,3 +145,8 @@ hr
 {
     color:		gray;
 }
+
+strong
+{
+    font-weight:	bolder;
+}
