@@ -8,7 +8,7 @@ Type = "letter"
     EN = "President"
   ]
   Gender = "e"
-  Signature = "" 'Le fichier n'est pas encore fournit...
+  Signature = "./res/doc_logo.png"
 ]
 
 [Title

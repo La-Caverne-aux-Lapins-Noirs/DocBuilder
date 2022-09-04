@@ -38,6 +38,7 @@ GenIcon = "/home/damdoshi/GenerateIcon/lib/genicon.dab"
 
   City = "Styx"
   LegalCity = "Paris"
+  Tel = "06 66 13 37 69"
 
   Address = [Text($,EOF)
     42 Avenue du Boulevard des Rues

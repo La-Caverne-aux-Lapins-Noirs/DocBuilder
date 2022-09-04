@@ -8,7 +8,7 @@
         	<br /><br />
         	<?=Translate("DoneAt"); ?>
         	<?=Repeat(".", 70); ?><br /><br />
-        	
+
         	<?php if (@$DocBuilder->Configuration["Customer"]["PrintSignatureForm"] && @$DocBuilder->Configuration["Representative"]["PrintSignatureForm"]) { ?>
         	<table class="signature" style="border: solid 1px; height: 300px;">
         	<?php } else { ?>
@@ -28,11 +28,11 @@
 		    <?php } ?>
 		</td><td style="width: 1%;"></td></td><td class="left_align signatureTop">
 		    <?php if (@$DocBuilder->Configuration["Representative"]["PrintSignatureForm"]) { ?>
-			
+
 			<?php if (strlen(@$DocBuilder->Configuration["Representative"]["Signature"])) { ?>
 			    <?=$DocBuilder->Configuration["GenerationDate"]; ?>
 			<?php } ?>
-			
+
 			<?php if (strlen(@$DocBuilder->Configuration["Representative"]["Signature"])) { ?>
 			    <?=MustPrint($DocBuilder->Configuration, ["Company", "City"]); ?>.<br />
 			<?php } ?>
@@ -42,7 +42,7 @@
 			<?=MustPrint($DocBuilder->Configuration, ["Representative", "Role"]); ?><br />
 			<?php if (strlen(@$DocBuilder->Configuration["Representative"]["Signature"])) { ?>
 			    <br />
-			    <img src="<?=$DocBuilder->Configuration["Representative"]["Signature"]; ?>" />
+			    <?=PrintImage($DocBuilder->Configuration, ["Representative", "Signature"], NULL, "@@", "", false); ?>
 			<?php } ?>
 		    <?php } ?>
 		</td></tr>
