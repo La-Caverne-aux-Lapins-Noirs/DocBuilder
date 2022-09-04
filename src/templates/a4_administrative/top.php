@@ -1,8 +1,8 @@
 <div class="page" style="top: @@PAGEPOSITIONcm;">
     <table class="page_header">
-	<tr><td class="left_align page_matter_logo">
+	<tr><td class="left_align page_matter_logo" style="font-size: 12px;">
 	    <?php if (@$DocBuilder->Configuration["Title"]["Top"]) { ?>
-		<?=Translate($DocBuilder->Configuration["Title"]); ?>
+		<?=strtoupper(Translate($DocBuilder->Configuration["Title"])); ?> -
 		<?php if (@$DocBuilder->Configuration["Title"]["PageNumber"]) { ?>
 		    <?=$Page; ?>/@PAGECOUNT@
 		<?php } ?>
@@ -15,9 +15,11 @@
 	<?php if ($Page == 1) { ?>
 
 	    <?php if (@$DocBuilder->Configuration["Representative"]["PrintAddress"]) { ?>
-		<div class="left_align">
-		    <?=MustPrint($DocBuilder->Configuration, ["Company", "LegalName"]); ?><br />
-		    <?=MustPrint($DocBuilder->Configuration, ["Company", "Address"]); ?>
+		<div class="left_align" style="font-size: 12px; line-height: 120%;">
+		    <?=MustPrint($DocBuilder->Configuration, ["Company", "Name"]); ?><br />
+		    <?=MustPrint($DocBuilder->Configuration, ["Company", "Address"]); ?><br />
+		    Tél. : <?=MustPrint($DocBuilder->Configuration, ["Company", "Tel"]); ?><br />
+		    E-mail : <?=MustPrint($DocBuilder->Configuration, ["Company", "Mail"]); ?>
 		</div>
 	    <?php } ?>
 
@@ -30,10 +32,10 @@
 		<br />
 	    <?php } ?>
 
-	    <div class="right_align">
+	    <div class="right_align" style="font-size: 12px;">
 		<?=MustPrint($DocBuilder->Configuration, ["Company", "City"]); ?>,
 		<?=Translate("the"); ?>
-		<?=MustPrint($DocBuilder->Configuration, "Date"); ?>
+		<?=MustPrint($DocBuilder->Configuration, "GenerationDate"); ?>
 	    </div>
 
 	    <div class="letter_content">
