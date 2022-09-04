@@ -44,7 +44,7 @@ $Fields = [
 ?>
 
 <?php if (@$DocBuilder->Configuration["Title"]["Big"]) { ?>
-    <h1 style="text-align: center;"><?=Translate($DocBuilder->Configuration["Title"]); ?></h1>
+    <h1 style="text-align: center;"><b><u><?=strtoupper(Translate($DocBuilder->Configuration["Title"])); ?></u></b></h1>
     <br />
     <br />
 <?php } else { ?>

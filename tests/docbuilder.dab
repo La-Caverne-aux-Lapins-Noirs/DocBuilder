@@ -10,7 +10,7 @@ Translate(string a):string = [Function
 ]
 
 'Fichier CSS utilisé pour la mise en page. Si non spécifié, c'est /etc/technocore/default.css
-Style="./res/efrits.css"
+Style="./res/test.css"
 Font="./res/futura.woff2"
 ConsoleFont="./res/lucida_console.woff2"
 EOL="@NEWLINE"
@@ -22,22 +22,22 @@ GenIcon = "/home/damdoshi/GenerateIcon/lib/genicon.dab"
 ' Peut-être un noeud dont les enfants seraient nommés d'après les langages
 [Company
   [Name
-    EN = "EFRITS"
-    FR = "EFRITS"
+    EN = "XX"
+    FR = "XX"
   ]
   [LegalName
-    EN = "EFRITS SAS"
-    FR = "EFRITS SAS"
+    EN = "XX SAS"
+    FR = "XX SAS"
   ]
 
   'Le logo de l'école. Un fichier PNG. OBLIGATOIRE.
-  Logo="./res/efrits.png"
+  Logo="./res/lapin_noir.png"
   'Le logo de l'école pour les pieds de page, en largeur.
-  SmallLogo="./res/efrits.png"
-  Mail = "contact@efrits.fr"
+  SmallLogo="./res/doc_logo.png"
+  Mail = "contact@test.fr"
 
   City = "Styx"
-  LegalCity = "Maisons-Alfort"
+  LegalCity = "Paris"
 
   Address = [Text($,EOF)
     42 Avenue du Boulevard des Rues
@@ -45,18 +45,18 @@ GenIcon = "/home/damdoshi/GenerateIcon/lib/genicon.dab"
     France
   EOF]
   LegalAddress = [Text($,EOF)
-    33 Rue Delaporte
-    94700 $(_.LegalCity)
+    XX Rue Delarue
+    94999 $(_.LegalCity)
     France
   EOF]
-  Code = "909 292 773"
-  Registrar = "R.C.S Créteil"
+  Code = "123 456 789"
+  Registrar = "R.C.S de Paris"
   [Training
     Code = "AAA BBB CCC"
     Registrar = "DRIEETS Ile-de-France"
   ]
   Credentials = [Text($,EOF)
     Entreprise immatriculée au $([].Company.Registrar) sous le numéro $([].Company.Code)
-    Centre de formation professionnel immatriculé sous le numéro $([].Company.Training.Code) auprès de la $([].Company.Training.Registrar)
+    Organisme de formation professionnelle immatriculé sous le numéro $([].Company.Training.Code) auprès de la $([].Company.Training.Registrar)
   EOF]
 ]
