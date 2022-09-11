@@ -4,14 +4,22 @@ function UseMarkDown($str)
 {
     global $MarkDown;
 
+    $str = explode("\n", $str);
+    foreach ($str as &$s)
+    {
+	// Les listes sont des lignes avec aliena, c'est tout
+	$s = preg_replace('/\s+/', ' ', $s); // On vire les espaces multiples
+	$s = preg_replace('/^\s+/', '', $s); // On vire les espaces de début de ligne
+	$s = preg_replace('/\s+$/', '', $s); // On vire les espaces de fin de ligne
+	$s = preg_replace('/^\*([^*].*)$/', '@ALINEA@- $1', $s); // On remplace l'étoile
+    }
+    $str = implode("\n", $str);
+
     // Pour permettre l'utilisation du saut de ligne comme organisateur de la configuration
     // et non comme élément graphique réel, sans pour autant obliger l'utilisation de <br />
-    $str = str_replace("\n\n", "@@NEWLINE", $str);
-    $str = str_replace("\n", " ", $str); // On vire les espaces seuls
-    $str = str_replace("@@NEWLINE", "\n\n", $str);
-    $str = preg_replace('/\s+/', ' ', $str); // On vire les espaces multiples
-    $str = preg_replace('/^\s+/', '', $str); // On vire les espaces de début de ligne
-    $str = preg_replace('/\s+$/', '', $str); // On vire les espaces de fin de ligne
+    $str = str_replace("\n\n", "@NEWLINE", $str);
+    $str = str_replace("\n", "@NEWLINE", $str); // Je comprends pas tout la...
+    //$str = str_replace("\n", " ", $str); // On vire les espaces seuls
 
     $str = $MarkDown->text($str);
     if (substr($str, 0, 3) == "<p>")
@@ -24,7 +32,7 @@ function UseMarkDown($str)
     $str = str_replace("</pre>", "</p>", $str);
     $str = str_replace("<code>", "", $str);
     $str = str_replace("</code>", "", $str);
-    $str = str_replace("@NEWLINE", "<br />", $str);
+    $str = str_replace("@NEWLINE", "<br/>", $str);
     return ($str);
 }
 

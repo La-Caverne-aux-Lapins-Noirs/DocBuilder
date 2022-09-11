@@ -91,7 +91,7 @@ function Prepare($options)
 	dirname($DocBuilder->ConfigurationFile), $DocBuilder->Configuration, [
 	    ["Company", "Logo"], ["Company", "SmallLogo"]
     ]);
-    
+
     if (!isset($DocBuilder->Configuration["FullName"]) && isset($DocBuilder->Configuration["Login"]))
 	$DocBuilder->Configuration["FullName"] = $DocBuilder->Configuration["Login"];
     if (!isset($DocBuilder->Configuration["AcquiredMedals"]))
@@ -113,7 +113,7 @@ function Prepare($options)
 	$DocBuilder->Configuration["Company"]["LegalAddress"] = $DocBuilder->Configuration["Company"]["Address"];
     if (!isset($DocBuilder->Configuration["Company"]["LegalCity"]))
 	$DocBuilder->Configuration["Company"]["LegalCity"] = $DocBuilder->Configuration["Company"]["City"];
-    
+
     // Il faudra probablement rajouter les images contenus DANS les fichiers.
 
     return (true);

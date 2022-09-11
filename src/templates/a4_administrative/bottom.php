@@ -42,7 +42,9 @@
 			<?=MustPrint($DocBuilder->Configuration, ["Representative", "Role"]); ?><br />
 			<?php if (strlen(@$DocBuilder->Configuration["Representative"]["Signature"])) { ?>
 			    <br />
-			    <?=PrintImage($DocBuilder->Configuration, ["Representative", "Signature"], NULL, "@@", "", false); ?>
+			    <p style="text-align: center; z-index: 1; width: 100%; height: 0px;">
+				<?=PrintImage($DocBuilder->Configuration, ["Representative", "Signature"], NULL, "@@", "", false); ?>
+			    </p>
 			<?php } ?>
 		    <?php } ?>
 		</td></tr>
