@@ -18,7 +18,7 @@ require ("medal_list.php");
     ?>
     <?php for ($r = 0, $page = 0; $r < count($rules); $page += 1) { ?>
 	<div class="_3columns small_text" style="height: <?=$heights[$page]; ?>cm; width: 100%;">
-	    <?php for ($rr = 0; $rr < 2 * $heights[$page] && $r < count($rules); ++$rr, ++$r) { ?>
+	    <?php for ($rr = 0; $rr < 1.5 * $heights[$page] && $r < count($rules); ++$rr, ++$r) { ?>
 		<?=$rules[$r]; ?>
 	    <?php } ?>
 	</div>
