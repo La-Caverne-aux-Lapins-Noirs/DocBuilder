@@ -1,13 +1,13 @@
 	    <br /><br />
 	    @@KEEPLAST[
         	<?=Translate("DoneWhere"); ?>
-        	<?=Repeat(".", 35); ?>,
+        	<?=MustPrint($DocBuilder->Configuration, ["Company", "City"]); ?>,
         	<?php if (@$DocBuilder->Configuration["Customer"]["PrintSignatureForm"] && @$DocBuilder->Configuration["Representative"]["PrintSignatureForm"]) { ?>
         	<?=Translate("DoubleDoc"); ?>,
         	<?php } ?>
         	<br /><br />
         	<?=Translate("DoneAt"); ?>
-        	<?=Repeat(".", 70); ?><br /><br />
+        	<?=MustPrint($DocBuilder->Configuration, "GenerationDate"); ?><br /><br />
         	
         	<?php if (@$DocBuilder->Configuration["Customer"]["PrintSignatureForm"] && @$DocBuilder->Configuration["Representative"]["PrintSignatureForm"]) { ?>
         	<table class="signature" style="border: solid 1px; height: 300px;">
@@ -28,22 +28,11 @@
 		    <?php } ?>
 		</td><td style="width: 1%;"></td></td><td class="left_align signatureTop">
 		    <?php if (@$DocBuilder->Configuration["Representative"]["PrintSignatureForm"]) { ?>
-			
-			<?php if (strlen(@$DocBuilder->Configuration["Representative"]["Signature"])) { ?>
-			    <?=$DocBuilder->Configuration["GenerationDate"]; ?>
-			<?php } ?>
-			
-			<?php if (strlen(@$DocBuilder->Configuration["Representative"]["Signature"])) { ?>
-			    <?=MustPrint($DocBuilder->Configuration, ["Company", "City"]); ?>.<br />
-			<?php } ?>
 
 			<?=Translate("SignatureCompany"); ?><br /><br />
 			<?=MustPrint($DocBuilder->Configuration, ["Representative", "Name"]); ?>,
 			<?=MustPrint($DocBuilder->Configuration, ["Representative", "Role"]); ?><br />
-			<?php if (strlen(@$DocBuilder->Configuration["Representative"]["Signature"])) { ?>
-			    <br />
-			    <img src="<?=$DocBuilder->Configuration["Representative"]["Signature"]; ?>" />
-			<?php } ?>
+			<?=PrintImage($DocBuilder->Configuration, ["Representative", "Signature"], NULL, "@@", 'width="100"', false); ?>
 		    <?php } ?>
 		</td></tr>
   	    </table>

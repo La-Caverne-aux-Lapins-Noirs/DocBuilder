@@ -153,7 +153,8 @@ ul li:before
 
 .signatureTop
 {
-	vertical-align: top;	
+    vertical-align: top;
+    font-size: small;
 }
 
 .table tr td:first-child
