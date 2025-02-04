@@ -1,0 +1,54 @@
+
+Document = "SchoolReport"
+
+'To be overwritten with -m or with specifics files
+BeginDate = "09/2024"
+EndDate = "12/2024"
+[School
+  Name = "L'EFRITS"
+  Address = [Text($,EOF)
+    12 rue Louis Bertrand
+    94200 Ivry-sur-Seine
+  EOF]
+  Signature = "./example/jason.brillante.png"
+]
+
+[Student
+  Name = "Schmol DUC"
+  Year = "EF3"
+  Cycle = "A"
+  Address = [Text($,Address)
+    42 avenue du boulevard des rues
+    991337 Rose-et-noir
+  Address]
+]
+
+Title = "Bulletin " # [].Student.Year # [].Student.Cycle
+SubTitle = "Période " # [].BeginDate # " - " # [].EndDate
+
+Header = [Text($,Header)
+  [@Image;res/efrits.png;width=4cm;height=2cm]
+  $([].School.Name)
+  $([].School.Address)
+Header]
+
+{Modules
+  [
+    Codename = "COM"
+    Name = "Communication Externe"
+    Commentaire = [Text($,EOF)
+      Ca va pas du tout.
+    EOF]
+    Grade = "E"
+    Points = 0
+    AvailablePoints = 4, 8
+    Activity = 12
+    Presence = 6
+    Missing = 4
+    LateTime = 65
+  ]
+}
+
+Comment = [Text($,EOF)
+  Commentaire général.
+EOF]

@@ -1,0 +1,51 @@
+
+Document = "Letter"
+
+'Peut etre un tableau
+Title = "Certificat de scolarité"
+
+'Peut etre un champ, ou deux (Left Right) ou trois (Left Middle Right)
+[Header
+  Left = [Text($,Left)
+    [@Size;9] EFRITS
+  Left]
+  Right = [Text($,Right)
+    [@Image;res/efrits.png;width=3cm;height=2cm]
+  Right]
+]
+
+Footer = [Text($,Footer)
+  [@Center] [@Size;2] EFRITS SAS, 33 rue Delaporte, 94700 Maisons-Alfort immatriculé sous le numéro 909 292 773 au R.C.S. de Créteil
+  Etablissement d'enseignement supérieur privé, immatriculé sous le numéro 0942530P auprès du rectorat de Créteil
+  Organisme de formation professionnelle, déclaration d’activité enregistrée sous le numéro 11941128194 auprès du préfet de région d’Ile-de-France
+Footer]
+
+[Signatories
+  [School
+    Role = "Directeur"
+    Identity = "Jason Brillante"
+    Signature = @"jason.brillante.png"
+  ]
+]
+
+From = [Text($,From)
+  EFRITS
+  12 rue Louis Bertrand
+  94200 Ivry sur seine
+  France
+  07 49 78 43 72
+  administration@efrits.fr
+From]
+
+Target = [Text($,Target)
+  Janos Llantebri "Damdo"
+  84 Boulevard des rue de l'avenue
+  MontRouge
+Target]
+
+'Peut etre un tableau
+Signature = "Jason Brillante, directeur de l'EFRITS"
+
+Content = [Text($,Content)
+  Ceci est le contenu de la lettre.
+Content]

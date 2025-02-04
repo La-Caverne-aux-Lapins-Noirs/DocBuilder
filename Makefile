@@ -9,7 +9,8 @@ $(CHECK):
 		@php -l $@ > /dev/null
 check:		$(CHECK)
 #		@(cd tests/ && ./run.sh)
-		@(./tests/training_attendance.sh)
+#		@(./tests/training_attendance.sh)
+		@(./tests/subject.sh)
 
 .PHONY:		$(CHECK) check all install
 

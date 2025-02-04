@@ -1,0 +1,52 @@
+
+Document = "Bill"
+
+' To be overwritten with -m or with specific files
+CreationDate = "24/03/89"
+DueDate = "A réception"
+TotalPrice = 8000
+AlreadyPaid = 0
+Amount = 1000
+
+[Customer
+  Name = "Schmol Duc"
+  Year = "EF3"
+  Address = [Text($,EOF)
+    42 avenue du boulevard des rues
+    991337 Rose-et-noir
+  EOF]
+  Mail = "schmolduc@mailmail.mail"
+  Phone = "06 42 69 13 37"
+]
+
+PaiementMethod = [Text($,EOF)
+  XXX
+]
+
+Title = "Facture"
+
+Header = [Text($,Header)
+  [@Image;res/efrits.png;width=4cm;height=2cm]
+  $([].School.Name)
+  $([].School.Address)
+Header]
+
+Footer = [Text($,Footer)
+  [@Center] [@Size;0] EFRITS SAS, 33 rue Delaporte, 94700 Maisons-Alfort immatriculé sous le numéro 909 292 773 au R.C.S. de Créteil
+  Etablissement d'enseignement supérieur privé, immatriculé sous le numéro 0942530P auprès du rectorat de Créteil
+  Organisme de formation professionnelle, déclaration d’activité enregistrée sous le numéro 11941128194 auprès du préfet de région d’Ile-de-France
+Footer]
+
+{Products
+  [
+    Name = "Truc"
+    Description = [Text($,EOF)
+      $([].Customer.Name), $([].Customer.Year)
+      Déjà versé: $([].AlreadyPaid)
+      Prix total: $([].TotalPrice)
+      Versement $([].AlreadyPaid / [].Amount) sur $([].TotalPrice / [].Amount)
+    EOF]
+    
+]
+}
+

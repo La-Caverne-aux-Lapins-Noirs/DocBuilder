@@ -1,4 +1,12 @@
 
+Purpose
+=======
+
+The purpose of DocBuilder is to produce a *single* document.
+Its command line allows users to configure smoothly what is going to be produced.
+If several documents are required, several calls will be have to be achieved.
+BulkBuilder can help users to use DocBuilder to generate several documents at once.
+
 Dependencies
 ============
 
@@ -13,10 +21,3 @@ Format of documentation
 =======================
 
 - .dab files are gonna be fully interpreted by docbuilder. It is its main format.
-- .md are gonna be interpreted as markdown.
-- .htm are gonna be interpreted as HTML.
-- .php are gonna be interpreted as PHP et their output interpreted as HTML.
-
-Pay attention with .htm and .php as they can break the output of the document
-if they contain errors.
-

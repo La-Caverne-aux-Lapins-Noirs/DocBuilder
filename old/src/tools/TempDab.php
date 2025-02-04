@@ -8,7 +8,7 @@ function CloseFiles()
     foreach ($ToClose as $k => $v)
     {
 	fclose($v);
-	unlink($k);
+	// unlink($k);
     }
 }
 

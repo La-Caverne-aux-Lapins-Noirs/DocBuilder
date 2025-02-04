@@ -1,0 +1,46 @@
+
+Document = "Contract"
+
+Title = "Contrat de scolarisation"
+
+[Header
+  Left = [Text($,Left)
+    [@Size;9] $([].Title)
+  Left]
+  Right = [Text($,Right)
+    [@Image;res/efrits.png;width=3cm;height=2cm]
+  Right]
+Header]
+
+Footer = [Text($,Footer)
+  [@Size;0] EFRITS SAS, 33 rue Delaporte, 94700 Maisons-Alfort immatriculé sous le numéro 909 292 773 au R.C.S. de Créteil
+  Etablissement d'enseignement supérieur privé, immatriculé sous le numéro 0942530P auprès du rectorat de Créteil
+  Organisme de formation professionnelle, déclaration d’activité enregistrée sous le numéro 11941128194 auprès du préfet de région d’Ile-de-France
+Footer]
+
+{Signatories
+  [
+    Role = "Directeur"
+    'Identity = "Prénom Nom"
+    'Signature = @"aze.png"
+    'Initials = @"aze.initials.png"
+  ],
+  [
+    Role = "Elève"
+    'Identity = "Prénom Nom"
+    'Signature = @"aze.png"
+    'Initials = @"aze.initials.png"
+  ],
+  [
+    Role = "Responsable financier"
+    'Identity = "Prénom Nom"
+    'Signature = @"aze.png"
+    'Initials = @"aze.initials.png"
+  ]
+}
+
+{Content
+  @insert txt ($) "content.txt",
+  [ = [Text($,EOF) Contenu du contrat EOF] ],
+  [ = [Text($,EOF) Détails supplémentaires EOF] ]
+}

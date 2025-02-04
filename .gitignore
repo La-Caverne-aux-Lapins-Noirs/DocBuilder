@@ -1,3 +1,7 @@
 *~
 #*
 dump.htm
+*.md
+*.tex
+docs/
+test.sh

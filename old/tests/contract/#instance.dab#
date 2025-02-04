@@ -1,0 +1,35 @@
+
+
+[Name
+  FR = "Formation JavaScript"
+  EN = "Javascript training"
+]
+
+[Customer
+  Name = "Fabrice Boissier"
+  Gender = ""
+  Address = "42, ici même"
+]
+CustomerCount = 10
+Price = 1337
+ReservationPrice = Price * 0.1
+Format = "FaceToFace"
+
+Trainer = "Michel Jojoba, Mechil Bojaba, Jochel Mibajo"
+Date = "13/06/2022"
+Address = "33 Rue Delaporte 94700 Maisons-Alfort"
+Dates = "12 Juin 2022 - 14 Juin 2022"
+Duration = "7 heures"
+RealDuration = "7 heures"
+ELearning = false
+
+
+[TrainingType
+  FR = "Action de formation"
+  EN = "Training action"
+]
+
+[Representative
+  Signature = ""
+]
+

@@ -1,8 +1,7 @@
 #!/usr/bin/env php
 <?php
 $target = "/opt/technocore/docbuilder/docbuilder.php";
-if (file_exists(__DIR__."/src/docbuilder.php"))
-   require_once (__DIR__."/src/docbuilder.php");
-else
+if (file_exists($target))
    require_once ($target);
-
+else
+   require_once (__DIR__."/src/docbuilder.php");
