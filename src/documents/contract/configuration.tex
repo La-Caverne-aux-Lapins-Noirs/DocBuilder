@@ -1,0 +1,22 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1cm,tmargin=1cm,bmargin=5.5cm}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage[export]{adjustbox}
+\usepackage{multicol}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{tikz}
+\newcommand{\checkbox}{\tikz\draw (0,0) rectangle (0.3,0.3);}
+\newcommand{\checkedbox}{\tikz\draw (0,0) rectangle (0.3,0.3) -- (0.3,0.3) -- cycle;}
+\setmainfont[
+  Path = ./res/,        % Chemin vers le dossier contenant la police
+  UprightFont = *, % Remplace le nom commun de la police
+  Extension = .ttf      % Extension du fichier
+]{Futura}
+
+\renewcommand{\footrulewidth}{0.4pt}
+\newcommand{\nb}{~}
