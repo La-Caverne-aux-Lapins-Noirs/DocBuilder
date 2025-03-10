@@ -1,0 +1,2142 @@
+Document = "Subject"
+Language = "FR"
+SchoolName = "Efrits"
+
+[Activity
+  FR = "Raiden"
+  EN = "Raiden"
+  Revision = "1.0"
+  LastRevision = "24/03/1989"
+  {Author
+    [
+      Name = "Jason Brillante"
+      Mail = "jason.brillante@efrits.fr"
+    ]
+  }
+]
+
+[Matter
+  FR = "Programmation graphique"
+  EN = "Graphic programming"
+  Code = "gfx"
+  Logo = "./res/matter_logo.png"
+  SmallLogo = "./res/small_matter_logo.png"
+  {Teacher
+    [
+      Name = "Le Laboratoire aux Lapins Noirs"
+      Mail = "lapinsnoirs@efrits.fr"
+    ]
+  }
+]
+
+[Activity
+  FR = "Raiden"
+  EN = "Raiden"
+  Code = "raiden"
+  Logo = "./res/activity_logo.png"
+  SmallLogo = "./res/small_activity_logo.png"
+  {Teacher
+    [
+      Name = "Jason Brillante"
+      Mail = "jason.brillante@efrits.fr"
+    ]
+  }
+]
+
+[FrontPage
+  [Message
+    FR = "Dieu du tonnerre et des éclairs"
+    EN = "God Of Thunder (And rock'n roll!)"
+  ]
+  [Description
+    FR = "Dans un monde où les cafetières prennent le contrôle des bureaux, un héros solitaire armé d’un mug fissuré se dresse contre l’invasion du café tiède."
+    EN = "In a world where coffee machines take over offices, a lone hero armed with a cracked mug stands against the lukewarm coffee invasion."
+  ]
+]
+
+[AuthorizedFunctions
+  __assert_fail
+  __errno_location
+  __stack_chk_fail
+  tcdebug
+  write
+]
+
+{Exercises
+  [
+    Module = "Move"
+    Name = "Changing directory to swap"
+    SetVar = "Moved"
+    Target = "swap"
+    Type = "Builtin"
+  ],
+  [
+    Build = "Object"
+    BuildCommand = "gcc -fPIC -g -g3 -ggdb -c %s -std=gnu11 -o %1$s"
+    ConditionalVar = "Moved"
+    Flag = "-std=gnu11"
+    Module = "Construction"
+    Name = "Separated source files compilation"
+    NoDoc
+    SetVar = "Build"
+    Tolerance = 0
+    Type = "Builtin"
+  ],
+  [
+    Build = "Cheat"
+    ConditionalVar = "Build"
+    Module = "Construction"
+    Name = "Checking for forbidden functions"
+    NoDoc
+    SetVar = "Cheat"
+    Type = "Builtin"
+  ],
+  [
+    Command = "objcopy --redefine-sym efswap=technocore_swap test_swap.o"
+    ConditionalVar = "Cheat"
+    FunctionName = "swap"
+    Module = "Command"
+    NoDoc
+    NoMedals
+    NoReport
+    Type = "Builtin"
+  ],
+  [
+    ALLMAN_INDENT_STYLE = 1
+    [AllGlobalsAreConst
+      Points = 1
+      Value = 1
+    ]
+
+    [AlwaysBraces
+      Points = 1
+      Value = 0
+    ]
+
+    [AttributetStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [AvoidBracesForSingleLine
+      Points = 1
+      Value = 1
+    ]
+
+    CAMEL_CASE = 2
+    ConditionalVar = "Cheat"
+    [DeclarationStatementSeparator
+      Points = 1
+      Value = 1
+    ]
+
+    [DoWhileForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [EnumConstantInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "EF"
+    ]
+
+    [EnumConstantStyle
+      Points = 1
+      Value = "0"
+    ]
+
+    [EnumInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "e_"
+    ]
+
+    [EnumStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [ForForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [FunctionMatchingPath
+      Points = 1
+      Value = 1
+    ]
+
+    [FunctionNameInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "ef"
+    ]
+
+    [FunctionNameStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionPerFile
+      Points = 5
+      Value = 5
+    ]
+
+    [FunctionPointerAttributeStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionPointerTypeInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "t_"
+    ]
+
+    [FunctionPointerTypeStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionVariableDefinitionAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    GNU_INDENT_STYLE = 0
+    [GlobalFunctionVariableDefinitionAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [GlobalParameterNameAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [GlobalStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [GlobalVariableStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [GlocalVariableInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "gl_"
+    ]
+
+    [GoToForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [Header
+      Points = 1
+      Value = "/*\n** %FirstName %FamilyName %Nickname %Login <%Mail>\n** EFRITS 2022-%Year\n** %ProjectName %Year\n*/\n"
+    ]
+
+    [IndentationSize
+      Points = 1
+      Value = 2
+    ]
+
+    IndentationStyle = "0"
+    IndentationToken = 8
+    KNR_INDENT_STYLE = 2
+    [LocalVariableInlineInitForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [LocalVariableStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    MIXED_CASE = 0
+    [MaximumFunctionLength
+      Points = 5
+      Value = 25
+    ]
+
+    [MaximumFunctionParameter
+      Points = 2
+      Value = 4
+    ]
+
+    [MaximumLineWidth
+      Points = 5
+      Value = 80
+    ]
+
+    [MaximumScopeLength
+      Points = 1
+      Value = 2
+    ]
+
+    Module = "Norm"
+    Name = "Norm"
+    [NoEmptyLineInFunction
+      Points = 1
+      Value = 1
+    ]
+
+    [NoGlobal
+      Points = 1
+      Value = 0
+    ]
+
+    [NoMagicValue
+      Disabled
+      Points = 1
+      Value = 1
+    ]
+
+    NoMedals
+    [NoRecursion
+      Points = 5
+      Value = 1
+    ]
+
+    [NoShortName
+      Points = 1
+      Value = 4
+    ]
+
+    [NoSpaceInsideParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    [NonStaticFunctionPerFile
+      Points = 1
+      Value = 1
+    ]
+
+    [OnlyByReference
+      Points = 3
+      Value = 8
+    ]
+
+    PASCAL_CASE = 3
+    [ParameterNameAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [ParameterTypeAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [PointerStarOnName
+      Points = 1
+      Value = 1
+    ]
+
+    [ReturnParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    SNAKE_CASE = 1
+    SetVar = "Norm"
+    [SingleInstructionPerLine
+      Points = 5
+      Value = 1
+    ]
+
+    [SizeOfParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAfterComma
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAfterStatement
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAroundBinaryOperator
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAroundInbetweenPointerStars
+      Points = 1
+      Value = 1
+    ]
+
+    [StructInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "s_"
+    ]
+
+    [StructStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [SwitchForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    Tolerance = 10
+    [TrailingWhitespace
+      Points = 1
+      Value = 1
+    ]
+
+    Type = "Builtin"
+    [TypedefInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "t_"
+    ]
+
+    [TypedefMatching
+      Points = 1
+      Value = 1
+    ]
+
+    [TypedefStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [UnionInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "u_"
+    ]
+
+    [UnionStyle
+      Points = 1
+      Value = "1"
+    ]
+
+  ],
+  [
+    Build = "Full"
+    BuildCommand = "gcc *.o -shared -rdynamic -L./ -L/opt/technocore/functions/ -ltc_math -o libmath.so -std=gnu11 -g -g3 -ggdb"
+    ConditionalVar = "Norm"
+    Flag = "-std=gnu11 -g -g3 -ggdb"
+    LibPath = "/opt/technocore/functions/"
+    Module = "Construction"
+    Name = "math"
+    NoDoc
+    NoMedal
+    NoReport
+    Tolerance = 0
+    Type = "Builtin"
+  ],
+  [Eval
+    ConditionalVar = "Norm"
+    DefensiveTesting = 0
+    [Document
+      [Description
+        EN = "      Write the function **efswap** that swap the value of a and b.\n\n      Prototypes of requested functions are:\n  \n      [@CODE;C;\nvoid efswap(int *a, int *b);\n        int test_swap(void)\n      ]\n  \n      [@BONUS;\nDefensive programming: Detect reasonably that one of the sent pointer\n        is invalid and return **NULL**.\n        Note: Another way of doing defensive programming would be to log and exit,\n        but in order to allow us to correct your program, don't do that.\n      ]\n      \nHere is beginning of a test function:\n\n      [@CODE;C;\nint swap_test()\n{\n  int val1;\n  int val2;\n  val1 = 1;\n  val2 = 2;\n  efswap(&val1, &val2);\n  if (val2 != 1 || val1 != 2)\n    return (0);\n  return (1);\n}\n\n]\n    "
+        FR = "      Ecrivez la fonction **efswap** qui intervertit les valeurs de a et b.\n      \n      Les prototypes des fonctions **efswap** et\n      **test_swap** sont les suivants :\n      \n      [@CODE;C;\nvoid efswap(int *a, int *b);\nint test_swap(void)\n      ]\n\n      [@BONUS;\nProgrammation d\0303\0251fensive: Detectez raisonnablement que l'un des pointeurs\n        pass\0303\0251s en param\0303\0250tre est incorrect et renvoyez **NULL**.\n        Note: une autre mani\0303\0250re de faire de la programmation d\0303\0251fensive\n        serait d'\0303\0251crire un log et de quitter. Cependant afin de permettre\n        votre correction, ne faites pas \0303\0247a.\n]\n      \n      Ci-dessous, un d\0303\0251but de fonction de test:\n\n      [@CODE;C;\nint swap_test()\n{\n  int val1;\n  int val2;\n  val1 = 1;\n  val2 = 2;\n  efswap(&val1, &val2);\n  if (val2 != 1 || val1 != 2)\n    return (0);\n  return (1);\n}\n\n      ]\n    "
+      ]
+
+      MandatoryFiles = "swap.c", "test_swap.c" 
+
+      Prototype = "void efswap(int *a, int *b);", "int test_swap(void)" 
+
+      TestFunction = "int swap_test()\n{\n  int val1;\n  int val2;\n  val1 = 1;\n  val2 = 2;\n  efswap(&val1, &val2);\n  if (val2 != 1 || val1 != 2)\n    return (0);\n  return (1);\n}\n"
+    ]
+
+    ErrnoTesting = 0
+    ErrorTesting = 0
+    Evaluation = 1
+    EvaluationMandatory = 1
+    Evaluator = "evaluate_swap"
+    FullEvaluation = 1
+    FullTesting = 1
+    FunctionName = "efswap"
+    IncrediblePerfRatioMedals = "ultrafast_swap"
+    Mark = 1
+    MaximumPerfRatio = 1.75
+    MaximumRamRatio = 1.5
+    Module = "/opt/technocore/functions/libtc_math.so"
+    ModuleName = "math"
+    [Name = "swap"
+      EN = "swap values pointed by a and b"
+      FR = "Intervertit les valeurs point\0303\0251es par a et b"
+    ]
+
+    ReportError = 1
+    SuccessMedals = "swap"
+    SuperPerfRatioMedals = "fast_swap"
+    Test = 1
+    TestFunctionName = "test_swap"
+    TestMandatory = 1
+    Type = "Function"
+    UnlockedFunctions = "swap"
+    UseErrno = 1
+    UserLibrary = "/opt/technocore//libmath.so"
+  ],
+  [
+    Module = "Move"
+    Name = "Returning to previous directory"
+    SetVar = "Moved"
+    Target = "-"
+    Type = "Builtin"
+  ],
+  [
+    Module = "Move"
+    Name = "Changing directory to trim"
+    SetVar = "Moved"
+    Target = "trim"
+    Type = "Builtin"
+  ],
+  [
+    Build = "Object"
+    BuildCommand = "gcc -fPIC -g -g3 -ggdb -c %s -std=gnu11 -o %1$s"
+    ConditionalVar = "Moved"
+    Flag = "-std=gnu11"
+    Module = "Construction"
+    Name = "Separated source files compilation"
+    NoDoc
+    SetVar = "Build"
+    Tolerance = 0
+    Type = "Builtin"
+  ],
+  [
+    [AuthorizedFunctions
+      free
+      malloc
+    ]
+
+    Build = "Cheat"
+    ConditionalVar = "Build"
+    Module = "Construction"
+    Name = "Checking for forbidden functions"
+    NoDoc
+    SetVar = "Cheat"
+    Type = "Builtin"
+  ],
+  [
+    Command = "objcopy --redefine-sym eftrim=technocore_trim test_trim.o"
+    ConditionalVar = "Cheat"
+    FunctionName = "trim"
+    Module = "Command"
+    NoDoc
+    NoMedals
+    NoReport
+    Type = "Builtin"
+  ],
+  [
+    ALLMAN_INDENT_STYLE = 1
+    [AllGlobalsAreConst
+      Points = 1
+      Value = 1
+    ]
+
+    [AlwaysBraces
+      Points = 1
+      Value = 0
+    ]
+
+    [AttributetStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [AvoidBracesForSingleLine
+      Points = 1
+      Value = 1
+    ]
+
+    CAMEL_CASE = 2
+    ConditionalVar = "Cheat"
+    [DeclarationStatementSeparator
+      Points = 1
+      Value = 1
+    ]
+
+    [DoWhileForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [EnumConstantInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "EF"
+    ]
+
+    [EnumConstantStyle
+      Points = 1
+      Value = "0"
+    ]
+
+    [EnumInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "e_"
+    ]
+
+    [EnumStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [ForForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [FunctionMatchingPath
+      Points = 1
+      Value = 1
+    ]
+
+    [FunctionNameInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "ef"
+    ]
+
+    [FunctionNameStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionPerFile
+      Points = 5
+      Value = 5
+    ]
+
+    [FunctionPointerAttributeStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionPointerTypeInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "t_"
+    ]
+
+    [FunctionPointerTypeStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionVariableDefinitionAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    GNU_INDENT_STYLE = 0
+    [GlobalFunctionVariableDefinitionAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [GlobalParameterNameAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [GlobalStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [GlobalVariableStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [GlocalVariableInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "gl_"
+    ]
+
+    [GoToForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [Header
+      Points = 1
+      Value = "/*\n** %FirstName %FamilyName %Nickname %Login <%Mail>\n** EFRITS 2022-%Year\n** %ProjectName %Year\n*/\n"
+    ]
+
+    [IndentationSize
+      Points = 1
+      Value = 2
+    ]
+
+    IndentationStyle = "0"
+    IndentationToken = 8
+    KNR_INDENT_STYLE = 2
+    [LocalVariableInlineInitForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [LocalVariableStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    MIXED_CASE = 0
+    [MaximumFunctionLength
+      Points = 5
+      Value = 25
+    ]
+
+    [MaximumFunctionParameter
+      Points = 2
+      Value = 4
+    ]
+
+    [MaximumLineWidth
+      Points = 5
+      Value = 80
+    ]
+
+    [MaximumScopeLength
+      Points = 1
+      Value = 2
+    ]
+
+    Module = "Norm"
+    Name = "Norm"
+    [NoEmptyLineInFunction
+      Points = 1
+      Value = 1
+    ]
+
+    [NoGlobal
+      Points = 1
+      Value = 0
+    ]
+
+    [NoMagicValue
+      Disabled
+      Points = 1
+      Value = 1
+    ]
+
+    NoMedals
+    [NoRecursion
+      Points = 5
+      Value = 1
+    ]
+
+    [NoShortName
+      Points = 1
+      Value = 4
+    ]
+
+    [NoSpaceInsideParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    [NonStaticFunctionPerFile
+      Points = 1
+      Value = 1
+    ]
+
+    [OnlyByReference
+      Points = 3
+      Value = 8
+    ]
+
+    PASCAL_CASE = 3
+    [ParameterNameAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [ParameterTypeAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [PointerStarOnName
+      Points = 1
+      Value = 1
+    ]
+
+    [ReturnParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    SNAKE_CASE = 1
+    SetVar = "Norm"
+    [SingleInstructionPerLine
+      Points = 5
+      Value = 1
+    ]
+
+    [SizeOfParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAfterComma
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAfterStatement
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAroundBinaryOperator
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAroundInbetweenPointerStars
+      Points = 1
+      Value = 1
+    ]
+
+    [StructInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "s_"
+    ]
+
+    [StructStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [SwitchForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    Tolerance = 10
+    [TrailingWhitespace
+      Points = 1
+      Value = 1
+    ]
+
+    Type = "Builtin"
+    [TypedefInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "t_"
+    ]
+
+    [TypedefMatching
+      Points = 1
+      Value = 1
+    ]
+
+    [TypedefStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [UnionInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "u_"
+    ]
+
+    [UnionStyle
+      Points = 1
+      Value = "1"
+    ]
+
+  ],
+  [
+    Build = "Full"
+    BuildCommand = "gcc *.o -shared -rdynamic -L./ -L/opt/technocore/functions/ -ltc_string -o libstring.so -std=gnu11 -g -g3 -ggdb"
+    ConditionalVar = "Norm"
+    Flag = "-std=gnu11 -g -g3 -ggdb"
+    LibPath = "/opt/technocore/functions/"
+    Module = "Construction"
+    Name = "string"
+    NoDoc
+    NoMedal
+    NoReport
+    Tolerance = 0
+    Type = "Builtin"
+  ],
+  [Eval
+    ConditionalVar = "Norm"
+    DefensiveTesting = 0
+    [Document
+      [Description
+        EN = "      Write the function **eftrim** that remove the blanks at the\n      start and at the end of **str**.\n\n      you can search what a blank is by reading the **isblank** manual.\n\n      The function will return a copy of **str** without the blanks.\n      \n      Prototypes of requested functions are:\n  \n      [@CODE;C;\nint eftrim(char *str);\nint test_trim(void);\n      ]\n  \n      [@BONUS;\nDefensive programming: Detect reasonably that one of the sent pointer\n        is invalid and return **NULL**.\n        Note: Another way of doing defensive programming would be to log and exit,\n        but in order to allow us to correct your program, don't do that.\n]\n\n      Here is beginning of a test function:\n\n      [@CODE;C;\nint trim_test()\n{\n  char *str1 = \" abcd \";\n  char *str2;\n  if ((str2 = eftrim(str1)) == NULL)\n    return (0);\n  if (efstrcmp(str2, \"abcd\") != 0)\n    return (0);\n  return (1);\n}\n\n      ]\n    "
+        FR = "      Ecrivez la fonction **eftrim** qui suprime les blancs au d\0303\0251but\n      et a la fin de **str**.\n\n      Vous pouvez vous renseigner sur ce qu\0342\0200\0231est un blanc en lisant le manuel de **isblank**.\n\n      La fonction renverra une copie sans blancs de **str**.\n      \n      Les prototypes des fonctions **eftrim** et\n      **test_trim** sont les suivants :\n      \n      [@CODE;C;\nint eftrim(char *str);\nint test_trim(void);\n      ]\n\n      [@BONUS;\nProgrammation d\0303\0251fensive: Detectez raisonnablement que l'un des pointeurs\n        pass\0303\0251s en param\0303\0250tre est incorrect et renvoyez **NULL**.\n        Note: une autre mani\0303\0250re de faire de la programmation d\0303\0251fensive\n        serait d'\0303\0251crire un log et de quitter. Cependant afin de permettre\n        votre correction, ne faites pas \0303\0247a.\n]\n      \n      Ci-dessous, un d\0303\0251but de fonction de test:\n\n      [@CODE;C;\nint trim_test()\n{\n  char *str1 = \" abcd \";\n  char *str2;\n  if ((str2 = eftrim(str1)) == NULL)\n    return (0);\n  if (efstrcmp(str2, \"abcd\") != 0)\n    return (0);\n  return (1);\n}\n\n      ]\n    "
+      ]
+
+      MandatoryFiles = "trim.c", "test_trim.c" 
+
+      Prototype = "int eftrim(char *str);", "int test_trim(void)" 
+
+      TestFunction = "int trim_test()\n{\n  char *str1 = \" abcd \";\n  char *str2;\n  if ((str2 = eftrim(str1)) == NULL)\n    return (0);\n  if (efstrcmp(str2, \"abcd\") != 0)\n    return (0);\n  return (1);\n}\n"
+    ]
+
+    ErrnoTesting = 0
+    ErrorTesting = 0
+    Evaluation = 1
+    EvaluationMandatory = 1
+    Evaluator = "evaluate_trim"
+    FullEvaluation = 1
+    FullTesting = 1
+    FunctionName = "eftrim"
+    IncrediblePerfRatioMedals = "ultrafast_trim"
+    Mark = 1
+    MaximumPerfRatio = 1.75
+    MaximumRamRatio = 1.5
+    Module = "/opt/technocore/functions/libtc_string.so"
+    ModuleName = "string"
+    [Name = "trim"
+      EN = "remove the blancs at the start and at the end of the string"
+      FR = "supprime les blancs au d\0303\0251but et a la fin de la chaine"
+    ]
+
+    ReportError = 1
+    SetVar = "Normal"
+    SuccessMedals = "trim"
+    SuperPerfRatioMedals = "fast_trim"
+    Test = 1
+    TestFunctionName = "test_trim"
+    TestMandatory = 1
+    Type = "Function"
+    UnlockedFunctions = "trim"
+    UseErrno = 1
+    UserLibrary = "/opt/technocore//libstring.so"
+  ],
+  [Eval
+    ConditionalVar = "Normal"
+    DefensiveProgramming = 1
+    DefensiveTesting = 1
+    [Document
+      [Description
+        EN = "      Write the function **eftrim** that remove the blanks at the\n      start and at the end of **str**.\n\n      you can search what a blank is by reading the **isblank** manual.\n\n      The function will return a copy of **str** without the blanks.\n      \n      Prototypes of requested functions are:\n  \n      [@CODE;C\n        int eftrim(char *str);\nint test_trim(void);\n      ]\n  \n      [@BONUS;\nDefensive programming: Detect reasonably that one of the sent pointer\n        is invalid and return **NULL**.\n        Note: Another way of doing defensive programming would be to log and exit,\n        but in order to allow us to correct your program, don't do that.\n]\n\n      Here is beginning of a test function:\n\n      [@CODE;C;\nint trim_test()\n{\n  char *str1 = \" abcd \";\n  char *str2;\n  if ((str2 = eftrim(str1)) == NULL)\n    return (0);\n  if (efstrcmp(str2, \"abcd\") != 0)\n    return (0);\n  return (1);\n}\n\n      ]\n    "
+        FR = "      Ecrivez la fonction **eftrim** qui suprime les blancs au d\0303\0251but\n      et a la fin de **str**.\n\n      Vous pouvez vous renseigner sur ce qu\0342\0200\0231est un blanc en lisant le manuel de **isblank**.\n\n      La fonction renverra une copie sans blancs de **str**.\n      \n      Les prototypes des fonctions **eftrim** et\n      **test_trim** sont les suivants :\n      \n      [@CODE;C;\nint eftrim(char *str);\nint test_trim(void);\n      ]\n\n      [@BONUS;\nProgrammation d\0303\0251fensive: Detectez raisonnablement que l'un des pointeurs\n        pass\0303\0251s en param\0303\0250tre est incorrect et renvoyez **NULL**.\n        Note: une autre mani\0303\0250re de faire de la programmation d\0303\0251fensive\n        serait d'\0303\0251crire un log et de quitter. Cependant afin de permettre\n        votre correction, ne faites pas \0303\0247a.\n]\n      \n      Ci-dessous, un d\0303\0251but de fonction de test:\n\n      [@CODE;C;\nint trim_test()\n{\n  char *str1 = \" abcd \";\n  char *str2;\n  if ((str2 = eftrim(str1)) == NULL)\n    return (0);\n  if (efstrcmp(str2, \"abcd\") != 0)\n    return (0);\n  return (1);\n}\n\n      ]\n    "
+      ]
+
+      MandatoryFiles = "trim.c", "test_trim.c" 
+
+      Prototype = "int eftrim(char *str);", "int test_trim(void)" 
+
+      TestFunction = "int trim_test()\n{\n  char *str1 = \" abcd \";\n  char *str2;\n  if ((str2 = eftrim(str1)) == NULL)\n    return (0);\n  if (efstrcmp(str2, \"abcd\") != 0)\n    return (0);\n  return (1);\n}\n"
+    ]
+
+    ErrnoTesting = 0
+    ErrorTesting = 0
+    Evaluation = 1
+    EvaluationMandatory = 1
+    Evaluator = "evaluate_trim"
+    FullEvaluation = 1
+    FullTesting = 1
+    FunctionName = "eftrim"
+    IncrediblePerfRatioMedals = "ultrafast_trim"
+    Mark = 1
+    MaximumPerfRatio = 1.75
+    MaximumRamRatio = 1.5
+    Module = "/opt/technocore/functions/libtc_string.so"
+    ModuleName = "string"
+    [Name = "trim"
+      EN = "remove the blancs at the start and at the end of the string"
+      FR = "supprime les blancs au d\0303\0251but et a la fin de la chaine"
+    ]
+
+    NoDoc
+    ReportError = 1
+    SuccessMedals = "trim_defensive"
+    SuperPerfRatioMedals = "fast_trim"
+    Test = 1
+    TestFunctionName = "test_trim"
+    TestMandatory = 1
+    Type = "Function"
+    UnlockedFunctions = "trim"
+    UseErrno = 1
+    UserLibrary = "/opt/technocore//libstring.so"
+  ],
+  [
+    ALLMAN_INDENT_STYLE = 1
+    [AllGlobalsAreConst
+      Points = 1
+      Value = 1
+    ]
+
+    [AlwaysBraces
+      Points = 1
+      Value = 0
+    ]
+
+    [AttributetStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [AvoidBracesForSingleLine
+      Points = 1
+      Value = 1
+    ]
+
+    CAMEL_CASE = 2
+    ConditionalVar = "Success"
+    [DeclarationStatementSeparator
+      Points = 1
+      Value = 1
+    ]
+
+    [DoWhileForbidden
+      Points = "10"
+      Value = 1
+    ]
+
+    [EnumConstantInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "EF"
+    ]
+
+    [EnumConstantStyle
+      Points = 1
+      Value = "0"
+    ]
+
+    [EnumInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "e_"
+    ]
+
+    [EnumStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [ForForbidden
+      Points = "10"
+      Value = 1
+    ]
+
+    [FunctionMatchingPath
+      Points = 1
+      Value = 1
+    ]
+
+    [FunctionNameInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "ef"
+    ]
+
+    [FunctionNameStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionPerFile
+      Points = 5
+      Value = 5
+    ]
+
+    [FunctionPointerAttributeStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionPointerTypeInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "t_"
+    ]
+
+    [FunctionPointerTypeStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionVariableDefinitionAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    GNU_INDENT_STYLE = 0
+    [GlobalFunctionVariableDefinitionAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [GlobalParameterNameAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [GlobalStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [GlobalVariableStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [GlocalVariableInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "gl_"
+    ]
+
+    [GoToForbidden
+      Points = "10"
+      Value = 1
+    ]
+
+    [Header
+      Points = 1
+      Value = "/*\n** %FirstName %FamilyName %Nickname %Login <%Mail>\n** EFRITS 2022-%Year\n** %ProjectName %Year\n*/\n"
+    ]
+
+    [IndentationSize
+      Points = 1
+      Value = 2
+    ]
+
+    IndentationStyle = "0"
+    IndentationToken = 8
+    KNR_INDENT_STYLE = 2
+    [LocalVariableInlineInitForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [LocalVariableStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    MIXED_CASE = 0
+    [MaximumFunctionLength
+      Points = 5
+      Value = 25
+    ]
+
+    [MaximumFunctionParameter
+      Points = 2
+      Value = 4
+    ]
+
+    [MaximumLineWidth
+      Points = 5
+      Value = 80
+    ]
+
+    [MaximumScopeLength
+      Points = 1
+      Value = 2
+    ]
+
+    Medals = "trim_recursive"
+    Module = "Norm"
+    Name = "trim"
+    [NoEmptyLineInFunction
+      Points = 1
+      Value = 1
+    ]
+
+    [NoGlobal
+      Points = 1
+      Value = 0
+    ]
+
+    [NoMagicValue
+      Disabled
+      Points = 1
+      Value = 1
+    ]
+
+    NoMedals
+    [NoRecursion
+      Points = 5
+      Value = 1
+    ]
+
+    [NoShortName
+      Points = 1
+      Value = 4
+    ]
+
+    [NoSpaceInsideParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    [NonStaticFunctionPerFile
+      Points = 1
+      Value = 1
+    ]
+
+    [OnlyByReference
+      Points = 3
+      Value = 8
+    ]
+
+    PASCAL_CASE = 3
+    [ParameterNameAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [ParameterTypeAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [PointerStarOnName
+      Points = 1
+      Value = 1
+    ]
+
+    [ReturnParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    SNAKE_CASE = 1
+    [SingleInstructionPerLine
+      Points = 5
+      Value = 1
+    ]
+
+    [SizeOfParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAfterComma
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAfterStatement
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAroundBinaryOperator
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAroundInbetweenPointerStars
+      Points = 1
+      Value = 1
+    ]
+
+    [StructInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "s_"
+    ]
+
+    [StructStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [SwitchForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    Tolerance = 10
+    [TrailingWhitespace
+      Points = 1
+      Value = 1
+    ]
+
+    Type = "Builtin"
+    [TypedefInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "t_"
+    ]
+
+    [TypedefMatching
+      Points = 1
+      Value = 1
+    ]
+
+    [TypedefStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [UnionInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "u_"
+    ]
+
+    [UnionStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [WhileForbidden
+      Points = "10"
+      Value = 1
+    ]
+
+  ],
+  [
+    Module = "Move"
+    Name = "Returning to previous directory"
+    SetVar = "Moved"
+    Target = "-"
+    Type = "Builtin"
+  ],
+  [
+    Module = "Move"
+    Name = "Changing directory to sqrt"
+    SetVar = "Moved"
+    Target = "sqrt"
+    Type = "Builtin"
+  ],
+  [
+    Build = "Object"
+    BuildCommand = "gcc -fPIC -g -g3 -ggdb -c %s -std=gnu11 -o %1$s"
+    ConditionalVar = "Moved"
+    Flag = "-std=gnu11"
+    Module = "Construction"
+    Name = "Separated source files compilation"
+    NoDoc
+    SetVar = "Build"
+    Tolerance = 0
+    Type = "Builtin"
+  ],
+  [
+    Build = "Cheat"
+    ConditionalVar = "Build"
+    Module = "Construction"
+    Name = "Checking for forbidden functions"
+    NoDoc
+    SetVar = "Cheat"
+    Type = "Builtin"
+  ],
+  [
+    Command = "objcopy --redefine-sym efsqrt=technocore_sqrt test_sqrt.o"
+    ConditionalVar = "Cheat"
+    FunctionName = "sqrt"
+    Module = "Command"
+    NoDoc
+    NoMedals
+    NoReport
+    Type = "Builtin"
+  ],
+  [
+    ALLMAN_INDENT_STYLE = 1
+    [AllGlobalsAreConst
+      Points = 1
+      Value = 1
+    ]
+
+    [AlwaysBraces
+      Points = 1
+      Value = 0
+    ]
+
+    [AttributetStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [AvoidBracesForSingleLine
+      Points = 1
+      Value = 1
+    ]
+
+    CAMEL_CASE = 2
+    ConditionalVar = "Cheat"
+    [DeclarationStatementSeparator
+      Points = 1
+      Value = 1
+    ]
+
+    [DoWhileForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [EnumConstantInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "EF"
+    ]
+
+    [EnumConstantStyle
+      Points = 1
+      Value = "0"
+    ]
+
+    [EnumInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "e_"
+    ]
+
+    [EnumStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [ForForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [FunctionMatchingPath
+      Points = 1
+      Value = 1
+    ]
+
+    [FunctionNameInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "ef"
+    ]
+
+    [FunctionNameStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionPerFile
+      Points = 5
+      Value = 5
+    ]
+
+    [FunctionPointerAttributeStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionPointerTypeInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "t_"
+    ]
+
+    [FunctionPointerTypeStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionVariableDefinitionAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    GNU_INDENT_STYLE = 0
+    [GlobalFunctionVariableDefinitionAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [GlobalParameterNameAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [GlobalStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [GlobalVariableStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [GlocalVariableInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "gl_"
+    ]
+
+    [GoToForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [Header
+      Points = 1
+      Value = "/*\n** %FirstName %FamilyName %Nickname %Login <%Mail>\n** EFRITS 2022-%Year\n** %ProjectName %Year\n*/\n"
+    ]
+
+    [IndentationSize
+      Points = 1
+      Value = 2
+    ]
+
+    IndentationStyle = "0"
+    IndentationToken = 8
+    KNR_INDENT_STYLE = 2
+    [LocalVariableInlineInitForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [LocalVariableStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    MIXED_CASE = 0
+    [MaximumFunctionLength
+      Points = 5
+      Value = 25
+    ]
+
+    [MaximumFunctionParameter
+      Points = 2
+      Value = 4
+    ]
+
+    [MaximumLineWidth
+      Points = 5
+      Value = 80
+    ]
+
+    [MaximumScopeLength
+      Points = 1
+      Value = 2
+    ]
+
+    Module = "Norm"
+    Name = "Norm"
+    [NoEmptyLineInFunction
+      Points = 1
+      Value = 1
+    ]
+
+    [NoGlobal
+      Points = 1
+      Value = 0
+    ]
+
+    [NoMagicValue
+      Disabled
+      Points = 1
+      Value = 1
+    ]
+
+    NoMedals
+    [NoRecursion
+      Points = 5
+      Value = 1
+    ]
+
+    [NoShortName
+      Points = 1
+      Value = 4
+    ]
+
+    [NoSpaceInsideParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    [NonStaticFunctionPerFile
+      Points = 1
+      Value = 1
+    ]
+
+    [OnlyByReference
+      Points = 3
+      Value = 8
+    ]
+
+    PASCAL_CASE = 3
+    [ParameterNameAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [ParameterTypeAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [PointerStarOnName
+      Points = 1
+      Value = 1
+    ]
+
+    [ReturnParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    SNAKE_CASE = 1
+    SetVar = "Norm"
+    [SingleInstructionPerLine
+      Points = 5
+      Value = 1
+    ]
+
+    [SizeOfParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAfterComma
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAfterStatement
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAroundBinaryOperator
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAroundInbetweenPointerStars
+      Points = 1
+      Value = 1
+    ]
+
+    [StructInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "s_"
+    ]
+
+    [StructStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [SwitchForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    Tolerance = 10
+    [TrailingWhitespace
+      Points = 1
+      Value = 1
+    ]
+
+    Type = "Builtin"
+    [TypedefInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "t_"
+    ]
+
+    [TypedefMatching
+      Points = 1
+      Value = 1
+    ]
+
+    [TypedefStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [UnionInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "u_"
+    ]
+
+    [UnionStyle
+      Points = 1
+      Value = "1"
+    ]
+
+  ],
+  [
+    Build = "Full"
+    BuildCommand = "gcc *.o -shared -rdynamic -L./ -L/opt/technocore/functions/ -ltc_math -o libmath.so -std=gnu11 -g -g3 -ggdb"
+    ConditionalVar = "Norm"
+    Flag = "-std=gnu11 -g -g3 -ggdb"
+    LibPath = "/opt/technocore/functions/"
+    Module = "Construction"
+    Name = "math"
+    NoDoc
+    NoMedal
+    NoReport
+    Tolerance = 0
+    Type = "Builtin"
+  ],
+  [Eval
+    ConditionalVar = "Norm"
+    DefensiveTesting = 0
+    [Document
+      [Description
+        EN = "      Write the function **efsqrt** that return the square root of **v**.\n      If **v** is negative return -1 and set errno to a coherent value.\n\n      Prototypes of requested functions are:\n  \n      [@CODE;C;\ndouble efsqrt(int v);\nint test_sqrt(void);\n      ]\n  \n      [@HINT;\nyou can use a simple algirithme that run through an number of value inferior to **v**\n        and put them to square root. Don't hesitate to think about ways to make this list\n        relatively small to keep good performance.\n]\n\n      Here is beginning of a test function:\n\n      [@CODE;C;\nint sqrt_test()\n{\n  if (efsqrt(4) \0342\0200\0223 2.0 < 0.001)\n    return (0);\n  // A vous de continuer\n  return (1);\n}\n\n      ]\n    "
+        FR = "      Ecrivez la fonction **efsqrt** qui renvoie la racine carr\0303\0251e de **v**.\n      Si **v** est negatif renvoie -1 et met errno a la valeur coh\0303\0251rente.\n      \n      Les prototypes des fonctions **efsqrt** et\n      **test_sqrt** sont les suivants :\n      \n      [@CODE;C;\ndouble efsqrt(int v);\nint test_sqrt(void);\n      ]\n\n      [@HINT;\nVous pouvez employer un algorithme simple consistant \0303\0240 parcourir un ensemble de\n        valeurs inf\0303\0251rieures \0303\0240 **v** en le mettant au carr\0303\0251. N\0342\0200\0231h\0303\0251sitez pas \0303\0240 r\0303\0251fl\0303\0251chir aux moyens\n        de maintenir cet ensemble relativement petit afin de conserver de bonnes performances.\n]\n      \n      Ci-dessous, un d\0303\0251but de fonction de test:\n\n      [@CODE;C;\nint sqrt_test()\n{\n  if (efsqrt(4) \0342\0200\0223 2.0 < 0.001)\n    return (0);\n  // A vous de continuer\n  return (1);\n}\n\n      ]\n    "
+      ]
+
+      MandatoryFiles = "sqrt.c", "test_sqrt.c" 
+
+      Prototype = "double efsqrt(int v);", "int test_sqrt(void)" 
+
+      TestFunction = "int sqrt_test()\n{\n  if (efsqrt(4) \0342\0200\0223 2.0 < 0.001)\n    return (0);\n  // A vous de continuer\n  return (1);\n}\n"
+    ]
+
+    ErrnoTesting = 0
+    ErrorTesting = 0
+    Evaluation = 1
+    EvaluationMandatory = 1
+    Evaluator = "evaluate_sqrt"
+    FullEvaluation = 1
+    FullTesting = 1
+    FunctionName = "efsqrt"
+    IncrediblePerfRatioMedals = "ultrafast_sqrt"
+    Mark = 1
+    MaximumPerfRatio = 1.75
+    MaximumRamRatio = 1.5
+    Module = "/opt/technocore/functions/libtc_math.so"
+    ModuleName = "math"
+    [Name = "sqrt"
+      EN = "return the square root of the given value"
+      FR = "renvoi la racine carr\0303\0251e de la valeur donn\0303\0251"
+    ]
+
+    ReportError = 1
+    SetVar = "Normal"
+    SuccessMedals = "sqrt"
+    SuperPerfRatioMedals = "fast_sqrt"
+    Test = 1
+    TestFunctionName = "test_sqrt"
+    TestMandatory = 1
+    Type = "Function"
+    UnlockedFunctions = "sqrt"
+    UseErrno = 1
+    UserLibrary = "/opt/technocore//libmath.so"
+  ],
+  [Eval
+    ConditionalVar = "Normal"
+    DefensiveProgramming = 1
+    DefensiveTesting = 1
+    [Document
+      [Description
+        EN = "      Write the function **efsqrt** that return the square root of **v**.\n      If **v** is negative return -1 and set errno to a coherent value.\n\n      Prototypes of requested functions are:\n  \n      [@CODE;C;\ndouble efsqrt(int v);\nint test_sqrt(void);\n      ]\n  \n      [@HINT;\nyou can use a simple algirithme that run through an number of value inferior to **v**\n        and put them to square root. Don't hesitate to think about ways to make this list\n        relatively small to keep good performance.\n]\n\n      Here is beginning of a test function:\n\n      [@CODE;C;\nint sqrt_test()\n{\n  if (efsqrt(4) \0342\0200\0223 2.0 < 0.001)\n    return (0);\n  // A vous de continuer\n  return (1);\n}\n\n      ]\n    "
+        FR = "      Ecrivez la fonction **efsqrt** qui renvoie la racine carr\0303\0251e de **v**.\n      Si **v** est negatif renvoie -1 et met errno a la valeur coh\0303\0251rente.\n      \n      Les prototypes des fonctions **efsqrt** et\n      **test_sqrt** sont les suivants :\n      \n      [@CODE;C;\ndouble efsqrt(int v);\nint test_sqrt(void);\n      ]\n\n      [@HINT;\nVous pouvez employer un algorithme simple consistant \0303\0240 parcourir un ensemble de\n        valeurs inf\0303\0251rieures \0303\0240 **v** en le mettant au carr\0303\0251. N\0342\0200\0231h\0303\0251sitez pas \0303\0240 r\0303\0251fl\0303\0251chir aux moyens\n        de maintenir cet ensemble relativement petit afin de conserver de bonnes performances.\n]\n      \n      Ci-dessous, un d\0303\0251but de fonction de test:\n\n      [@CODE;C;\nint sqrt_test()\n{\n  if (efsqrt(4) \0342\0200\0223 2.0 < 0.001)\n    return (0);\n  // A vous de continuer\n  return (1);\n}\n\n      ]\n    "
+      ]
+
+      MandatoryFiles = "sqrt.c", "test_sqrt.c" 
+
+      Prototype = "double efsqrt(int v);", "int test_sqrt(void)" 
+
+      TestFunction = "int sqrt_test()\n{\n  if (efsqrt(4) \0342\0200\0223 2.0 < 0.001)\n    return (0);\n  // A vous de continuer\n  return (1);\n}\n"
+    ]
+
+    ErrnoTesting = 0
+    ErrorTesting = 0
+    Evaluation = 1
+    EvaluationMandatory = 1
+    Evaluator = "evaluate_sqrt"
+    FullEvaluation = 1
+    FullTesting = 1
+    FunctionName = "efsqrt"
+    IncrediblePerfRatioMedals = "ultrafast_sqrt"
+    Mark = 1
+    MaximumPerfRatio = 1.75
+    MaximumRamRatio = 1.5
+    Module = "/opt/technocore/functions/libtc_math.so"
+    ModuleName = "math"
+    [Name = "sqrt"
+      EN = "return the square root of the given value"
+      FR = "renvoi la racine carr\0303\0251e de la valeur donn\0303\0251"
+    ]
+
+    NoDoc
+    ReportError = 1
+    SuccessMedals = "sqrt_defensive"
+    SuperPerfRatioMedals = "fast_sqrt"
+    Test = 1
+    TestFunctionName = "test_sqrt"
+    TestMandatory = 1
+    Type = "Function"
+    UnlockedFunctions = "sqrt"
+    UseErrno = 1
+    UserLibrary = "/opt/technocore//libmath.so"
+  ],
+  [
+    ALLMAN_INDENT_STYLE = 1
+    [AllGlobalsAreConst
+      Points = 1
+      Value = 1
+    ]
+
+    [AlwaysBraces
+      Points = 1
+      Value = 0
+    ]
+
+    [AttributetStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [AvoidBracesForSingleLine
+      Points = 1
+      Value = 1
+    ]
+
+    CAMEL_CASE = 2
+    ConditionalVar = "Success"
+    [DeclarationStatementSeparator
+      Points = 1
+      Value = 1
+    ]
+
+    [DoWhileForbidden
+      Points = "10"
+      Value = 1
+    ]
+
+    [EnumConstantInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "EF"
+    ]
+
+    [EnumConstantStyle
+      Points = 1
+      Value = "0"
+    ]
+
+    [EnumInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "e_"
+    ]
+
+    [EnumStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [ForForbidden
+      Points = "10"
+      Value = 1
+    ]
+
+    [FunctionMatchingPath
+      Points = 1
+      Value = 1
+    ]
+
+    [FunctionNameInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "ef"
+    ]
+
+    [FunctionNameStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionPerFile
+      Points = 5
+      Value = 5
+    ]
+
+    [FunctionPointerAttributeStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionPointerTypeInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "t_"
+    ]
+
+    [FunctionPointerTypeStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [FunctionVariableDefinitionAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    GNU_INDENT_STYLE = 0
+    [GlobalFunctionVariableDefinitionAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [GlobalParameterNameAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [GlobalStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [GlobalVariableStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [GlocalVariableInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "gl_"
+    ]
+
+    [GoToForbidden
+      Points = "10"
+      Value = 1
+    ]
+
+    [Header
+      Points = 1
+      Value = "/*\n** %FirstName %FamilyName %Nickname %Login <%Mail>\n** EFRITS 2022-%Year\n** %ProjectName %Year\n*/\n"
+    ]
+
+    [IndentationSize
+      Points = 1
+      Value = 2
+    ]
+
+    IndentationStyle = "0"
+    IndentationToken = 8
+    KNR_INDENT_STYLE = 2
+    [LocalVariableInlineInitForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    [LocalVariableStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    MIXED_CASE = 0
+    [MaximumFunctionLength
+      Points = 5
+      Value = 25
+    ]
+
+    [MaximumFunctionParameter
+      Points = 2
+      Value = 4
+    ]
+
+    [MaximumLineWidth
+      Points = 5
+      Value = 80
+    ]
+
+    [MaximumScopeLength
+      Points = 1
+      Value = 2
+    ]
+
+    Medals = "sqrt_recursive"
+    Module = "Norm"
+    Name = "sqrt"
+    [NoEmptyLineInFunction
+      Points = 1
+      Value = 1
+    ]
+
+    [NoGlobal
+      Points = 1
+      Value = 0
+    ]
+
+    [NoMagicValue
+      Disabled
+      Points = 1
+      Value = 1
+    ]
+
+    NoMedals
+    [NoRecursion
+      Points = 5
+      Value = 1
+    ]
+
+    [NoShortName
+      Points = 1
+      Value = 4
+    ]
+
+    [NoSpaceInsideParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    [NonStaticFunctionPerFile
+      Points = 1
+      Value = 1
+    ]
+
+    [OnlyByReference
+      Points = 3
+      Value = 8
+    ]
+
+    PASCAL_CASE = 3
+    [ParameterNameAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [ParameterTypeAlignment
+      Points = 1
+      Value = 1
+    ]
+
+    [PointerStarOnName
+      Points = 1
+      Value = 1
+    ]
+
+    [ReturnParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    SNAKE_CASE = 1
+    [SingleInstructionPerLine
+      Points = 5
+      Value = 1
+    ]
+
+    [SizeOfParenthesis
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAfterComma
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAfterStatement
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAroundBinaryOperator
+      Points = 1
+      Value = 1
+    ]
+
+    [SpaceAroundInbetweenPointerStars
+      Points = 1
+      Value = 1
+    ]
+
+    [StructInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "s_"
+    ]
+
+    [StructStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [SwitchForbidden
+      Points = 5
+      Value = 1
+    ]
+
+    Tolerance = 10
+    [TrailingWhitespace
+      Points = 1
+      Value = 1
+    ]
+
+    Type = "Builtin"
+    [TypedefInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "t_"
+    ]
+
+    [TypedefMatching
+      Points = 1
+      Value = 1
+    ]
+
+    [TypedefStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [UnionInfix
+      Points = 1
+      Position = "Prefix"
+      Value = "u_"
+    ]
+
+    [UnionStyle
+      Points = 1
+      Value = "1"
+    ]
+
+    [WhileForbidden
+      Points = "10"
+      Value = 1
+    ]
+
+  ],
+  [
+    Module = "Move"
+    Name = "Returning to previous directory"
+    SetVar = "Moved"
+    Target = "-"
+    Type = "Builtin"
+  ],
+  [
+    Module = "Unset"
+    NoDoc
+    NoReport
+    Type = "Builtin"
+  ]
+}
+
+FunctionPrefix = "ef"
+FunctionSuffix = ""
+PutChar = "efputchar"
+RootDir = "/opt/technocore/"
+School = "efrits"
+Timeout = 2

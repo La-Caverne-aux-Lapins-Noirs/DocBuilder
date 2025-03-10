@@ -27,4 +27,3 @@ function BuildConfiguration($argc, $argv)
     $Configuration[".OutputFile"] = $Output;
     return ($Configuration);
 }
-

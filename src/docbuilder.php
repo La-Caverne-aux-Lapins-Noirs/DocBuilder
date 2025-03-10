@@ -31,16 +31,21 @@ function main($argc, array $argv)
 	require_once ($file);
     
     $str = ob_get_clean();
-    $str = explode("\n", $str);
-    foreach ($str as &$line)
-	$line = trim($line);
-    $str = implode("\n", $str);
 
-    
     if (($str = ResolveDirectives($Configuration, $str, "[@")) == NULL)
-	return (1);
+	    return (1);
     if (($str = ResolveDirectives($Configuration, $str, "[#")) == NULL)
-	return (1);
+	    return (1);
+
+    $search = ["\\sp" , "\\tb"];
+    $replace = [" ", "\t"];
+    $str = explode("\n", $str);
+    foreach ($str as &$line) {
+        $line = trim($line);
+        $line = str_replace($search, $replace, $line);
+        file_put_contents("debug", $line."\n", FILE_APPEND);
+    }
+    $str = implode("\n", $str);
     if ($Configuration[".Debug"])
 	echo $str;
     Compile($Configuration, $str);
