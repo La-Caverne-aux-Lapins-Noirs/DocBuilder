@@ -23,6 +23,7 @@ function	BuildDocument(&$conf) {
     \setlength{\tabcolsep}{0pt}
     \setlength{\fboxsep}{0.2cm}
 
+    <?php // Style pour la page de présentation ?>
     \fancypagestyle{presentationPage}{
         \fancyhf{}
         <?php if (isset($conf["Matter"][$conf["Language"]])) { ?>
@@ -38,6 +39,9 @@ function	BuildDocument(&$conf) {
     <?php } ?>
     }
 
+    <?php // Style pour toutes les pages du sujet sauf la première de présentation ?>
+    <?php // Les footers ne sont pas en haut, le mieux est avec la raisebox{-.5\height} qui centre au milieu ?>
+    <?php // 0 et \height font descendre le texte dans tous les cas, je n'ai pas trouvé de solutions ?>
     \fancypagestyle{contentPage}{
         \fancyhf{}
     <?php if (isset($conf["Matter"][$conf["Language"]])) { ?>
@@ -57,12 +61,15 @@ function	BuildDocument(&$conf) {
     <?php } ?>
     }
 
+    <?php // savegeometry{default} permet de sauvegarder les marges par défaut pour les remettre après la page de présentation ?>
     \savegeometry{default}
+    <?php // thispagestyle applique le style défini au dessus à la page actuelle?>
     \thispagestyle{presentationPage}
+    <?php // Applique des marges spéciales pour bien centré les images au milieu de la page ?>
     \newgeometry{lmargin=2cm, rmargin=3cm, tmargin=2cm, bmargin=2cm}
     <?php if (isset($conf["Matter"]["Logo"])) { ?>
         \includegraphics[width=6cm, height=6cm]{<?=$conf["Matter"]["Logo"]; ?>}
-    <?php } else { ?>
+    <?php } else { // framebox et parbox permettent de faire des boîtes pour ne pas détruire la mise en page si pas d'image?>
         \framebox{\parbox[c][6cm][c]{6cm}{<?=$conf["Matter"][$conf["Language"]]; ?>}
     <?php } ?>
 
@@ -72,7 +79,8 @@ function	BuildDocument(&$conf) {
         \framebox{\parbox[c][10cm][c]{\textwidth}{# <?=$conf["Activity"][$conf["Language"]]; ?>}
     <?php } ?>
 
-    \mbox{\parbox[c][5cm][c]{\textwidth}{
+    <?php // mbox est l'équivalent de framebox mais sans contour ?>
+    \mbox{\parbox[c][9cm][c]{\textwidth}{
 
         [@Size;5] [@Center;<?=$conf["FrontPage"]["Message"][$conf["Language"]]; ?>]
 
@@ -93,7 +101,9 @@ function	BuildDocument(&$conf) {
     }}
 
     [@NewPage]
+    <?php // loadgeometry applique la geometry par défaut sauvegardé précédemment ?>
     \loadgeometry{default}
+    <?php // Applique le style pour toutes les prochaines pages contrairement à thispagestyle qui l'applique que pour l'actuel ?>
     \pagestyle{contentPage}
 
     <?php $i = 0;
