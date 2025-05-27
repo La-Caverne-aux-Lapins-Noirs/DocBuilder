@@ -16,7 +16,7 @@ function main($argc, array $argv)
     if (!isset($Configuration["Document"]))
 	die("Missing document type.\n");
     $Configuration["Document"] = strtolower($Configuration["Document"]);
-    $Configuration[".Directory"] = "src/documents/{$Configuration["Document"]}/";
+    $Configuration[".Directory"] = __DIR__."/documents/{$Configuration["Document"]}/";
     if (!is_dir($Configuration[".Directory"]))
 	die("Invalid document type {$Configuration["Document"]}.\n");
     foreach (glob($Configuration[".Directory"]."*.php") as $file)

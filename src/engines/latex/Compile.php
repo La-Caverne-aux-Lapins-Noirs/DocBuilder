@@ -11,7 +11,10 @@ function Compile($conf, $str)
 	"-t latex ";
     if ($conf[".Debug"])
         $command .= "--verbose";
-    $command .= "; latexmk --shell-escape -jobname={$conf[".OutputFile"]} output.tex ";
+    $outputFileName = basename($conf[".OutputFile"]);
+    $outputDir = dirname($conf[".OutputFile"]);
+    $command .= "; latexmk --shell-escape -jobname={$outputFileName} -output-directory={$outputDir} output.tex ";
+    print_r("Command inside Compile :". $command. "\n");
 
     $fd = popen($command, "w");
     // echo $str;

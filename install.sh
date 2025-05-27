@@ -25,6 +25,10 @@ GIT="
   mergeconf;https://github.com/La-Caverne-aux-Lapins-Noirs/BunnyConfiguration
 "
 
+PIP="
+  Pygments
+"
+
 # Si on est pas sudo, on passe sudo
 if [ `id -u` -ne 0 ]; then
     sudo $0
@@ -46,6 +50,9 @@ for var in $GIT; do
 		    && make \
 		    && make install \
 	)
+done
+for var in $PIP; do
+    which $var > /dev/null && echo "$var: Already installed." || (echo "$1: Starting installation:" && yes | pip install $var)
 done
 
 mkdir -p /opt/technocore/docbuilder/
