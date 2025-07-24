@@ -4,3 +4,7 @@ dump.htm
 *.md
 docs/
 test.sh
+_*
+*.tex
+debug
+*.pdf*
