@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+check_bin() {
+  command -v "$1" >/dev/null 2>&1 || echo "docbuilder: missing dependency '$1' in PATH" >&2
+}
+
+check_bin pandoc
+check_bin latexmk
+check_bin xelatex
+check_bin mergeconf
+check_bin pygmentize
+
+exit 0

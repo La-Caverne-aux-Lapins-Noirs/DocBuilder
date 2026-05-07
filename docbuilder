@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+$target = "/usr/lib/docbuilder/docbuilder.php";
+if (file_exists(__DIR__."/src/docbuilder.php"))
+   require_once (__DIR__."/src/docbuilder.php");
+else
+   require_once ($target);
+

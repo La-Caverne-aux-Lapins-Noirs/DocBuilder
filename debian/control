@@ -1,0 +1,12 @@
+Source: docbuilder
+Section: utils
+Priority: optional
+Maintainer: Jason Brillante <jason.brillante@gmail.com>
+Standards-Version: 4.6.2
+Build-Depends: debhelper-compat (= 13)
+
+Package: docbuilder
+Architecture: all
+Depends: ${misc:Depends}, php-cli, pandoc, texlive-xetex, latexmk, texlive-latex-extra, texlive-fonts-recommended, texlive-lang-french, python3-pygments, ghostscript
+Description: Document generator based on mergeconf + pandoc + LaTeX
+ DocBuilder builds PDFs from .dab configuration using mergeconf, pandoc and LaTeX.

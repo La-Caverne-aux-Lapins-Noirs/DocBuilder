@@ -1,0 +1,66 @@
+
+[****************************************************************************************]
+[***** Elements hautement configurable - a etablir potentiellement d'un autre fichier ***]
+[****************************************************************************************]
+
+'Peut etre un tableau
+Title = "Titre du document"
+
+[Company
+  Name = "NOM DE LA SOCIETE"
+  Logo = "res/logo.png"
+  Street = "42 Avenue du Boulevard des Rues"
+  City = "68000 Commune de Paris"
+  Phone = "01 23 45 67 89"
+  Mail = "contact@com.fr"
+]
+
+[Destination
+  Name = "Janos Llantebri"
+  Street = "84 Boulevard des Rues de l'Avenue"
+  City = "65C02 MontRouge"
+]
+
+[Signature
+  Role = "Directeur"
+  Identity = "Nicolas Dupond"
+  Signature = "res/signature.png"
+]
+
+Content = [Text($,Content)
+  Ceci est le contenu de la lettre.
+Content]
+
+[****************************************************************************************]
+[************* Elements relativement stables, mais tout de meme configurable ************]
+[****************************************************************************************]
+
+'Peut etre un champ, ou deux (Left Right) ou trois (Left Middle Right)
+[Header
+  Left = [Text($,Left)
+    [@Size;9] $([.].Company.Name)
+  Left]
+  Right = [Text($,Right)
+    [@Image;$([.].Company.Logo);width=4cm;height=2cm]
+  Right]
+]
+
+Footer = [Text($,Footer)
+  [@Center] [@Size;2] $([.].Company.Name), $([.].Company.Street) $([.].Company.City)
+Footer]
+
+From = [Text($,From)
+  $([.].Company.Name)
+  $([.].Company.Street)
+  $([.].Company.City)
+  $([.].Company.Phone)
+  $([.].Company.Mail)
+From]
+
+Target = [Text($,Target)
+  $([.].Destination.Name)
+  $([.].Destination.Street)
+  $([.].Destination.City)
+Target]
+
+Document = "Letter"

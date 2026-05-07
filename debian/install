@@ -1,0 +1,4 @@
+docbuilder usr/bin/
+src/*      usr/lib/docbuilder/
+res/*	   usr/share/docbuilder/res/
+examples/* usr/share/docbuilder/examples/

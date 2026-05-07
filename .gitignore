@@ -1,0 +1,13 @@
+*~
+#*
+dump.htm
+*.md
+test.sh
+_*
+*.tex
+debug
+*.pdf*
+_minted-*
+*.pygtex
+*.pygstyle
+identity.dab*
