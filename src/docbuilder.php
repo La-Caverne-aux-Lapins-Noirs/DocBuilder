@@ -24,7 +24,7 @@ function main($argc, array $argv)
 
     ob_start("KeepContent");
     BuildDocument($Configuration);
-    $Configuration[".Engine"] = "src/engines/{$Configuration[".Engine"]}/";
+    $Configuration[".Engine"] = __DIR__."/engines/{$Configuration[".Engine"]}/";
     if (!is_dir($Configuration[".Engine"]))
 	die("Invalid engine {$Configuration[".Engine"]} for document type {$Configuration["Document"]}.\n");
     foreach (glob($Configuration[".Engine"]."*.php") as $file)
