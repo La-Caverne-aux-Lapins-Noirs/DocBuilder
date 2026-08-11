@@ -28,16 +28,12 @@ ResolveSignatories($conf);
 assert($conf["Signatories"]["Director"]["Identity"] === "Bob");
 assert($conf["Signatories"]["Finance"]["Identity"] === "Bob");
 
-// Legacy Signatories can still provide document-specific metadata while a
-// generic signatory provides the actual identity.
-$conf = [
-    "Signatures" => ["Student" => ["Required" => 1, "Role" => "Bénéficiaire"]],
-    "Signatories" => ["Student" => ["Role" => "Ancien libellé"]],
-    "Person" => ["Identity" => "Charlie", "Signatory" => 1, "As" => "Student"]
-];
-ResolveSignatories($conf);
-assert($conf["Signatories"]["Student"]["Identity"] === "Charlie");
-assert($conf["Signatories"]["Student"]["Role"] === "Bénéficiaire");
+expect_exception(function () {
+    $conf = [
+        "Signatories" => ["Student" => ["Identity" => "Legacy"]]
+    ];
+    ResolveSignatories($conf);
+});
 
 expect_exception(function () {
     $conf = ["Signatures" => ["Student" => ["Required" => 1]]];

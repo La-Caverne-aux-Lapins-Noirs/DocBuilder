@@ -120,8 +120,8 @@ function DocBuilderCollectSignatories($node, $path, &$found, $declared_roles)
 
     foreach ($node as $key => $child)
     {
-        // Signatories contains the normalized result (or a legacy explicit
-        // mapping). Signatures contains role requirements, not identities.
+        // Signatories is the normalized result. Signatures contains role
+        // requirements, not identities. Neither contains source identities.
         if ($key === "Signatories" || $key === "Signatures")
             continue;
         if (!is_array($child))
@@ -133,62 +133,29 @@ function DocBuilderCollectSignatories($node, $path, &$found, $declared_roles)
 
 function ResolveSignatories(array &$configuration)
 {
-    $declared = DocBuilderDeclaredSignatureRoles($configuration);
-    $legacy = [];
-
-    // Temporary compatibility layer. Old documents may still define
-    // Signatories directly. Those scopes are treated as legacy role metadata
-    // or, when no generic signatory is supplied, as the complete identity.
-    // This block is intended to disappear after model migration.
     if (isset($configuration["Signatories"]))
-    {
-        if (!is_array($configuration["Signatories"]))
-            throw new RuntimeException("Signatories must be a Dabsic scope.");
-        foreach ($configuration["Signatories"] as $role => $identity)
-        {
-            if (!DocBuilderValidRole($role))
-                throw new RuntimeException("Invalid role '$role' in Signatories.");
-            if (!is_array($identity))
-                throw new RuntimeException("Signatories.$role must be a Dabsic scope.");
-            $legacy[$role] = $identity;
-        }
-    }
+        throw new RuntimeException("Signatories is a generated DocBuilder scope and must not be supplied by input Dabsic. Declare Signatory=1 and As instead.");
 
+    $declared = DocBuilderDeclaredSignatureRoles($configuration);
     $found = [];
     DocBuilderCollectSignatories($configuration, "", $found, $declared);
     $resolved = [];
-
-    // Preserve undeclared legacy roles during migration (for example Finance
-    // in older contracts). Declared roles are rebuilt below so the document's
-    // Signatures metadata can be applied consistently.
-    foreach ($legacy as $role => $identity)
-        if ($declared === NULL || !isset($declared[$role]))
-            $resolved[$role] = $identity;
 
     if ($declared !== NULL)
     {
         foreach ($declared as $role => $definition)
         {
-            $required = isset($definition["Required"]) ? DocBuilderSignatoryEnabled($definition["Required"]) : false;
-            $identity = NULL;
-
-            if (isset($found[$role]))
-                $identity = DocBuilderCleanSignatoryIdentity($found[$role]["identity"]);
-            else if (isset($legacy[$role]))
-                $identity = $legacy[$role];
-
-            if ($identity === NULL)
+            $required = isset($definition["Required"])
+                ? DocBuilderSignatoryEnabled($definition["Required"])
+                : false;
+            if (!isset($found[$role]))
             {
                 if ($required)
                     throw new RuntimeException("Missing required signatory for role '$role'.");
                 continue;
             }
 
-            // Identity data comes from the injected person. Legacy/model role
-            // metadata is then applied, and the new Signatures declaration has
-            // final authority because it belongs to the document definition.
-            if (isset($legacy[$role]) && isset($found[$role]))
-                $identity = array_replace($identity, $legacy[$role]);
+            $identity = DocBuilderCleanSignatoryIdentity($found[$role]["identity"]);
             $identity = array_replace($identity, DocBuilderSignatureRoleMetadata($definition));
             $resolved[$role] = $identity;
         }
@@ -196,15 +163,9 @@ function ResolveSignatories(array &$configuration)
     else
     {
         foreach ($found as $role => $entry)
-        {
-            if (isset($resolved[$role]))
-                throw new RuntimeException("Role '$role' is defined both in Signatories and by a Signatory/As declaration.");
             $resolved[$role] = DocBuilderCleanSignatoryIdentity($entry["identity"]);
-        }
     }
 
     if (count($resolved))
         $configuration["Signatories"] = $resolved;
-    else if (isset($configuration["Signatories"]))
-        unset($configuration["Signatories"]);
 }
