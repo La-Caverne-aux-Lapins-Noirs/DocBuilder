@@ -94,6 +94,8 @@ ne peuvent pas revendiquer le même rôle. Les erreurs sont signalées avant le
 rendu du document.
 
 Le scope explicite historique `Signatories` reste temporairement accepté pour
-permettre la migration des anciens modèles et appels. Il est destiné à être
-supprimé lorsque les producteurs et les modèles auront tous migré vers
+permettre la migration des anciens modèles et appels. Lorsqu’un rôle est aussi
+déclaré dans `Signatures`, les métadonnées du rôle définies par le document
+(par exemple `Role`) sont fusionnées avec l’identité injectée. Il est destiné à
+être supprimé lorsque les producteurs et les modèles auront tous migré vers
 `Signatures` + `Signatory` / `As`.
