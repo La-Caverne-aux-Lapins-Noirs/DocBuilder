@@ -41,3 +41,59 @@ Format de fichier
 - Les formats gérés par DocBuilder sont tous ceux supporté par la LibLapin.
 - Le format recommandé est le fichier Dabsic en .dab - il est le seul testé.
 
+
+Signataires génériques
+======================
+
+Un modèle peut déclarer les rôles de signature dont il a besoin dans le scope
+`Signatures`. Les noms de rôles sont des symboles Dabsic / identifiants C
+stricts :
+
+    [Signatures
+      [Director
+        Required = 1
+      ]
+      [Student
+        Required = 1
+      ]
+    ]
+
+Les fichiers de configuration décrivant les personnes restent indépendants du
+modèle. N'importe quel scope injecté peut se déclarer signataire :
+
+    [Person
+      Identity = "Alice Dupont"
+      Mail = "alice@example.org"
+      Signatory = 1
+      As = "Student"
+    ]
+
+Après la fusion Dabsic effectuée par `mergeconf`, DocBuilder expose ce scope
+sous `Signatories.Student`. Les documents existants peuvent donc continuer à
+lire `Signatories.<Role>` sans connaître le nom ni l'emplacement initial du
+scope décrivant la personne.
+
+`As` peut également être un tableau Dabsic de chaînes. Une même personne est
+alors exposée sous chacun de ses rôles :
+
+    [Person
+      Identity = "Bob Exemple"
+      Signatory = 1
+      {As
+        "Director",
+        "Finance"
+      }
+    ]
+
+Le même scope est alors disponible sous `Signatories.Director` et
+`Signatories.Finance`.
+
+Si `Signatures` existe, tout rôle annoncé par `As` doit y être déclaré. Un rôle
+`Required = 1` doit avoir exactement un signataire. Deux personnes différentes
+ne peuvent pas revendiquer le même rôle. Les erreurs sont signalées avant le
+rendu du document.
+
+Le scope explicite historique `Signatories` reste temporairement accepté pour
+permettre la migration des anciens modèles et appels. Il est destiné à être
+supprimé lorsque les producteurs et les modèles auront tous migré vers
+`Signatures` + `Signatory` / `As`.

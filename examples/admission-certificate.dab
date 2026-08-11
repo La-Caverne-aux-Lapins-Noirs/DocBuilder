@@ -1,0 +1,46 @@
+Document = "AdmissionCertificate"
+TitleQualifier = "DÉFINITIVE"
+
+[School
+  Name = "L’EFRITS"
+  Address = "32a Avenue Pierre Sémard\n94200 Ivry-sur-Seine\nFrance"
+  Phone = "01 49 78 43 72"
+  Mail = "contact@efrits.fr"
+  MainInfo = "EFRITS SAS. Siège social : 32a Avenue Pierre Sémard, 94200 Ivry-sur-Seine."
+  SchoolInfo = "Établissement d’enseignement supérieur privé."
+  FormationInfo = "Organisme de formation déclaré."
+]
+
+[Student
+  Identity = "Ramses II Fouda Abega"
+  BirthDate = "25/10/1997"
+  BirthPlace = "Nomayos, Cameroun"
+  Nationality = "camerounaise"
+  Gender = "M"
+]
+
+[Signatories
+  [Director
+    Identity = "Jason BRILLANTE"
+    Role = "Directeur de L’EFRITS"
+    Mail = "jason.brillante@efrits.fr"
+  ]
+]
+
+[Admission
+  TargetClass = "Bachelor Expertise en Informatique"
+  TargetYearLabel = "première année"
+  EntryDate = "30/09/2026"
+  EntryLabel = "la rentrée de septembre 2026"
+  SchoolYear = "2026-2027"
+  ProspectRegistrationDate = "26/05/2026"
+  IsForeign = 1
+  RegistrationFee = "990,00 €"
+  ForeignSupplement = "1 250,00 €"
+  RequiredAmount = "2 240,00 €"
+  PaymentConfirmed = 1
+  IssuePlace = "Ivry-sur-Seine"
+  IssueDate = "26/05/2026"
+  Reference = "ADM-EFRITS-2026-00001"
+  AutomaticSignature = 0
+]

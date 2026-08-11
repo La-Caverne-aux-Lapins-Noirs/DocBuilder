@@ -1,0 +1,83 @@
+Document = "AttendanceRegister"
+Title = "Feuille d'émargement trimestrielle"
+Reference = "EMARG-EF3-alice.exemple"
+
+[Period
+  Label = "Trimestre 1"
+  Cycle = "EF3"
+  Start = "2026-01-05"
+  End = "2026-03-27"
+]
+
+[School
+  Name = "EFRITS"
+  TrainingAddress = "Adresse du lieu de formation, 94200 Ivry-sur-Seine"
+  SIRET = "000 000 000 00000"
+  NDA = "11 00 00000 00"
+  UAI = "0000000X"
+  CFAName = "CFA Exemple"
+  ExecutingEstablishmentName = "UFA / établissement exécutant Exemple"
+  [Contact
+    Identity = "Claire Direction"
+    Phone = "01 23 45 67 89"
+    Mail = "direction@example.org"
+  ]
+]
+
+[Student
+  Identity = "Alice Exemple"
+  StudentId = "1234"
+  INE = "000000000AA"
+  CompanyName = "Entreprise Exemple"
+  Mail = "alice@example.org"
+]
+
+[CycleDirector
+  Identity = "Bob Exemple"
+  Role = "Responsable de formation"
+  Mail = "bob@example.org"
+]
+
+' Tous les jours du lundi au vendredi seront produits automatiquement entre
+' Period.Start et Period.End. Un samedi ou un dimanche n'est ajouté que si une
+' activité existe dans Days pour cette date.
+'
+' Statuts reconnus : Present / Absent / Late, ainsi que P / A / R.
+' Late = true peut également accompagner un statut Present.
+{Days
+  [
+    Date = "2026-01-05"
+    Morning = "Present"
+    Afternoon = "Late"
+    {Activities
+      [
+        Name = "Cours de programmation"
+        Begin = "09:00"
+        End = "13:00"
+        Status = "Present"
+      ],
+      [
+        Name = "Soutenance"
+        Begin = "14:00"
+        End = "17:00"
+        Status = "Late"
+      ]
+    }
+  ],
+  [
+    Date = "2026-01-06"
+    Morning = "Absent"
+    Afternoon = "Present"
+  ],
+  [
+    Date = "2026-01-10"
+    {Activities
+      [
+        Name = "Hackathon"
+        Begin = "10:00"
+        End = "18:00"
+        Status = "Present"
+      ]
+    }
+  ]
+}

@@ -135,6 +135,7 @@ function Compile($conf, $str)
     $latexmkCmd =
 	[
             "latexmk",
+            "-xelatex",
             "--shell-escape",
             "-jobname=".$baseName,
             "-output-directory=".$tmpDir,

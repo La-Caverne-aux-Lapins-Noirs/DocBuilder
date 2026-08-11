@@ -52,6 +52,11 @@ function BuildConfiguration($argc, $argv)
         exit (1);
     }
     
+    // mergeconf remains the single parser/resolver for all Dabsic input.
+    // Once the complete tree exists, normalize generic signatory declarations
+    // into the Signatories.<Role> scopes consumed by document renderers.
+    ResolveSignatories($Configuration);
+
     $Configuration[".Debug"] = $Debug;
     $Configuration[".OutputFile"] = $Output;
     

@@ -1,0 +1,61 @@
+Document = "AttendanceRegister"
+Title = "Feuilles d'émargement trimestrielles"
+
+[Period
+  Label = "Trimestre 1"
+  Cycle = "EF3"
+  Start = "2026-01-05"
+  End = "2026-03-27"
+]
+
+[School
+  Name = "EFRITS"
+  TrainingAddress = "Adresse du lieu de formation"
+  SIRET = "000 000 000 00000"
+  NDA = "11 00 00000 00"
+  UAI = "0000000X"
+  CFAName = "CFA Exemple"
+  ExecutingEstablishmentName = "Établissement exécutant Exemple"
+]
+
+[CycleDirector
+  Identity = "Bob Exemple"
+  Role = "Responsable de formation"
+]
+
+' Chaque entrée de Registers produit une page indépendante. Period, School,
+' CycleDirector et Title sont communs, mais peuvent être remplacés localement.
+{Registers
+  [
+    [Student
+      Identity = "Alice Exemple"
+      INE = "000000000AA"
+    ]
+    [Days
+      [
+        Date = "2026-01-05"
+        Morning = "Present"
+        Afternoon = "Late"
+      ]
+    ]
+  ],
+  [
+    [Student
+      Identity = "Charlie Exemple"
+      INE = "000000000BB"
+    ]
+    {Days
+      [
+        Date = "2026-01-10"
+        {Activities
+          [
+            Name = "Hackathon"
+            Begin = "10:00"
+            End = "18:00"
+            Status = "Present"
+          ]
+        }
+      ]
+    }
+  ]
+}
