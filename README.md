@@ -99,3 +99,17 @@ déclaré dans `Signatures`, les métadonnées du rôle définies par le documen
 (par exemple `Role`) sont fusionnées avec l’identité injectée. Il est destiné à
 être supprimé lorsque les producteurs et les modèles auront tous migré vers
 `Signatures` + `Signatory` / `As`.
+
+
+Generation vierge
+=================
+
+L'option `--blank` permet de produire une version vierge / imprimable d'un
+document sans imposer la presence des roles declares `Required = 1` :
+
+    docbuilder --blank -i contrat.dab -o contrat-vierge.pdf
+
+Sans `--blank`, l'absence d'un signataire obligatoire reste une erreur. En mode
+vierge, `Signatories.<Role>` est tout de meme cree a partir des metadonnees de
+`Signatures.<Role>` ; aucune identite n'est inventee. Si une identite signataire
+est fournie, elle reste resolue normalement.

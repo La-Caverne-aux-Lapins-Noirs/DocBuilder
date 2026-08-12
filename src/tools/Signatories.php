@@ -131,7 +131,7 @@ function DocBuilderCollectSignatories($node, $path, &$found, $declared_roles)
     }
 }
 
-function ResolveSignatories(array &$configuration)
+function ResolveSignatories(array &$configuration, $allow_missing_required = false)
 {
     if (isset($configuration["Signatories"]))
         throw new RuntimeException("Signatories is a generated DocBuilder scope and must not be supplied by input Dabsic. Declare Signatory=1 and As instead.");
@@ -150,8 +150,13 @@ function ResolveSignatories(array &$configuration)
                 : false;
             if (!isset($found[$role]))
             {
-                if ($required)
+                if ($required && !$allow_missing_required)
                     throw new RuntimeException("Missing required signatory for role '$role'.");
+
+                // In blank/template mode, keep role metadata available to the
+                // renderer while deliberately leaving identity fields absent.
+                if ($allow_missing_required)
+                    $resolved[$role] = DocBuilderSignatureRoleMetadata($definition);
                 continue;
             }
 

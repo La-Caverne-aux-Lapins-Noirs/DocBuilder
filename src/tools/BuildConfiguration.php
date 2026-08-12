@@ -19,12 +19,15 @@ function RunMergeconf(array $args): string
 function BuildConfiguration($argc, $argv)
 {
     $Cli = [];
+    $Blank = false;
     $Output = "a.out.pdf";
     $Debug = false;
     for ($i = 1; $i < $argc; ++$i)
     {
         if ($argv[$i] == "-d")
             $Debug = true;
+        else if ($argv[$i] == "--blank")
+            $Blank = true;
 	else if ($argv[$i] == "-o")
 	{
             if ($i + 1 == $argc)
@@ -55,7 +58,7 @@ function BuildConfiguration($argc, $argv)
     // mergeconf remains the single parser/resolver for all Dabsic input.
     // Once the complete tree exists, normalize generic signatory declarations
     // into the Signatories.<Role> scopes consumed by document renderers.
-    ResolveSignatories($Configuration);
+    ResolveSignatories($Configuration, $Blank);
 
     $Configuration[".Debug"] = $Debug;
     $Configuration[".OutputFile"] = $Output;

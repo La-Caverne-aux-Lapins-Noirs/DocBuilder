@@ -40,6 +40,39 @@ expect_exception(function () {
     ResolveSignatories($conf);
 });
 
+$conf = [
+    "Signatures" => [
+        "Director" => ["Required" => 1, "Role" => "Direction"],
+        "Student" => ["Required" => 1, "Role" => "Etudiant(e)"],
+        "Optional" => ["Required" => 0, "Role" => "Temoin"]
+    ]
+];
+ResolveSignatories($conf, true);
+assert(isset($conf["Signatories"]["Director"]));
+assert($conf["Signatories"]["Director"]["Role"] === "Direction");
+assert(!isset($conf["Signatories"]["Director"]["Required"]));
+assert(isset($conf["Signatories"]["Student"]));
+assert($conf["Signatories"]["Student"]["Role"] === "Etudiant(e)");
+assert(isset($conf["Signatories"]["Optional"]));
+assert($conf["Signatories"]["Optional"]["Role"] === "Temoin");
+
+$conf = [
+    "Signatures" => [
+        "Director" => ["Required" => 1, "Role" => "Direction"],
+        "Student" => ["Required" => 1, "Role" => "Etudiant(e)"]
+    ],
+    "Person" => [
+        "Identity" => "Alice",
+        "Signatory" => 1,
+        "As" => "Director"
+    ]
+];
+ResolveSignatories($conf, true);
+assert($conf["Signatories"]["Director"]["Identity"] === "Alice");
+assert($conf["Signatories"]["Director"]["Role"] === "Direction");
+assert(!isset($conf["Signatories"]["Student"]["Identity"]));
+assert($conf["Signatories"]["Student"]["Role"] === "Etudiant(e)");
+
 expect_exception(function () {
     $conf = [
         "Signatures" => ["Student" => ["Required" => 1]],
