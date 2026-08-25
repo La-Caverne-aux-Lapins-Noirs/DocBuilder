@@ -5,7 +5,7 @@ function	Columns($rules)
     if ($rules[1] == 1)
 	$str = "\\begin{minipage}{\\dimexpr\\linewidth-2\\columnsep}".ELine($rules);
     else
-	$str = "\\begin{multicols}{{$rules[1]}}\sloppy";
+	$str = "\\begin{multicols}{{$rules[1]}}\\sloppy\\setlength{\\parindent}{0pt}";
     
     for ($i = 2; isset($rules[$i]); ++$i)
 	$str .= $rules[$i];
@@ -16,4 +16,3 @@ function	Columns($rules)
 	$str .= "\\end{multicols}";
     return ($str);
 }
-

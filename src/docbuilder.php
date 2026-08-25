@@ -13,6 +13,12 @@ function main($argc, array $argv)
 
     $Configuration = BuildConfiguration($argc, $argv);
 
+    if (!empty($Configuration[".HashOnly"]))
+    {
+        echo $Configuration["DocBuilder"]["DabsicHash"]."\n";
+        return (0);
+    }
+
     if (!isset($Configuration["Document"]))
 	die("Missing document type.\n");
     $Configuration["Document"] = strtolower($Configuration["Document"]);

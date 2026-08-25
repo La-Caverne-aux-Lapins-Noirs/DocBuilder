@@ -14,6 +14,9 @@ function	Size($rules)
 	8 => "\\huge",
 	9 => "\\Huge",
     ][(int)$rules[1]];
-    return ("{$rules[1]}");
+    // Add an empty group after the declaration so that text immediately
+    // following the directive cannot be parsed as part of the command name
+    // (for example "\\tinyAnalyse" instead of "\\tiny Analyse").
+    return ("{$rules[1]}{}");
 }
 

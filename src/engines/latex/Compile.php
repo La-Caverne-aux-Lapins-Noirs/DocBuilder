@@ -147,7 +147,8 @@ function Compile($conf, $str)
     {
         if (!$debug)
             _remove_tree($tmpDir);
-        throw new RuntimeException("latexmk failed (code=$code2).\n".$err2);
+        $details = trim($out2."\n".$err2);
+        throw new RuntimeException("latexmk failed (code=$code2).".($details !== "" ? "\n".$details : ""));
     }
 
     // Copy result
