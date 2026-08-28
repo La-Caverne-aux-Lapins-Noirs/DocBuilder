@@ -2,10 +2,7 @@
 
 function Right($rules)
 {
-    $content = $rules[1] ?? "";
-
-    return ("\\begin{flushright}\n".
-            $content."\n".
-            "\\end{flushright}\n");
+    if (count($rules) == 1)
+        return ("\\raggedleft{}");
+    return (DocBuilderAlignment("raggedleft", $rules[1] ?? ""));
 }
-

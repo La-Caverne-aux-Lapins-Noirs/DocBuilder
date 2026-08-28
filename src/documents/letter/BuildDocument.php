@@ -65,19 +65,24 @@ function BuildDocument(&$conf)
 {
     $conf[".Engine"] = "latex";
     $letter = isset($conf["Letter"]) && is_array($conf["Letter"]) ? $conf["Letter"] : [];
-
+    
+    $header_height = DocBuilderLetterDimension($letter, "HeaderHeight", "2.5cm");
     $from_x = DocBuilderLetterDimension($letter, "FromX", "2cm");
     $from_y = DocBuilderLetterDimension($letter, "FromY", "5cm");
     $from_width = DocBuilderLetterDimension($letter, "FromWidth", "7.5cm");
     $target_x = DocBuilderLetterDimension($letter, "TargetX", "11.5cm");
     $target_y = DocBuilderLetterDimension($letter, "TargetY", "5cm");
     $target_width = DocBuilderLetterDimension($letter, "TargetWidth", "7cm");
+    $has_subject = isset($conf["Subject"]) && DocBuilderLetterFragment($conf["Subject"]) !== ""; 
+    $date_y = isset($letter["DateY"]) ? DocBuilderLetterDimension($letter, "DateY", "") : "";
+    $date_x = DocBuilderLetterDimension($letter, "DateX", $target_x);
+    $date_width = DocBuilderLetterDimension($letter, "DateWidth", $target_width);
     $body_gap = DocBuilderLetterDimension($letter, "BodyGap", "3.5cm");
     $body_left = DocBuilderLetterDimension($letter, "BodyLeft", "1cm");
     $body_right = DocBuilderLetterDimension($letter, "BodyRight", "1cm");
 ?>
 ---
-geometry: left=2cm, right=2cm, top=2.5cm, bottom=1.05cm, includehead, paperwidth=21cm, paperheight=29.7cm
+geometry: left=2cm, right=2cm, top=1cm, bottom=4.2cm, includeheadfoot, paperwidth=21cm, paperheight=29.7cm
 output: pdf_document
 lang: fr-FR
 documentclass: article
@@ -86,9 +91,9 @@ pdf-engine: xelatex
 ---
 \pagestyle{fancy}
 \fancyhf{}
-\setlength{\headheight}{2.5cm}
+\setlength{\headheight}{<?=$header_height; ?>}
 \setlength{\headsep}{0.45cm}
-\setlength{\footskip}{0.18cm}
+\setlength{\footskip}{0.35cm}
 \setlength{\parindent}{0pt}
 
 <?=DocBuilderLetterHeader($conf); ?>
@@ -101,15 +106,27 @@ pdf-engine: xelatex
 \end{textblock*}
 <?php } ?>
 
-<?php if ((isset($conf["Target"]) && DocBuilderLetterFragment($conf["Target"]) !== "") ||
-          (isset($conf["Date"]) && DocBuilderLetterFragment($conf["Date"]) !== "")) { ?>
+<?php if (isset($conf["Target"]) && DocBuilderLetterFragment($conf["Target"]) !== "") { ?>
 \begin{textblock*}{<?=$target_width; ?>}(<?=$target_x; ?>,<?=$target_y; ?>)
 \raggedright
-<?=isset($conf["Target"]) ? DocBuilderLetterFragment($conf["Target"]) : ""; ?>
-<?php if (isset($conf["Date"]) && DocBuilderLetterFragment($conf["Date"]) !== "") { ?>
+<?=DocBuilderLetterFragment($conf["Target"]); ?> 
+<?php if ($date_y === "" && !$has_subject && isset($conf["Date"]) && DocBuilderLetterFragment($conf["Date"]) !== "") { ?>
 \par\vspace{0.35cm}
 <?=DocBuilderLetterFragment($conf["Date"]); ?>
 <?php } ?>
+\end{textblock*}
+<?php } ?>
+
+<?php if ($date_y !== "" && isset($conf["Date"]) && DocBuilderLetterFragment($conf["Date"]) !== "") { ?>
+\begin{textblock*}{<?=$date_width; ?>}(<?=$date_x; ?>,<?=$date_y; ?>)
+\raggedright
+<?=DocBuilderLetterFragment($conf["Date"]); ?>
+\end{textblock*}
+<?php } else if (!$hash_subject && (!isset($conf["Target"]) || DocBuilderLetterFragment($conf["Target"]) === "") &&
+                  isset($conf["Date"]) && DocBuilderLetterFragment($conf["Date"]) !== "") { ?>
+\begin{textblock*}{<?=$target_width; ?>}(<?=$target_x; ?>,<?=$target_y; ?>)
+\raggedright
+<?=DocBuilderLetterFragment($conf["Date"]); ?>
 \end{textblock*}
 <?php } ?>
 
@@ -118,6 +135,15 @@ pdf-engine: xelatex
 \setlength{\leftskip}{<?=$body_left; ?>}
 \setlength{\rightskip}{<?=$body_right; ?>}
 \setlength{\parskip}{0.45em}
+
+<?php if ($has_subject) { ?>
+\noindent\textbf{<?=DocBuilderLetterFragment($conf["Subject"]); ?>}\par
+<?php if (isset($conf["Date"]) && DocBuilderLetterFragment($conf["Date"]) !== "") { ?>
+\vspace{0.25cm}
+\noindent\hfill <?=DocBuilderLetterFragment($conf["Date"]); ?>\par
+<?php } ?>
+\vspace{0.45cm}
+<?php } ?>
 
 <?=isset($conf["Content"]) ? DocBuilderLetterFragment($conf["Content"]) : ""; ?>
 

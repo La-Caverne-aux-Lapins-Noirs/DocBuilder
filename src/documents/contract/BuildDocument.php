@@ -62,7 +62,7 @@ pdf-engine: xelatex
             <?php foreach ($conf["Signatories"] as $k => $v) { ?>
 	        \fbox{\parbox[c][1.0cm][t]{2cm}{
                     \tiny <?=$v["Role"]; ?>
-		    <?php if (isset($v["Signature"])) { ?>
+		    <?php if (isset($v["Initials"]) && is_string($v["Initials"]) && trim($v["Initials"]) != "") { ?>
 			\begin{center}
 			[@Image;<?=$v["Initials"]; ?>;width=1.5cm;height=0.75cm]
 			\end{center}
@@ -92,7 +92,7 @@ pdf-engine: xelatex
         \fbox{\parbox[c][3.5cm][c]{<?=18 / count($conf["Signatories"]) - 0.2 * count($conf["Signatories"]); ?>cm}{
             <?=isset($v["Identity"]) ? $v["Identity"]."\\\\" : ""; ?>
             <?=$v["Role"]; ?>
-            <?php if (isset($v["Signature"])) { ?>
+            <?php if (isset($v["Signature"]) && is_string($v["Signature"]) && trim($v["Signature"]) != "") { ?>
 		\begin{center}
 		[@Image;<?=$v["Signature"]; ?>;width=4cm;height=2cm]
 		\end{center}

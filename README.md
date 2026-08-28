@@ -146,6 +146,37 @@ The LaTeX engine also exposes two lightweight helpers useful for administrative 
 `Generic` documents use zero paragraph indentation so form fields align consistently below section headings.
 
 
+Mise en page des lettres
+========================
+
+Le moteur `Letter` accepte un scope `Letter` pour ajuster les zones fixes de
+la première page sans écrire de LaTeX dans le modèle :
+
+    [Letter
+      HeaderHeight = "4cm"
+      FromY = "4cm"
+      TargetY = "4cm"
+      DateX = "11.5cm"
+      DateY = "8cm"
+      DateWidth = "7cm"
+      BodyGap = "2cm"
+    ]
+
+`FromX`, `FromY`, `FromWidth`, `TargetX`, `TargetY`, `TargetWidth`,
+`BodyLeft` et `BodyRight` restent également configurables. `HeaderHeight`
+modifie la hauteur réservée à l'en-tête. Lorsqu'un `DateY` est fourni, la date
+est rendue dans un bloc indépendant du destinataire afin de pouvoir la déplacer
+verticalement sans déplacer l'adresse. Sans `DateY`, le comportement historique
+est conservé : la date suit le destinataire dans le même bloc.
+
+Une lettre peut aussi définir un champ `Subject`. Dans ce cas, `Letter` traite
+le document comme un courrier structuré : le sujet est rendu en gras dans le
+flux principal, puis `Date` est placée juste en dessous, alignée à droite, avant
+`Content`. Ce mode est préférable aux coordonnées absolues pour l'objet et la
+date, car ils restent liés au début réel du corps de lettre. `DateY` conserve
+son rôle pour les anciens modèles qui ne définissent pas `Subject`.
+
+
 Generation vierge
 =================
 
@@ -197,3 +228,36 @@ dans le document. Il varie donc d'un document a l'autre mais reste identique
 lorsqu'un meme Dabsic resolu est regenere, ce qui conserve la reproductibilite.
 Pour une rotation autour du centre, `origin=c` est ajoute automatiquement. Une
 image ne peut pas combiner `angle=` et `random_angle=`.
+Alignement et alinéas
+=====================
+
+Le moteur LaTeX fournit des directives de bloc pour aligner du contenu :
+
+    [@Left;Texte aligné à gauche]
+    [@Center;Texte centré]
+    [@Right;Texte aligné à droite]
+
+Ces formes avec contenu restent compatibles avec le Markdown placé dans le
+bloc. Par exemple, le gras et les listes sont encore interprétés par Pandoc :
+
+    [@Center;**Titre important**]
+
+    [@Left;
+    - premier élément
+    - deuxième élément
+    ]
+
+Les formes sans contenu sont aussi disponibles comme déclarations LaTeX :
+`[@Left]`, `[@Center]`, `[@Right]`. Elles agissent sur la suite du groupe LaTeX
+courant ; pour un contenu isolé, préférer la forme avec argument ci-dessus.
+
+Pour forcer un alinéa au début d'un paragraphe :
+
+    [@Indent]Voici un paragraphe avec un retrait de première ligne de 1 cm.
+
+Une largeur en centimètres peut être indiquée :
+
+    [@Indent;1.5]Voici un retrait de 1,5 cm.
+
+`Indent` ne modifie pas la valeur globale de `\\parindent` : il ajoute seulement
+le retrait à l'endroit où la directive est utilisée.

@@ -1,12 +1,242 @@
 <?php
 
 /**
+ * Contexte de diagnostic du parseur de directives.
+ *
+ * Le parseur travaille sur le texte final produit par BuildDocument().  Les
+ * positions ci-dessous sont donc celles de ce texte.  L'extrait de source et
+ * la pile des directives rendent néanmoins la directive fautive immédiatement
+ * identifiable, même lorsque le document a été construit depuis plusieurs
+ * fragments Dabsic / txt.
+ */
+class DocBuilderDirectiveException extends RuntimeException
+{
+}
+
+class DocBuilderDirectiveParseContext
+{
+    public string $source;
+    public array $stack = [];
+
+    public function __construct(string $source)
+    {
+        $this->source = $source;
+    }
+
+    public function push(string $prefix, string $name, int $offset): void
+    {
+        $this->stack[] = [
+            'prefix' => $prefix,
+            'name' => $name,
+            'offset' => $offset,
+            'argument' => null,
+        ];
+    }
+
+    public function renameCurrent(string $name): void
+    {
+        $index = count($this->stack) - 1;
+        if ($index >= 0)
+            $this->stack[$index]['name'] = $name;
+    }
+
+    public function setArgument(?int $argument): void
+    {
+        $index = count($this->stack) - 1;
+        if ($index >= 0)
+            $this->stack[$index]['argument'] = $argument;
+    }
+
+    public function pop(): void
+    {
+        array_pop($this->stack);
+    }
+
+    public function current(): ?array
+    {
+        if (!count($this->stack))
+            return null;
+        return $this->stack[count($this->stack) - 1];
+    }
+}
+
+function directiveParserDisplayLength(string $text): int
+{
+    if (function_exists('mb_strlen'))
+        return mb_strlen($text, 'UTF-8');
+    if (preg_match_all('/./us', $text, $matches) !== false)
+        return count($matches[0]);
+    return strlen($text);
+}
+
+function directiveParserLineColumn(string $source, int $offset): array
+{
+    $len = strlen($source);
+    $offset = max(0, min($offset, $len));
+    $before = substr($source, 0, $offset);
+    $line = substr_count($before, "\n") + 1;
+    $lastNewline = strrpos($before, "\n");
+    $lineStart = ($lastNewline === false) ? 0 : $lastNewline + 1;
+    $columnText = substr($source, $lineStart, $offset - $lineStart);
+    $column = directiveParserDisplayLength($columnText) + 1;
+    return [$line, $column, $lineStart];
+}
+
+function directiveParserSourceLine(string $source, int $offset): array
+{
+    [$line, $column, $lineStart] = directiveParserLineColumn($source, $offset);
+    $lineEnd = strpos($source, "\n", $lineStart);
+    if ($lineEnd === false)
+        $lineEnd = strlen($source);
+    $text = substr($source, $lineStart, $lineEnd - $lineStart);
+    return [$line, $column, $text];
+}
+
+function directiveParserExpandTabs(string $text, int $tabWidth = 4): string
+{
+    $out = '';
+    $column = 0;
+    $chars = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+    if ($chars === false)
+        $chars = str_split($text);
+    foreach ($chars as $char)
+    {
+        if ($char === "\t")
+        {
+            $spaces = $tabWidth - ($column % $tabWidth);
+            $out .= str_repeat(' ', $spaces);
+            $column += $spaces;
+        }
+        else
+        {
+            $out .= $char;
+            $column++;
+        }
+    }
+    return $out;
+}
+
+function directiveParserCaretColumn(string $line, int $column, int $tabWidth = 4): int
+{
+    if ($column <= 1)
+        return 1;
+    $chars = preg_split('//u', $line, -1, PREG_SPLIT_NO_EMPTY);
+    if ($chars === false)
+        $chars = str_split($line);
+    $display = 0;
+    $seen = 0;
+    foreach ($chars as $char)
+    {
+        if ($seen >= $column - 1)
+            break;
+        if ($char === "\t")
+            $display += $tabWidth - ($display % $tabWidth);
+        else
+            $display++;
+        $seen++;
+    }
+    return $display + 1;
+}
+
+function directiveParserFormatLocation(string $source, int $offset): string
+{
+    [$line, $column] = directiveParserLineColumn($source, $offset);
+    return "line $line, column $column";
+}
+
+function directiveParserFormatExcerpt(string $source, int $offset): string
+{
+    [$line, $column, $text] = directiveParserSourceLine($source, $offset);
+    $shown = directiveParserExpandTabs($text);
+    $caretColumn = directiveParserCaretColumn($text, $column);
+    $prefix = $line . ' | ';
+    return $prefix . $shown . "\n" . str_repeat(' ', strlen($prefix) + $caretColumn - 1) . '^';
+}
+
+function directiveParserFailureDump(string $source): ?string
+{
+    $path = '/tmp/docbuilder_failure' . date('Ymd-His') . '-' . getmypid() . '.txt';
+    if (@file_put_contents($path, $source) === false)
+        return null;
+    return $path;
+}
+
+function directiveParserException(
+    DocBuilderDirectiveParseContext $context,
+    string $message,
+    ?int $offset = null,
+    ?int $directiveOffset = null,
+    ?string $directiveName = null,
+    ?int $argument = null
+): DocBuilderDirectiveException
+{
+    if ($offset === null)
+        $offset = strlen($context->source);
+
+    $current = $context->current();
+    if ($directiveOffset === null && $current !== null)
+        $directiveOffset = $current['offset'];
+    if ($directiveName === null && $current !== null)
+        $directiveName = $current['name'];
+    if ($argument === null && $current !== null)
+        $argument = $current['argument'];
+
+    $lines = [];
+    $lines[] = 'DocBuilder directive error: ' . $message;
+    if ($directiveName !== null && $directiveName !== '')
+        $lines[] = 'Directive: ' . $directiveName;
+    if ($argument !== null)
+        $lines[] = 'Argument: ' . $argument;
+    if ($directiveOffset !== null)
+        $lines[] = 'Directive opened at: ' . directiveParserFormatLocation($context->source, $directiveOffset);
+    $lines[] = 'Error detected at: ' . directiveParserFormatLocation($context->source, $offset);
+    $lines[] = '';
+    $lines[] = directiveParserFormatExcerpt($context->source, $offset);
+
+    if ($directiveOffset !== null && $directiveOffset !== $offset)
+    {
+        [$openLine] = directiveParserLineColumn($context->source, $directiveOffset);
+        [$errorLine] = directiveParserLineColumn($context->source, $offset);
+        if ($openLine !== $errorLine)
+        {
+            $lines[] = '';
+            $lines[] = 'Directive opening:';
+            $lines[] = directiveParserFormatExcerpt($context->source, $directiveOffset);
+        }
+    }
+
+    if (count($context->stack))
+    {
+        $lines[] = '';
+        $lines[] = 'Directive stack:';
+        foreach ($context->stack as $frame)
+        {
+            $label = ($frame['name'] !== '') ? $frame['name'] : '<name being parsed>';
+            $suffix = ($frame['argument'] !== null) ? ', argument ' . $frame['argument'] : '';
+            $lines[] = '  - ' . $label . ' (' . directiveParserFormatLocation($context->source, $frame['offset']) . $suffix . ')';
+        }
+    }
+
+    $dump = directiveParserFailureDump($context->source);
+    if ($dump !== null)
+    {
+        $lines[] = '';
+        $lines[] = 'Input snapshot: ' . $dump;
+    }
+
+    return new DocBuilderDirectiveException(implode("\n", $lines));
+}
+
+/**
  * Parse du texte jusqu'à un caractère de fin éventuel ($stopChar),
  * en résolvant les directives imbriquées et en respectant les blocs
  * crochetés littéraux équilibrés.
  */
-function parseText($conf, $str, &$i, $stopChar = null, array $prefixes = ['[@', '[#'])
+function parseText($conf, $str, &$i, $stopChar = null, array $prefixes = ['[@', '[#'], ?DocBuilderDirectiveParseContext $context = null)
 {
+    if ($context === null)
+        $context = new DocBuilderDirectiveParseContext($str);
+
     $out = '';
     $len = strlen($str);
 
@@ -21,13 +251,13 @@ function parseText($conf, $str, &$i, $stopChar = null, array $prefixes = ['[@', 
         $prefix = matchPrefix($str, $i, $prefixes);
         if ($prefix !== null)
         {
-            $out .= parseDirective($conf, $str, $i, $prefix, $prefixes);
+            $out .= parseDirective($conf, $str, $i, $prefix, $prefixes, $context);
             continue;
         }
 
         if ($str[$i] === '[')
         {
-            $out .= parseBracketLiteral($conf, $str, $i, $prefixes);
+            $out .= parseBracketLiteral($conf, $str, $i, $prefixes, $context);
             continue;
         }
 
@@ -36,11 +266,7 @@ function parseText($conf, $str, &$i, $stopChar = null, array $prefixes = ['[@', 
     }
 
     if ($stopChar !== null)
-    {
-        throw new RuntimeException(
-            "Missing '{$stopChar}' near: " . substr($str, max(0, $i - 20), 40)
-        );
-    }
+        throw directiveParserException($context, "Missing '$stopChar'", $i);
 
     return $out;
 }
@@ -49,7 +275,7 @@ function parseText($conf, $str, &$i, $stopChar = null, array $prefixes = ['[@', 
  * Lit le nom d'une directive (non résolu) jusqu'à ';' ou ']'.
  * Retourne [nom, terminateur]
  */
-function parseDirectiveName($str, &$i)
+function parseDirectiveName($str, &$i, ?DocBuilderDirectiveParseContext $context = null, ?int $open = null)
 {
     $len = strlen($str);
     $name = '';
@@ -57,15 +283,15 @@ function parseDirectiveName($str, &$i)
     while ($i < $len)
     {
         if ($str[$i] === ';' || $str[$i] === ']')
-        {
             return [$name, $str[$i]];
-        }
 
         $name .= $str[$i];
         $i++;
     }
 
-    throw new RuntimeException("Unterminated directive name");
+    if ($context !== null)
+        throw directiveParserException($context, 'Unterminated directive name', $i, $open, $name);
+    throw new RuntimeException('Unterminated directive name');
 }
 
 /**
@@ -73,28 +299,29 @@ function parseDirectiveName($str, &$i)
  * jusqu'à ';' ou ']'.
  * Retourne [valeur, terminateur]
  */
-function parseResolvedArgument($conf, $str, &$i, array $prefixes = ['[@', '[#'])
+function parseResolvedArgument($conf, $str, &$i, array $prefixes = ['[@', '[#'], ?DocBuilderDirectiveParseContext $context = null)
 {
+    if ($context === null)
+        $context = new DocBuilderDirectiveParseContext($str);
+
     $out = '';
     $len = strlen($str);
 
     while ($i < $len)
     {
         if ($str[$i] === ';' || $str[$i] === ']')
-        {
             return [$out, $str[$i]];
-        }
 
         $prefix = matchPrefix($str, $i, $prefixes);
         if ($prefix !== null)
         {
-            $out .= parseDirective($conf, $str, $i, $prefix, $prefixes);
+            $out .= parseDirective($conf, $str, $i, $prefix, $prefixes, $context);
             continue;
         }
 
         if ($str[$i] === '[')
         {
-            $out .= parseBracketLiteral($conf, $str, $i, $prefixes);
+            $out .= parseBracketLiteral($conf, $str, $i, $prefixes, $context);
             continue;
         }
 
@@ -102,7 +329,7 @@ function parseResolvedArgument($conf, $str, &$i, array $prefixes = ['[@', '[#'])
         $i++;
     }
 
-    throw new RuntimeException("Unterminated directive argument");
+    throw directiveParserException($context, 'Unterminated directive argument', $i);
 }
 
 /**
@@ -110,21 +337,22 @@ function parseResolvedArgument($conf, $str, &$i, array $prefixes = ['[@', '[#'])
  * en conservant le texte tel quel, jusqu'à ';' ou ']'.
  * Retourne [valeur, terminateur]
  */
-function parseRawArgument($str, &$i)
+function parseRawArgument($str, &$i, ?DocBuilderDirectiveParseContext $context = null)
 {
+    if ($context === null)
+        $context = new DocBuilderDirectiveParseContext($str);
+
     $out = '';
     $len = strlen($str);
 
     while ($i < $len)
     {
         if ($str[$i] === ';' || $str[$i] === ']')
-        {
             return [$out, $str[$i]];
-        }
 
         if ($str[$i] === '[')
         {
-            $out .= parseRawBracketBlock($str, $i);
+            $out .= parseRawBracketBlock($str, $i, $context);
             continue;
         }
 
@@ -132,21 +360,23 @@ function parseRawArgument($str, &$i)
         $i++;
     }
 
-    throw new RuntimeException("Unterminated raw directive argument");
+    throw directiveParserException($context, 'Unterminated raw directive argument', $i);
 }
 
 /**
  * Lit un bloc crocheté complet SANS exécuter les directives imbriquées.
  * Le texte est recopié à l'identique.
  */
-function parseRawBracketBlock($str, &$i)
+function parseRawBracketBlock($str, &$i, ?DocBuilderDirectiveParseContext $context = null)
 {
+    if ($context === null)
+        $context = new DocBuilderDirectiveParseContext($str);
+
     $len = strlen($str);
+    $open = $i;
 
     if ($i >= $len || $str[$i] !== '[')
-    {
-        throw new RuntimeException("parseRawBracketBlock must start on '['");
-    }
+        throw directiveParserException($context, "parseRawBracketBlock must start on '['", $i);
 
     $out = '[';
     $i++;
@@ -155,7 +385,7 @@ function parseRawBracketBlock($str, &$i)
     {
         if ($str[$i] === '[')
         {
-            $out .= parseRawBracketBlock($str, $i);
+            $out .= parseRawBracketBlock($str, $i, $context);
             continue;
         }
 
@@ -170,9 +400,7 @@ function parseRawBracketBlock($str, &$i)
         $i++;
     }
 
-    throw new RuntimeException(
-        "Missing ']' after raw bracket block near: " . substr($str, max(0, $i - 20), 40)
-    );
+    throw directiveParserException($context, "Missing ']' after raw bracket block", $i, $open);
 }
 
 /**
@@ -185,24 +413,31 @@ function parseRawBracketBlock($str, &$i)
  *   - les branches then/else sont conservées brutes
  *     puis seule la branche sélectionnée est résolue.
  */
-function parseDirective($conf, $str, &$i, $prefix, array $prefixes = ['[@', '[#'])
+function parseDirective($conf, $str, &$i, $prefix, array $prefixes = ['[@', '[#'], ?DocBuilderDirectiveParseContext $context = null)
 {
+    if ($context === null)
+        $context = new DocBuilderDirectiveParseContext($str);
+
     $len = strlen($str);
     $open = $i;
+    $context->push($prefix, '', $open);
 
     $i += strlen($prefix);
 
-    [$rawName, $terminator] = parseDirectiveName($str, $i);
+    [$rawName, $terminator] = parseDirectiveName($str, $i, $context, $open);
     $name = trim($rawName);
+    $context->renameCurrent($name);
 
     if ($name === '')
-        throw new RuntimeException("Directive name is empty");
+        throw directiveParserException($context, 'Directive name is empty', $i, $open, $name);
 
     // Directive sans argument : [@Name]
     if ($terminator === ']')
     {
         $i++;
-        return invokeDirective($conf, $prefix, [$name]);
+        $result = invokeDirective($conf, $prefix, [$name], $context, $open);
+        $context->pop();
+        return $result;
     }
 
     // Consomme le ';' après le nom
@@ -216,7 +451,8 @@ function parseDirective($conf, $str, &$i, $prefix, array $prefixes = ['[@', '[#'
         // Arguments 1..3 résolus normalement
         for ($k = 0; $k < 3; ++$k)
         {
-            [$arg, $term] = parseResolvedArgument($conf, $str, $i, $prefixes);
+            $context->setArgument($k + 1);
+            [$arg, $term] = parseResolvedArgument($conf, $str, $i, $prefixes, $context);
             $parts[] = $arg;
 
             if ($term === ';')
@@ -228,12 +464,15 @@ function parseDirective($conf, $str, &$i, $prefix, array $prefixes = ['[@', '[#'
             if ($term === ']')
             {
                 $i++;
-                return invokeDirective($conf, $prefix, $parts);
+                $result = invokeDirective($conf, $prefix, $parts, $context, $open);
+                $context->pop();
+                return $result;
             }
         }
 
         // Branche then brute
-        [$arg, $term] = parseRawArgument($str, $i);
+        $context->setArgument(4);
+        [$arg, $term] = parseRawArgument($str, $i, $context);
         $parts[] = $arg;
 
         if ($term === ';')
@@ -241,49 +480,49 @@ function parseDirective($conf, $str, &$i, $prefix, array $prefixes = ['[@', '[#'
             $i++;
 
             // Branche else brute
-            [$arg, $term] = parseRawArgument($str, $i);
+            $context->setArgument(5);
+            [$arg, $term] = parseRawArgument($str, $i, $context);
             $parts[] = $arg;
         }
 
         if ($term !== ']')
-        {
-            file_put_contents("/tmp/docbuilder_failure" . date("Ymd-His"), $str);
-            $line = substr_count(substr($str, 0, $open), "\n") + 1;
-            throw new RuntimeException(
-                "Missing ']' after IfC directive opened on line $line."
-            );
-        }
+            throw directiveParserException($context, "Missing ']' after IfC directive", $i, $open, $name);
 
         $i++;
-        return invokeDirective($conf, $prefix, $parts);
+        $context->setArgument(null);
+        $result = invokeDirective($conf, $prefix, $parts, $context, $open);
+        $context->pop();
+        return $result;
     }
 
     // Cas général : tous les arguments sont résolus normalement
     $parts = [$name];
+    $argument = 1;
 
     while ($i < $len)
     {
-        [$arg, $term] = parseResolvedArgument($conf, $str, $i, $prefixes);
+        $context->setArgument($argument);
+        [$arg, $term] = parseResolvedArgument($conf, $str, $i, $prefixes, $context);
         $parts[] = $arg;
 
         if ($term === ';')
         {
             $i++;
+            $argument++;
             continue;
         }
 
         if ($term === ']')
         {
             $i++;
-            return invokeDirective($conf, $prefix, $parts);
+            $context->setArgument(null);
+            $result = invokeDirective($conf, $prefix, $parts, $context, $open);
+            $context->pop();
+            return $result;
         }
     }
 
-    file_put_contents("/tmp/docbuilder_failure" . date("Ymd-His"), $str);
-    $line = substr_count(substr($str, 0, $open), "\n") + 1;
-    throw new RuntimeException(
-        "Missing ']' after directive opened on line $line."
-    );
+    throw directiveParserException($context, "Missing ']' after directive", $i, $open, $name, $argument);
 }
 
 /**
@@ -294,14 +533,16 @@ function parseDirective($conf, $str, &$i, $prefix, array $prefixes = ['[@', '[#'
  *   [EF1]           -> [EF1]
  *   [abc [#Lol] ]   -> [abc <résultat de Lol> ]
  */
-function parseBracketLiteral($conf, $str, &$i, array $prefixes = ['[@', '[#'])
+function parseBracketLiteral($conf, $str, &$i, array $prefixes = ['[@', '[#'], ?DocBuilderDirectiveParseContext $context = null)
 {
+    if ($context === null)
+        $context = new DocBuilderDirectiveParseContext($str);
+
     $len = strlen($str);
+    $open = $i;
 
     if ($i >= $len || $str[$i] !== '[')
-    {
-        throw new RuntimeException("parseBracketLiteral must start on '['");
-    }
+        throw directiveParserException($context, "parseBracketLiteral must start on '['", $i);
 
     $out = '[';
     $i++;
@@ -318,13 +559,13 @@ function parseBracketLiteral($conf, $str, &$i, array $prefixes = ['[@', '[#'])
         $prefix = matchPrefix($str, $i, $prefixes);
         if ($prefix !== null)
         {
-            $out .= parseDirective($conf, $str, $i, $prefix, $prefixes);
+            $out .= parseDirective($conf, $str, $i, $prefix, $prefixes, $context);
             continue;
         }
 
         if ($str[$i] === '[')
         {
-            $out .= parseBracketLiteral($conf, $str, $i, $prefixes);
+            $out .= parseBracketLiteral($conf, $str, $i, $prefixes, $context);
             continue;
         }
 
@@ -332,9 +573,7 @@ function parseBracketLiteral($conf, $str, &$i, array $prefixes = ['[@', '[#'])
         $i++;
     }
 
-    throw new RuntimeException(
-        "Missing ']' after bracket block near: " . substr($str, max(0, $i - 20), 40)
-    );
+    throw directiveParserException($context, "Missing ']' after bracket block", $i, $open);
 }
 
 /**
@@ -357,25 +596,38 @@ function matchPrefix($str, $i, array $prefixes)
  * $parts[1..n] = arguments déjà résolus, sauf pour les branches paresseuses
  * éventuelles (ex: IfC).
  */
-function invokeDirective($conf, $prefix, array $parts)
+function invokeDirective($conf, $prefix, array $parts, ?DocBuilderDirectiveParseContext $context = null, ?int $open = null)
 {
     if (count($parts) === 0)
-        throw new RuntimeException("Empty directive");
+    {
+        if ($context !== null)
+            throw directiveParserException($context, 'Empty directive', $open ?? 0, $open);
+        throw new RuntimeException('Empty directive');
+    }
 
     $name = trim($parts[0]);
 
     if ($name === '')
-        throw new RuntimeException("Directive name is empty");
+    {
+        if ($context !== null)
+            throw directiveParserException($context, 'Directive name is empty', $open ?? 0, $open, $name);
+        throw new RuntimeException('Directive name is empty');
+    }
 
     if (!is_callable($name))
-        throw new RuntimeException("Unknown directive: " . $name);
+    {
+        if ($context !== null)
+            throw directiveParserException($context, 'Unknown directive: ' . $name, $open ?? 0, $open, $name);
+        throw new RuntimeException('Unknown directive: ' . $name);
+    }
 
     return $name($parts);
+
 }
 
 function ResolveDirectives($conf, $str, array $prefixes = ['[@', '[#'])
 {
     $i = 0;
-    return parseText($conf, $str, $i, null, $prefixes);
+    $context = new DocBuilderDirectiveParseContext($str);
+    return parseText($conf, $str, $i, null, $prefixes, $context);
 }
-

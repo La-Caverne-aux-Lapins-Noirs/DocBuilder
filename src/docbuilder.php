@@ -38,7 +38,16 @@ function main($argc, array $argv)
     
     $str = ob_get_clean();
 
-    if (($str = ResolveDirectives($Configuration, $str)) == NULL)
+    try
+    {
+        $str = ResolveDirectives($Configuration, $str);
+    }
+    catch (DocBuilderDirectiveException $exception)
+    {
+        fwrite(STDERR, $exception->getMessage()."\n");
+        return (1);
+    }
+    if ($str == NULL)
 	return (1);
 
     $search = ["\\sp" , "\\tb"];
