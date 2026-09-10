@@ -164,7 +164,14 @@ la première page sans écrire de LaTeX dans le modèle :
 
 `FromX`, `FromY`, `FromWidth`, `TargetX`, `TargetY`, `TargetWidth`,
 `BodyLeft` et `BodyRight` restent également configurables. `HeaderHeight`
-modifie la hauteur réservée à l'en-tête. Lorsqu'un `DateY` est fourni, la date
+modifie la hauteur réservée à l'en-tête. `FooterHeight` (2,2 cm par défaut)
+réserve de la même manière une zone fixe au pied de page sur toutes les pages :
+le contenu du footer ne modifie jamais la hauteur disponible pour le corps.
+`TopMargin`, `BottomMargin` et `HeaderGap` permettent d'ajuster les marges
+physiques autour de ces zones sans recourir à une grosse marge basse codée en
+dur. Le contenu du footer est aligné en haut de sa zone ; `FooterRuleGap`
+(0,12 cm par défaut) règle uniquement l'écart entre la barre du pied de page
+et son texte. Lorsqu'un `DateY` est fourni, la date
 est rendue dans un bloc indépendant du destinataire afin de pouvoir la déplacer
 verticalement sans déplacer l'adresse. Sans `DateY`, le comportement historique
 est conservé : la date suit le destinataire dans le même bloc.

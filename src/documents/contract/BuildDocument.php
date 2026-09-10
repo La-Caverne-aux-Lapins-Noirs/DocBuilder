@@ -37,12 +37,18 @@ pdf-engine: xelatex
 <?php } ?>
 
 <?php if (isset($conf["Footer"]) && is_string($conf["Footer"])) { ?>
-    \fancyfoot[L]{
+    \fancyfoot[L]{%
         <?php $w = 21 - 2 - count($conf["Signatories"]) * 3; ?>
-        \begin{minipage}[t]{<?=$w; ?>cm}
-            <?=$conf["Footer"]; ?>
-        \end{minipage}%
-        \vspace*{\fill}
+        % fancyhdr aligne les pieds gauche et droit sur une ligne de base commune.
+        % Le bloc de paraphes étant nettement plus haut que le texte légal, celui-ci
+        % se retrouvait visuellement collé au bas de la page. On le remonte pour
+        % aligner son début avec le haut du bloc de paraphes, juste sous le filet.
+        \raisebox{0.75cm}[0pt][0pt]{%
+            \begin{minipage}[t]{<?=$w; ?>cm}
+                \vspace{0pt}% force l'alignement sur le haut réel de la minipage
+                <?=$conf["Footer"]; ?>
+            \end{minipage}%
+        }%
     }
 <?php } else { ?>
 
@@ -85,17 +91,24 @@ pdf-engine: xelatex
 
 \noindent
 \begin{center}
+<?php
+$signature_count = max(1, count($conf["Signatories"]));
+$signature_box_width = 18 / $signature_count - 0.2 * $signature_count;
+$signature_image_width = max(1.5, min(4.8, $signature_box_width - 0.5));
+?>
 \begin{tabular}{<?php foreach ($conf["Signatories"] as $k => $v) echo "@{}c "; ?>@{}}
     \textit{\centering Signature<?=count($conf["Signatories"]) > 1 ? "s" : ""; ?>} \\[0.5em]
     <?php $i = 0; $len = count($conf["Signatories"]); ?>
     <?php foreach ($conf["Signatories"] as $k => $v) { ?>
-        \fbox{\parbox[c][3.5cm][c]{<?=18 / count($conf["Signatories"]) - 0.2 * count($conf["Signatories"]); ?>cm}{
+        \fbox{\parbox[c][3.5cm][c]{<?=$signature_box_width; ?>cm}{
             <?=isset($v["Identity"]) ? $v["Identity"]."\\\\" : ""; ?>
-            <?=$v["Role"]; ?>
+            <?=$v["Role"]; ?>\par
             <?php if (isset($v["Signature"]) && is_string($v["Signature"]) && trim($v["Signature"]) != "") { ?>
-		\begin{center}
-		[@Image;<?=$v["Signature"]; ?>;width=4cm;height=2cm]
-		\end{center}
+                \begin{center}
+                [@Image;<?=$v["Signature"]; ?>;width=<?=$signature_image_width; ?>cm;height=2.4cm]
+                \end{center}
+            <?php } else { ?>
+                \vspace{0.35cm}
             <?php } ?>
             \vspace*{\fill}
             }
