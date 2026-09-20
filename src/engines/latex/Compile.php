@@ -89,6 +89,10 @@ function Compile($conf, $str)
     $headerTex = rtrim($conf[".Directory"], "/")."/configuration.tex";
     if (!is_file($headerTex))
         throw new RuntimeException("Missing configuration.tex for document: ".$headerTex);
+    $staticExtraHeaderTex = rtrim($conf[".Directory"], "/")."/extra-header.tex";
+    $runtimeExtraHeader = isset($conf[".LatexExtraHeader"]) && is_string($conf[".LatexExtraHeader"])
+        ? trim($conf[".LatexExtraHeader"])
+        : "";
 
     $outFile = $conf[".OutputFile"] ?? "a.out.pdf";
     if (!preg_match('/\.pdf$/i', $outFile))
@@ -106,6 +110,22 @@ function Compile($conf, $str)
     $texPath = $tmpDir."/output.tex";
     $pdfPath = $tmpDir."/".$baseName.".pdf";
 
+    // A renderer may declare packages/preamble fragments dynamically while
+    // BuildDocument() is running.  Persist that fragment in the workspace so
+    // Pandoc can include it exactly like configuration.tex.  This is more
+    // reliable than depending on an optional sidecar file being packaged.
+    $runtimeExtraHeaderTex = NULL;
+    if ($runtimeExtraHeader !== "")
+    {
+        $runtimeExtraHeaderTex = $tmpDir."/renderer-header.tex";
+        if (file_put_contents($runtimeExtraHeaderTex, $runtimeExtraHeader."\n") === false)
+        {
+            if (!$debug)
+                _remove_tree($tmpDir);
+            throw new RuntimeException("Cannot create renderer LaTeX header: ".$runtimeExtraHeaderTex);
+        }
+    }
+
     // 1) pandoc: stdin -> output.tex
     $pandocCmd =
 	[
@@ -114,11 +134,27 @@ function Compile($conf, $str)
             "-o", $texPath,
             "--pdf-engine=xelatex",
             "--include-in-header", $headerTex,
-            "--columns", "150",
-            "-V", "papersize=a4",
-            "-f", "markdown",
-            "-t", "latex",
 	];
+    // Renderers may need document-specific preamble additions without
+    // replacing their existing configuration.tex. Prefer runtime declarations
+    // because they cannot disappear through an incomplete install; retain the
+    // historical sidecar as a fallback for renderers that still use it.
+    if ($runtimeExtraHeaderTex !== NULL)
+    {
+        $pandocCmd[] = "--include-in-header";
+        $pandocCmd[] = $runtimeExtraHeaderTex;
+    }
+    else if (is_file($staticExtraHeaderTex))
+    {
+        $pandocCmd[] = "--include-in-header";
+        $pandocCmd[] = $staticExtraHeaderTex;
+    }
+    array_push($pandocCmd,
+        "--columns", "150",
+        "-V", "papersize=a4",
+        "-f", "markdown",
+        "-t", "latex"
+    );
     if ($debug)
         $pandocCmd[] = "--verbose";
 
