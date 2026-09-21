@@ -63,7 +63,7 @@ function BuildDocument(&$conf)
     $modules = $cycle["Modules"] ?? [];
     $current_flames = (int)($cycle["Flames"] ?? 0);
     $total_flames = (int)($cycle["TotalFlames"] ?? $current_flames);
-    $objective = 100;
+    $objective = max(0, (int)($cycle["Objective"] ?? 100));
     $show_cumulative = false; // Le cumul de scolarité est conservé mais temporairement masqué.
     $cycle_manager = $conf["People"]["CycleManager"] ?? [];
     $director = $conf["People"]["Director"] ?? [];
@@ -116,9 +116,12 @@ pdf-engine: xelatex
 <?=DocBuilderReportFooter($conf, $footer_x, $footer_y, $footer_width);?>
 
 \noindent
-{\Large\textbf{Bulletin de fin de trimestre}}\\[2mm]
-{\large <?=LatexEscape((string)($cycle["Code"] ?? ""));?><?php if (trim((string)($cycle["Name"] ?? "")) != "") { ?> -- <?=LatexEscape((string)$cycle["Name"]);?><?php } ?>}
+\Large \textbf{Bulletin de fin de trimestre}
 \par
+\vspace{2mm}
+\large <?=LatexEscape((string)($cycle["Code"] ?? ""));?><?php if (trim((string)($cycle["Name"] ?? "")) != "") { ?> -- <?=LatexEscape((string)$cycle["Name"]);?><?php } ?>
+\par
+\normalsize
 
 \vspace{4mm}
 \noindent
@@ -203,9 +206,9 @@ Flammes acquises & \textbf{<?=$current_flames;?>} / <?=$objective;?><?php if ($s
 <?=LatexEscape((string)($module["Comment"] ?? ""));?> &
 <?=LatexEscape((string)($module["Grade"] ?? ""));?> & <?=$result;?> & <?=$min;?>--<?=$max;?> \\*
 & & \mbox{\fontsize{4.5}{5}\selectfont
-\textbf{A*} <?=LatexEscape($activity);?>\enspace
-\textbf{E*} <?=LatexEscape($exam);?>\enspace
-\textbf{P*} <?=LatexEscape($work);?>} & & & \\
+\textbf{Activités :} <?=LatexEscape($activity);?>\enspace
+\textbf{Examens :} <?=LatexEscape($exam);?>\enspace
+\textbf{Projets :} <?=LatexEscape($work);?>} & & & \\
 \hline
 <?php } ?>
 \multicolumn{4}{|r|}{\textbf{Total}} & \textbf{<?=$obtained;?>} & \textbf{<?=$maximum;?>} \\
@@ -217,16 +220,18 @@ Flammes acquises & \textbf{<?=$current_flames;?>} / <?=$objective;?><?php if ($s
 \noindent\textasteriskcentered{} P : présent ou rendu ; A : absent ou non rendu ; N : non inscrit ; FL : flammes obtenues ; FA : flammes accessibles.
 \endgroup
 
+<?php // Le cadre agrandi de 2 cm conserve la pagination précédente grâce à l'extension locale de la page. ?>
+\enlargethispage{2cm}
 \vspace{3mm}
 \noindent\fbox{\begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
-\begin{minipage}[t][2.2cm][t]{0.68\linewidth}
+\begin{minipage}[t][4.2cm][t]{0.68\linewidth}
 \textbf{Commentaire du responsable de cycle}\\[1mm]
 <?=LatexEscape((string)($cycle["Comment"] ?? ""));?>
 \vfill
 \textbf{Responsable de cycle :} <?=LatexEscape((string)($cycle_manager["Identity"] ?? ($cycle_manager["Name"] ?? "")));?>\hfill \textit{Signature}
 \end{minipage}
 \hfill
-\begin{minipage}[t][2.2cm][t]{0.29\linewidth}
+\begin{minipage}[t][4.2cm][t]{0.29\linewidth}
 \raggedleft
 \textbf{Visa de la direction}\\[1mm]
 <?=LatexEscape((string)($director["Identity"] ?? ($director["Name"] ?? "")));?>\\
