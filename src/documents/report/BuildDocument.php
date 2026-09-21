@@ -1,213 +1,240 @@
 <?php
 
-function	BuildDocument(&$conf)
+function DocBuilderReportFragment($value)
+{
+    if (is_array($value))
+    {
+        $out = "";
+        foreach ($value as $fragment)
+            if (is_scalar($fragment))
+                $out .= (string)$fragment."\n";
+        return ($out);
+    }
+    return (is_scalar($value) ? (string)$value : "");
+}
+
+function DocBuilderReportDimension(array $layout, $key, $default)
+{
+    $value = isset($layout[$key]) ? trim((string)$layout[$key]) : "";
+    if ($value === "" || preg_match('/^[0-9]+(?:\\.[0-9]+)?(?:cm|mm|pt|in)$/D', $value) !== 1)
+        return ($default);
+    return ($value);
+}
+
+function DocBuilderReportFooter(array $conf, $footer_x, $footer_y, $footer_width)
+{
+    if (!isset($conf["Footer"]))
+        return ("");
+    if (is_string($conf["Footer"]))
+        return ("\\fancyfoot[L]{%\n".
+            "    \\begin{textblock*}{".$footer_width."}(".$footer_x.",".$footer_y.")\n".
+            "        \\setlength{\\leftskip}{0pt}\\setlength{\\rightskip}{0pt}%\n".
+            "        \\hrule\\vspace{0.12cm}%\n".
+            "        \\raggedright ".$conf["Footer"]."\n".
+            "    \\end{textblock*}%\n".
+            "}\n");
+    if (!is_array($conf["Footer"]))
+        return ("");
+
+    $out = "";
+    foreach (["Left" => "L", "Center" => "C", "Right" => "R"] as $key => $position)
+        if (isset($conf["Footer"][$key]))
+            $out .= "\\fancyfoot[".$position."]{".DocBuilderReportFragment($conf["Footer"][$key])."}\n";
+    return ($out);
+}
+
+function BuildDocument(&$conf)
 {
     $conf[".Engine"] = "latex";
-    $student = $conf["People"]["Student"];
-    $tutor = $conf["People"]["Tutor"];
-    $director = $conf["People"]["Director"];
-    $flames = 42;
-    $total_flames = $flames + $conf["People"]["Student"]["PreviousFlames"];
-    $obj_flames = 4 * ($conf["Cycle"]["Year"] - 1) + $conf["Cycle"]["Trimester"];
-    $obj_flames *= 100;
-    $general_comment = $conf["Cycle"]["Comment"];
-?>
+    $extra_header = isset($conf[".LatexExtraHeader"]) && is_string($conf[".LatexExtraHeader"])
+        ? rtrim($conf[".LatexExtraHeader"])."\n"
+        : "";
+    if (strpos($extra_header, "futura.ttf") === false)
+        $extra_header .= "\\setmainfont[Path=/usr/share/docbuilder/res/,".
+            "BoldFont=futura.ttf,ItalicFont=futura.ttf,BoldItalicFont=futura.ttf]{futura.ttf}\n";
+    if (strpos($extra_header, "{longtable}") === false)
+        $extra_header .= "\\usepackage{longtable}\n";
+    if (strpos($extra_header, "{textpos}") === false)
+        $extra_header .= "\\usepackage[absolute,overlay]{textpos}\n";
+    $conf[".LatexExtraHeader"] = $extra_header;
+    $student = $conf["People"]["Student"] ?? [];
+    $recipient = $conf["People"]["Tutor"] ?? $student;
+    $cycle = $conf["Cycle"] ?? [];
+    $modules = $cycle["Modules"] ?? [];
+    $current_flames = (int)($cycle["Flames"] ?? 0);
+    $total_flames = (int)($cycle["TotalFlames"] ?? $current_flames);
+    $objective = 100;
+    $show_cumulative = false; // Le cumul de scolarité est conservé mais temporairement masqué.
+    $cycle_manager = $conf["People"]["CycleManager"] ?? [];
+    $director = $conf["People"]["Director"] ?? [];
+    $layout = isset($conf["Letter"]) && is_array($conf["Letter"]) ? $conf["Letter"] : [];
+    $page_bottom = DocBuilderReportDimension($layout, "BottomMargin", "0.8cm");
+    $footer_height = DocBuilderReportDimension($layout, "FooterHeight", "2.2cm");
+    $footer_rule_gap = DocBuilderReportDimension($layout, "FooterRuleGap", "0.12cm");
+    $footer_x = DocBuilderReportDimension($layout, "FooterX", "2cm");
+    $footer_y = DocBuilderReportDimension($layout, "FooterY", "27cm");
+    $footer_width = DocBuilderReportDimension($layout, "FooterWidth", "17cm");
 
+    $person_line = function(array $person) {
+        $identity = LatexEscape((string)($person["Identity"] ?? $person["Name"] ?? ""));
+        $address = LatexEscape((string)($person["Address"] ?? $person["Street"] ?? ""));
+        $postal = LatexEscape((string)($person["PostalCity"] ?? ""));
+        $country = LatexEscape((string)($person["Country"] ?? ""));
+        return (implode("\\\\\n", array_filter([$identity, $address, $postal, $country], "strlen")));
+    };
+?>
 ---
-geometry: margin=0cm, paperwidth=21cm, paperheight=29.7cm
+geometry: left=2cm, right=2cm, top=1cm, bottom=<?=$page_bottom;?>, headheight=1cm, headsep=0.45cm, footskip=<?=$footer_height;?>, includeheadfoot, paperwidth=21cm, paperheight=29.7cm
 output: pdf_document
 lang: fr-FR
 documentclass: article
-indent: 2pt
+indent: 0pt
 table-caption-above: true
 pdf-engine: xelatex
 ---
 \pagestyle{fancy}
 \fancyhf{}
-
-\setlength{\headheight}{3cm}
-\setlength{\headsep}{1cm}
-\setlength{\textheight}{23cm}
-\setlength{\tabcolsep}{0pt}
+\setlength{\headheight}{1cm}
+\setlength{\headsep}{0.45cm}
+\setlength{\footskip}{<?=$footer_height;?>}
+\renewcommand{\footruleskip}{<?=$footer_rule_gap;?>}
+\setlength{\tabcolsep}{2pt}
 \setlength{\fboxsep}{0.2cm}
-    
+\setlength{\parindent}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
 <?php if (isset($conf["Header"]["Left"])) { ?>
-    \fancyhead[L]{<?=$conf["Header"]["Left"]; ?>}
+\fancyhead[L]{<?=$conf["Header"]["Left"];?>}
 <?php } ?>
 <?php if (isset($conf["Header"]["Center"])) { ?>
-    \fancyhead[C]{<?=$conf["Header"]["Center"]; ?>}
+\fancyhead[C]{<?=$conf["Header"]["Center"];?>}
 <?php } ?>
 <?php if (isset($conf["Header"]["Right"])) { ?>
-    \fancyhead[R]{<?=$conf["Header"]["Right"]; ?>}
-<?php } ?>
-<?php if (isset($conf["Header"]) && is_string($conf["Header"])) { ?>
-    \fancyhead[]{<?=$conf["Header"]; ?>}
+\fancyhead[R]{\raisebox{-0.35cm}{<?=$conf["Header"]["Right"];?>}}
 <?php } ?>
 
-\begin{textblock}{80}(110,60)
+<?=DocBuilderReportFooter($conf, $footer_x, $footer_y, $footer_width);?>
+
 \noindent
-<?=$tutor["Identity"]; ?>\\
-<?=$tutor["Address"]; ?>
-\end{textblock}
+{\Large\textbf{Bulletin de fin de trimestre}}\\[2mm]
+{\large <?=LatexEscape((string)($cycle["Code"] ?? ""));?><?php if (trim((string)($cycle["Name"] ?? "")) != "") { ?> -- <?=LatexEscape((string)$cycle["Name"]);?><?php } ?>}
+\par
 
-<?php if (isset($conf["Footer"]) && is_string($conf["Footer"])) { ?>
-    \fancyfoot[L]{
-        <?php $w = 21 - 2; ?>
-        \begin{minipage}[t]{<?=$w; ?>cm}
-            <?=$conf["Footer"]; ?>
-        \end{minipage}
-        \vspace*{\fill}
-    }
-<?php } else { ?>
-
-    <?php if (isset($conf["Footer"]["Left"])) { ?>
-	\fancyfoot[L]{<?=$conf["Footer"]["Left"]; ?>}
-    <?php } ?>
-    <?php if (isset($conf["Footer"]["Center"])) { ?>
-	\fancyfoot[C]{<?=$conf["Footer"]["Center"]; ?>}
-    <?php } ?>
-    <?php if (isset($conf["Footer"]["Right"])) { ?>
-	\fancyfoot[R]{<?=$conf["Footer"]["Center"]; ?>}
-    <?php } ?>
-    
+\vspace{4mm}
+\noindent
+\begin{minipage}[t]{0.40\textwidth}
+\fbox{\begin{minipage}{0.92\linewidth}
+\textbf{Élève :} <?=LatexEscape((string)($student["Identity"] ?? ""));?>\\
+\textbf{Numéro étudiant :} <?=LatexEscape((string)($student["Id"] ?? ""));?>
+\\
+\textbf{INE :} <?=LatexEscape((string)($student["INE"] ?? ""));?>
+<?php if (trim((string)($student["BirthDate"] ?? "")) != "") { ?>\\
+\textbf{Né(e) le :} <?=LatexEscape((string)$student["BirthDate"]);?><?php if (trim((string)($student["BirthPlace"] ?? "")) != "") { ?>
+\quad \textbf{à :} <?=LatexEscape((string)$student["BirthPlace"]);?><?php } ?>
 <?php } ?>
+\end{minipage}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.41\textwidth}
+<?=$person_line($recipient);?>
+\end{minipage}
 
-# [@Size;7] Trimestre <?=$conf["Cycle"]["Code"]; ?> - <?=$student["Identity"]; ?>
+\vspace{22mm}
+\begin{tabularx}{\textwidth}{@{}lXlX@{}}
+\textbf{Période :} & <?=LatexEscape((string)($cycle["Start"] ?? ""));?> au <?=LatexEscape((string)($cycle["End"] ?? ""));?> &
+\textbf{Édité le :} & <?=LatexEscape((string)($conf["Generation"]["Date"] ?? ""));?> \\
+\textbf{Année :} & <?=LatexEscape((string)($cycle["Year"] ?? ""));?> &
+\textbf{Trimestre :} & <?=LatexEscape((string)($cycle["Trimester"] ?? ""));?> \\
+\end{tabularx}
 
-\noindent
-\textbf{Période}: <?=$conf["Cycle"]["Start"]; ?> - <?=$conf["Cycle"]["End"]; ?>
-\
-Année <?=$conf["Cycle"]["Year"]; ?>, trimestre <?=$conf["Cycle"]["Trimester"]; ?>
-\
-\textbf{Numéro étudiant}: <?=$student["Id"]; ?>
-\
-\textbf{INE}: <?=$student["INE"]; ?>
-\
-
-\noindent
-\textbf{Objectif du trimestre}: 100
-\
-\textbf{Flammes acquises sur le trimestre}: <?=$flames; ?>
-\
-\textbf{Objectif à ce stade de la scolarité}: <?=$obj_flames; ?>
-\
-\textbf{Flammes acquises depuis le départ}: <?=$total_flames; ?>
-\
-
-<?php ///////////////////////////// ?>
-
-[#Size;1]
-
-\noindent\setlength{\parindent}{0pt}\renewcommand{\arraystretch}{1.3}\begin{tabularx}{\textwidth}{
-|>{\centering\arraybackslash}p{2cm}
-|>{\centering\arraybackslash}X
-|>{\centering\arraybackslash}p{1.5cm}
-|>{\centering\arraybackslash}p{1.5cm}
-|>{\centering\arraybackslash}p{1.5cm}
-|>{\centering\arraybackslash}X
-|>{\centering\arraybackslash}p{1.0cm}
-|>{\centering\arraybackslash}p{1.0cm}
-|>{\centering\arraybackslash}p{1.0cm}
-|}
+\vspace{2mm}
+\begin{tabularx}{\textwidth}{|X|>{\centering\arraybackslash}p{3.2cm}<?php if ($show_cumulative) { ?>|>{\centering\arraybackslash}p{3.2cm}<?php } ?>|}
 \hline
-\textbf{Code} & \textbf{Matière} & \textbf{Activité*} & \textbf{Examen*} & \textbf{Projets*} & \textbf{Commentaire} & \textbf{Grade} & \textbf{FL*} & \textbf{FA*} \\
+\textbf{Indicateur} & \textbf{Trimestre}<?php if ($show_cumulative) { ?> & \textbf{Cumul scolarité}<?php } ?> \\
 \hline
-<?php $max = $count = 0; ?>
-<?php foreach ($conf["Cycle"]["Modules"] as $mod) {
-    $code = LatexEscape($mod["Code"] ?? "");
-    $name = LatexEscape($mod["Name"] ?? "");
-
-    $act  = "P".($mod["Activities"]["Attendance"] ?? "0")
-          ." A".($mod["Activities"]["NonAttendance"] ?? "0")
-          ." N".($mod["Activities"]["Unregistered"] ?? "0");
-
-    $exam = "P".($mod["Exam"]["Attendance"] ?? "0")
-          ." A".($mod["Exam"]["NonAttendance"] ?? "0")
-          ." N".($mod["Exam"]["Unregistered"] ?? "0");
-
-    $work = "P".($mod["Work"]["Delivered"] ?? "0")
-          ." A".($mod["Work"]["Undelivered"] ?? "0")
-          ." N".($mod["Work"]["Unregistered"] ?? "0");
-
-    $comment = LatexEscape($mod["Comment"] ?? "");
-    $grade   = LatexEscape((string)($mod["Grade"] ?? ""));
-    $flRes   = LatexEscape((string)($mod["Flames"]["Result"] ?? "0"));
-    $fa      = LatexEscape((string)(($mod["Flames"]["Min"] ?? "")." - ".($mod["Flames"]["Max"] ?? "")));
-
-    // échappe aussi les champs composés
-    $act = LatexEscape($act);
-    $exam = LatexEscape($exam);
-    $work = LatexEscape($work);
-
-    $max += $mod["Flames"]["Max"] ?? 0;
-    $count += $mod["Flames"]["Result"] ?? 0;
-?>
-    <?= $code ?> & <?= $name ?> & <?= $act ?> & <?= $exam ?> & <?= $work ?> & <?= $comment ?> & <?= $grade ?> & <?= $flRes ?> & <?= $fa ?> \\
-    \hline
-<?php } ?>
-\multicolumn{7}{|r|}{\textbf{Total }} & \textbf{<?=$count; ?>} & \textbf{<?=$max; ?>} \\
+Flammes acquises & \textbf{<?=$current_flames;?>} / <?=$objective;?><?php if ($show_cumulative) { ?> & \textbf{<?=$total_flames;?>}<?php } ?> \\
 \hline
 \end{tabularx}
 
-\
+\vspace{3mm}
+\begingroup
+\scriptsize
+\renewcommand{\arraystretch}{1.10}
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+\begin{longtable}{
+|>{\raggedright\arraybackslash}p{1.35cm}
+|>{\raggedright\arraybackslash}p{6.7cm}
+|>{\raggedright\arraybackslash}p{\dimexpr\textwidth-10.55cm-12\tabcolsep-7\arrayrulewidth\relax}
+|>{\centering\arraybackslash}p{0.75cm}
+|>{\centering\arraybackslash}p{0.75cm}
+|>{\centering\arraybackslash}p{1.0cm}|}
+\hline
+\textbf{Code} & \textbf{Matière} & \textbf{Commentaire} & \textbf{Grade} & \textbf{FL*} & \textbf{FA*} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Code} & \textbf{Matière} & \textbf{Commentaire} & \textbf{Grade} & \textbf{FL*} & \textbf{FA*} \\
+\hline
+\endhead
+<?php $maximum = $obtained = 0; ?>
+<?php foreach ($modules as $module) {
+    $activity = sprintf("P%02d A%02d N%02d",
+        (int)($module["Activities"]["Attendance"] ?? 0),
+        (int)($module["Activities"]["NonAttendance"] ?? 0),
+        (int)($module["Activities"]["Unregistered"] ?? 0));
+    $exam = sprintf("P%02d A%02d N%02d",
+        (int)($module["Exam"]["Attendance"] ?? 0),
+        (int)($module["Exam"]["NonAttendance"] ?? 0),
+        (int)($module["Exam"]["Unregistered"] ?? 0));
+    $work = sprintf("P%02d A%02d N%02d",
+        (int)($module["Work"]["Delivered"] ?? 0),
+        (int)($module["Work"]["Undelivered"] ?? 0),
+        (int)($module["Work"]["Unregistered"] ?? 0));
+    $result = (int)($module["Flames"]["Result"] ?? 0);
+    $max = (int)($module["Flames"]["Max"] ?? 0);
+    $min = (int)($module["Flames"]["Min"] ?? 0);
+    $obtained += $result;
+    $maximum += $max;
+?>
+<?=LatexEscape((string)($module["Code"] ?? ""));?> &
+\parbox[t]{\linewidth}{<?=LatexEscape((string)($module["Name"] ?? ""));?><?php if (trim((string)($module["Teachers"] ?? "")) != "") { ?>\par
+{\tiny <?=LatexEscape((string)$module["Teachers"]);?>}<?php } ?>} &
+<?=LatexEscape((string)($module["Comment"] ?? ""));?> &
+<?=LatexEscape((string)($module["Grade"] ?? ""));?> & <?=$result;?> & <?=$min;?>--<?=$max;?> \\*
+& & \mbox{\fontsize{4.5}{5}\selectfont
+\textbf{A*} <?=LatexEscape($activity);?>\enspace
+\textbf{E*} <?=LatexEscape($exam);?>\enspace
+\textbf{P*} <?=LatexEscape($work);?>} & & & \\
+\hline
+<?php } ?>
+\multicolumn{4}{|r|}{\textbf{Total}} & \textbf{<?=$obtained;?>} & \textbf{<?=$maximum;?>} \\
+\hline
+\end{longtable}
+\endgroup
 
-[@Size;5]
-\noindent
-\*P: Présent ou rendu
-\
-\*A: Absent ou non rendu
-\
-\*N: Non inscrit
-\
-\*FL: Flammes
-\
-\*FA: Flammes accessibles
-\
+\begingroup\tiny
+\noindent\textasteriskcentered{} P : présent ou rendu ; A : absent ou non rendu ; N : non inscrit ; FL : flammes obtenues ; FA : flammes accessibles.
+\endgroup
 
+\vspace{3mm}
+\noindent\fbox{\begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
+\begin{minipage}[t][2.2cm][t]{0.68\linewidth}
+\textbf{Commentaire du responsable de cycle}\\[1mm]
+<?=LatexEscape((string)($cycle["Comment"] ?? ""));?>
 \vfill
-\noindent
-\par\vspace{0.5em}
-\fbox{
-  \parbox[c][5.5cm][c]{\textwidth}{
-    \begin{minipage}[t][5.5cm][t]{0.66\textwidth}
-Commentaire général
-\
+\textbf{Responsable de cycle :} <?=LatexEscape((string)($cycle_manager["Identity"] ?? ($cycle_manager["Name"] ?? "")));?>\hfill \textit{Signature}
+\end{minipage}
+\hfill
+\begin{minipage}[t][2.2cm][t]{0.29\linewidth}
+\raggedleft
+\textbf{Visa de la direction}\\[1mm]
+<?=LatexEscape((string)($director["Identity"] ?? ($director["Name"] ?? "")));?>\\
+Directeur de l'établissement
+\vfill
+\textit{Signature et cachet}
+\end{minipage}
+\end{minipage}}
 
-<?=isset($general_comment) ? LatexEscape($general_comment) : "" ?>
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t][4.5cm][t]{0.30\textwidth}
-      \raggedleft
-      Signature
-\
-
-      <?=isset($director["Identity"]) ? LatexEscape($director["Identity"])."\\\\" : "" ?>
-      <?=LatexEscape($director["Role"] ?? "") ?>
-
-      <?php if (isset($director["Signature"])) { ?>
-        \vspace{2mm}
-        \begin{center}
-          [@Image;<?=$director["Signature"];?>;width=4cm;height=2cm]
-        \end{center}
-      <?php } ?>
-
-      \vfill
-
-      <?php if (isset($school_stamp)) { // Ca, on le fera a la main ?>
-        \begin{center}
-	  Tampon de l'établissement
-          [@Image;<?=$school_stamp;?>;width=4cm;height=2cm]
-        \end{center}
-      <?php } else { ?>
-          \begin{center}
-	    \raggedleft
-           Tampon de l'établissement
-	    \vfill
-          \end{center}
-      <?php } ?>
-    \end{minipage}
-  }
+<?php
 }
-     
-
-<?php }
