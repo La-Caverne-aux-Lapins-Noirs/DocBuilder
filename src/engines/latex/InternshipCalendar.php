@@ -60,6 +60,21 @@ function _internship_calendar_month_names()
     ]);
 }
 
+function _internship_calendar_require_latex_support()
+{
+    global $Configuration;
+
+    if (!is_array($Configuration))
+        return ;
+    $header = isset($Configuration[".LatexExtraHeader"]) && is_string($Configuration[".LatexExtraHeader"])
+        ? rtrim($Configuration[".LatexExtraHeader"])."\n"
+        : "";
+    if (strpos($header, "\\usepackage{xcolor}") === false &&
+        strpos($header, "\\usepackage[table]{xcolor}") === false)
+        $header .= "\\usepackage{xcolor}\n";
+    $Configuration[".LatexExtraHeader"] = $header;
+}
+
 function _internship_calendar_status($value)
 {
     $value = strtoupper(trim((string)$value));
@@ -89,9 +104,13 @@ function _internship_calendar_days(array $calendar)
 function _internship_calendar_cell_status($status)
 {
     $status = _internship_calendar_status($status);
-    if ($status === "")
-        return ("\\phantom{T}");
-    return ("\\textbf{".$status."}");
+    if ($status === "T")
+        return ("\\colorbox{black}{\\makebox[0.92em][c]{\\textcolor{white}{\\textbf{T}}}}");
+    if ($status === "E")
+        return ("\\colorbox{white}{\\makebox[0.92em][c]{\\textcolor{black}{\\textbf{E}}}}");
+    if ($status === "F")
+        return ("\\colorbox{black!22}{\\makebox[0.92em][c]{\\textcolor{black}{\\textbf{F}}}}");
+    return ("\\colorbox{white}{\\makebox[0.92em][c]{\\phantom{T}}}");
 }
 
 function _internship_calendar_cell($date, $start, $end, array $days)
@@ -104,8 +123,8 @@ function _internship_calendar_cell($date, $start, $end, array $days)
     $morning = _internship_calendar_cell_status($halves["Morning"] ?? "");
     $afternoon = _internship_calendar_cell_status($halves["Afternoon"] ?? "");
     return (
-        "\\shortstack[c]{{\\scriptsize\\textbf{".$date->format('j')."}}\\\\".
-        "{\\tiny ".$morning.$afternoon."}}"
+        "\\shortstack[c]{{\\tiny\\textbf{".$date->format('j')."}}\\\\[-0.25ex]".
+        "{\\fontsize{4.5}{4.8}\\selectfont ".$morning.$afternoon."}}"
     );
 }
 
@@ -120,11 +139,12 @@ function _internship_calendar_month($year, $month, $start, $end, array $days)
     $cells = $offset + $days_in_month;
     $weeks = (int)ceil($cells / 7);
 
-    $out = "\\begin{minipage}[t]{0.315\\linewidth}\n".
+    $out = "\\begin{minipage}[t]{0.158\\linewidth}\n".
         "\\centering\n".
-        "\\setlength{\\tabcolsep}{0.8pt}\n".
-        "\\renewcommand{\\arraystretch}{1.18}\n".
-        "{\\scriptsize\n".
+        "\\setlength{\\tabcolsep}{0.2pt}\n".
+        "\\setlength{\\fboxsep}{0.25pt}\n".
+        "\\renewcommand{\\arraystretch}{1.04}\n".
+        "{\\tiny\n".
         "\\begin{tabular}{|c|c|c|c|c|c|c|}\n".
         "\\hline\n".
         "\\multicolumn{7}{|c|}{\\textbf{".$names[(int)$month]." ".(int)$year."}}\\\\\n".
@@ -175,25 +195,35 @@ function _internship_calendar_render(array $calendar)
             throw new RuntimeException("Internship calendar spans too many months.");
     }
 
+    _internship_calendar_require_latex_support();
     $days = _internship_calendar_days($calendar);
     $out = "\\begingroup\n".
-        "\\small\n".
-        "\\noindent\\textbf{Légende :} T = entreprise, E = école, F = jour férié. ".
-        "Dans chaque case, la première lettre vaut pour le matin et la seconde pour l'après-midi.\\par\n".
-        "\\vspace{0.18cm}\n";
+        "\\footnotesize\n".
+        "\\noindent\\textbf{Légende :} ".
+        "\\colorbox{black}{\\makebox[0.92em][c]{\\textcolor{white}{\\textbf{T}}}} = entreprise, ".
+        "\\colorbox{white}{\\makebox[0.92em][c]{\\textcolor{black}{\\textbf{E}}}} = école, ".
+        "\\colorbox{black!22}{\\makebox[0.92em][c]{\\textcolor{black}{\\textbf{F}}}} = jour férié. ".
+        "Dans chaque case, la première moitié vaut pour le matin et la seconde pour l'après-midi.\\par\n".
+        "\\vspace{0.12cm}\n";
 
-    foreach (array_chunk($months, 3) as $row)
+    foreach (array_chunk($months, 6) as $row)
     {
-        $out .= "\\noindent\\hfill\n";
-        foreach ($row as $i => $entry)
+        $out .= "\\noindent\n";
+        for ($i = 0; $i < 6; ++$i)
         {
             if ($i > 0)
                 $out .= "\\hfill\n";
-            $out .= _internship_calendar_month(
-                $entry["year"], $entry["month"], $start, $end, $days
-            )."\n";
+            if (isset($row[$i]))
+            {
+                $entry = $row[$i];
+                $out .= _internship_calendar_month(
+                    $entry["year"], $entry["month"], $start, $end, $days
+                )."\n";
+            }
+            else
+                $out .= "\\begin{minipage}[t]{0.158\\linewidth}\\mbox{}\\end{minipage}\n";
         }
-        $out .= "\\hfill\\mbox{}\\par\\vspace{0.24cm}\n";
+        $out .= "\\par\\vspace{0.16cm}\n";
     }
 
     return ($out."\\endgroup\n");

@@ -102,13 +102,22 @@ function Compile($conf, $str)
     $baseName = pathinfo($outFile, PATHINFO_FILENAME);
     _mkdir_p($finalDir);
 
+    // Never expose the requested output basename to TeX as its jobname.
+    // A perfectly valid caller-side temporary file may begin with a dot
+    // (for example .bulletin_202509_xxx.pdf), but TeX configured with
+    // openout_any=p refuses to create the corresponding hidden .aux/.log
+    // files.  The workspace is already unique, so a fixed internal jobname
+    // is both safe and sufficient; the generated PDF is copied to the exact
+    // requested output path afterwards.
+    $jobName = "document";
+
     // Temp workspace
     $tmpBase = rtrim(sys_get_temp_dir(), "/");
     $tmpDir = $tmpBase."/docbuilder-".bin2hex(random_bytes(8));
     _mkdir_p($tmpDir);
 
     $texPath = $tmpDir."/output.tex";
-    $pdfPath = $tmpDir."/".$baseName.".pdf";
+    $pdfPath = $tmpDir."/".$jobName.".pdf";
 
     // A renderer may declare packages/preamble fragments dynamically while
     // BuildDocument() is running.  Persist that fragment in the workspace so
@@ -173,7 +182,7 @@ function Compile($conf, $str)
             "latexmk",
             "-xelatex",
             "--shell-escape",
-            "-jobname=".$baseName,
+            "-jobname=".$jobName,
             "-output-directory=".$tmpDir,
             $texPath,
 	];
