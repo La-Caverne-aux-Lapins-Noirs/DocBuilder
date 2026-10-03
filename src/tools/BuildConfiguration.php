@@ -106,9 +106,27 @@ function BuildConfiguration($argc, $argv)
     if ($HashFile !== NULL && @file_put_contents($HashFile, $DabsicHash."\n") === false)
         throw new RuntimeException("Cannot write DocBuilder hash file '$HashFile'.");
 
+    $includePaths = [];
+    for ($i = 0; $i < count($Cli); ++$i)
+    {
+        if (($Cli[$i] == "-I" || $Cli[$i] == "-i") && $i + 1 < count($Cli))
+        {
+            $path = $Cli[++$i];
+            if ($Cli[$i - 1] == "-i")
+                $path = dirname($path);
+            $resolved = realpath($path);
+            if ($resolved !== false && is_dir($resolved))
+                $includePaths[] = rtrim($resolved, "/");
+        }
+    }
+    $cwd = getcwd();
+    if ($cwd !== false)
+        $includePaths[] = rtrim($cwd, "/");
+
     $Configuration[".Debug"] = $Debug;
     $Configuration[".HashOnly"] = $HashOnly;
     $Configuration[".OutputFile"] = $Output;
+    $Configuration[".IncludePaths"] = array_values(array_unique($includePaths));
     
     return ($Configuration);
 }
