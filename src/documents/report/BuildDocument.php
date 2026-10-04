@@ -61,6 +61,7 @@ function BuildDocument(&$conf)
     $recipient = $conf["People"]["Tutor"] ?? $student;
     $cycle = $conf["Cycle"] ?? [];
     $modules = $cycle["Modules"] ?? [];
+    $display_name = trim((string)($cycle["DisplayName"] ?? ""));
     $current_flames = (int)($cycle["Flames"] ?? 0);
     $total_flames = (int)($cycle["TotalFlames"] ?? $current_flames);
     $objective = max(0, (int)($cycle["Objective"] ?? 100));
@@ -146,8 +147,12 @@ pdf-engine: xelatex
 \begin{tabularx}{\textwidth}{@{}lXlX@{}}
 \textbf{Période :} & <?=LatexEscape((string)($cycle["Start"] ?? ""));?> au <?=LatexEscape((string)($cycle["End"] ?? ""));?> &
 \textbf{Édité le :} & <?=LatexEscape((string)($conf["Generation"]["Date"] ?? ""));?> \\
+<?php if ($display_name != "") { ?>
+\textbf{Cycle :} & \multicolumn{3}{l}{<?=LatexEscape($display_name);?>} \\
+<?php } else { ?>
 \textbf{Année :} & <?=LatexEscape((string)($cycle["Year"] ?? ""));?> &
 \textbf{Trimestre :} & <?=LatexEscape((string)($cycle["Trimester"] ?? ""));?> \\
+<?php } ?>
 \end{tabularx}
 
 \vspace{2mm}
