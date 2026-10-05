@@ -268,3 +268,30 @@ Une largeur en centimètres peut être indiquée :
 
 `Indent` ne modifie pas la valeur globale de `\\parindent` : il ajoute seulement
 le retrait à l'endroit où la directive est utilisée.
+
+
+Directives des sujets
+====================
+
+Les ressources Scolaire et subjects utilisent les directives DocBuilder :
+
+- `[@Code;c;... ]` : code C littéral, après interpolation Dabsic.
+- `[@Code;console;... ]` : transcription de terminal littérale.
+- `[@Warning;... ]`, `[@Hint;... ]`, `[@Bonus;... ]`, `[@History;... ]` : encadrés.
+- `[@FLine]` : séparation horizontale.
+
+Le corps de `Code` conserve ses points-virgules et n'exécute aucune directive
+DocBuilder imbriquée. Les crochets du code sont équilibrés ; en C/C++, ceux des
+chaînes, caractères et commentaires ne servent pas de délimiteurs DocBuilder.
+Une transcription de terminal (`console`) équilibre les crochets sans interpréter
+les guillemets ou apostrophes de la sortie affichée.
+
+Les interpolations telles que `$([#Document].MainCode)` restent du ressort de
+Dabsic : elles sont résolues avant le traitement des directives DocBuilder.
+Les anciennes balises `@@CODE[...]@@CODE]` et apparentées doivent être migrées ;
+aucun interpréteur de cette ancienne syntaxe n'est ajouté.
+
+Vérification du parseur et du rendu des directives (sans générer de PDF) :
+
+    php tests/resolve_directives_diagnostics.php
+    php tests/code_directives.php

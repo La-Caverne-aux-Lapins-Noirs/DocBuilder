@@ -378,6 +378,13 @@ function parseRawBracketBlock($str, &$i, ?DocBuilderDirectiveParseContext $conte
     if ($i >= $len || $str[$i] !== '[')
         throw directiveParserException($context, "parseRawBracketBlock must start on '['", $i);
 
+    if (preg_match('/\\G\\[(?:@|#)Code;([^;\\]]*);/i', $str, $code, 0, $i))
+    {
+        $i += strlen($code[0]);
+        parseCodeBody($str, $i, trim($code[1]), $context);
+        return substr($str, $open, $i - $open);
+    }
+
     $out = '[';
     $i++;
 
@@ -401,6 +408,66 @@ function parseRawBracketBlock($str, &$i, ?DocBuilderDirectiveParseContext $conte
     }
 
     throw directiveParserException($context, "Missing ']' after raw bracket block", $i, $open);
+}
+
+/** Read literal Code content, preserving C strings, comments and array brackets. */
+function parseCodeBody(string $str, int &$i, string $language,
+    DocBuilderDirectiveParseContext $context): string
+{
+    $start = $i;
+    $len = strlen($str);
+    $depth = 0;
+    $quote = null;
+    $comment = null;
+    $cStyle = in_array(strtolower($language), ['c', 'cpp', 'c++'], true);
+    while ($i < $len)
+    {
+        $char = $str[$i];
+        $pair = substr($str, $i, 2);
+        if ($comment !== null)
+        {
+            if ($comment === '//' && $char === "\n")
+                $comment = null;
+            else if ($comment === '/*' && $pair === '*/')
+            {
+                $comment = null;
+                $i += 2;
+                continue;
+            }
+        }
+        else if ($quote !== null)
+        {
+            if ($char === '\\' && $i + 1 < $len)
+            {
+                $i += 2;
+                continue;
+            }
+            if ($char === $quote)
+                $quote = null;
+        }
+        else if ($cStyle && ($char === '"' || $char === "'"))
+            $quote = $char;
+        else if ($cStyle && ($pair === '//' || $pair === '/*'))
+        {
+            $comment = $pair;
+            $i += 2;
+            continue;
+        }
+        else if ($char === '[')
+            $depth++;
+        else if ($char === ']')
+        {
+            if ($depth === 0)
+            {
+                $body = substr($str, $start, $i - $start);
+                $i++;
+                return $body;
+            }
+            $depth--;
+        }
+        $i++;
+    }
+    throw directiveParserException($context, "Missing ']' after Code directive", $i);
 }
 
 /**
@@ -442,6 +509,25 @@ function parseDirective($conf, $str, &$i, $prefix, array $prefixes = ['[@', '[#'
 
     // Consomme le ';' après le nom
     $i++;
+
+    // Code's language is a normal argument, but its body is source code:
+    // semicolons and apparent directives must remain literal.
+    if (strcasecmp($name, 'Code') === 0)
+    {
+        $context->setArgument(1);
+        [$language, $term] = parseResolvedArgument($conf, $str, $i, $prefixes, $context);
+        $i++;
+        $body = '';
+        if ($term === ';')
+        {
+            $context->setArgument(2);
+            $body = parseCodeBody($str, $i, trim($language), $context);
+        }
+        $context->setArgument(null);
+        $result = invokeDirective($conf, $prefix, [$name, $language, $body], $context, $open);
+        $context->pop();
+        return $result;
+    }
 
     // Cas spécial : IfC évalue paresseusement ses branches
     if ($name === 'IfC')

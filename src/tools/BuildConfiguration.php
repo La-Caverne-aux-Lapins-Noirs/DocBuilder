@@ -21,7 +21,7 @@ function RunMergeconf(array $args, $dabsic_hash = NULL): string
 
 function BuildConfiguration($argc, $argv)
 {
-    $Cli = [];
+    $Cli = ["--resolve"];
     $Blank = false;
     $HashOnly = false;
     $HashFile = NULL;
