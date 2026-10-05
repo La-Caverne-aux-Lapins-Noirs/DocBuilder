@@ -19,6 +19,30 @@ function main($argc, array $argv)
         return (0);
     }
 
+    if (!empty($Configuration[".MetadataOnly"]))
+    {
+        $personalized = false;
+        if (array_key_exists("Personalized", $Configuration))
+        {
+            $value = $Configuration["Personalized"];
+            if (is_bool($value))
+                $personalized = $value;
+            else if (is_int($value) || is_float($value))
+                $personalized = $value != 0;
+            else
+                $personalized = in_array(
+                    strtolower(trim((string)$value)),
+                    ["1", "true", "yes", "on"],
+                    true
+                );
+        }
+        echo json_encode([
+            "Personalized" => $personalized,
+            "DabsicHash" => (string)($Configuration["DocBuilder"]["DabsicHash"] ?? ""),
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)."\n";
+        return (0);
+    }
+
     if (!isset($Configuration["Document"]))
 	die("Missing document type.\n");
     $Configuration["Document"] = strtolower($Configuration["Document"]);

@@ -214,11 +214,14 @@ Le modele peut afficher l'empreinte au moment du rendu :
 Deux options permettent aussi de l'exploiter sans analyser le PDF :
 
     docbuilder --hash-only -i document.dab
+    docbuilder --metadata-only -i document.dab
     docbuilder --hash-file document.sha256 -i document.dab -o document.pdf
 
 `--hash-only` affiche uniquement l'empreinte et ne lance pas le moteur de
-rendu. `--hash-file` ecrit l'empreinte effectivement utilisee par DocBuilder
-dans un fichier compagnon tout en poursuivant la generation normale.
+rendu. `--metadata-only` renvoie un objet JSON contenant les metadonnees utiles
+a un appelant avant rendu (`Personalized` et `DabsicHash`). `--hash-file` ecrit
+l'empreinte effectivement utilisee par DocBuilder dans un fichier compagnon
+tout en poursuivant la generation normale.
 
 Rotation d'image pseudo-aleatoire
 =================================

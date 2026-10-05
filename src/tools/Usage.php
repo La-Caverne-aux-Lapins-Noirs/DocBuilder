@@ -4,7 +4,7 @@ function	Usage() { ?>
 
 Usage is:
 
-    ./docbuilder [-i ... | -m ...]+ [-o ...]? [-d]? [--blank]? [--hash-only]? [--hash-file file]?
+    ./docbuilder [-i ... | -m ...]+ [-o ...]? [-d]? [--blank]? [--hash-only]? [--metadata-only]? [--hash-file file]?
 
     -i [file]+		Configuration files
     -m [address=value]+	Edit fields of previously loaded configuration
@@ -12,6 +12,7 @@ Usage is:
     -d			Print on stdout generated document before compilation
     --blank		Allow missing required signatories when generating a blank template
     --hash-only	Print DocBuilder.DabsicHash and do not render the document
+    --metadata-only	Print generation metadata as JSON and do not render the document
     --hash-file file	Write DocBuilder.DabsicHash to file and continue rendering
     
 <?php }
