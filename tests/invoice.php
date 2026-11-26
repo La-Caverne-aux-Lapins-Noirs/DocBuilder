@@ -154,3 +154,26 @@ $without_billing_rendered = ob_get_clean();
 invoice_expect(strpos($without_billing_rendered, "invoicepaymentbox") === false, "no payment reservation without billing information");
 
 echo "invoice envelope/payment layout: ok\n";
+
+$credit_conf = $render_conf;
+$credit_conf["Header"]["Left"] = "";
+$credit_conf["Invoice"] = [
+    "EntryType" => "credit_note", "Reference" => "AV-0001",
+    "IssueDateLabel" => "08/10/2026", "DueDateLabel" => "Sans objet",
+    "Note" => "Un remboursement éventuel est enregistré séparément.",
+];
+$credit_conf["RelatedInvoice"] = ["Reference" => "INFSPH-0010", "SentDateLabel" => "20/09/2026"];
+$credit_conf["Products"] = [["Content" => "Avoir", "Price" => -990, "VAT" => 0]];
+unset($credit_conf["BillingInformation"]);
+ob_start();
+BuildDocument($credit_conf);
+$credit_rendered = ob_get_clean();
+invoice_expect(substr_count($credit_rendered, "Avoir n\\textdegree{} AV-0001") === 1, "single credit note heading");
+invoice_expect(strpos($credit_rendered, "Facture n\\textdegree{} AV-0001") === false, "no duplicate invoice heading");
+invoice_expect(strpos($credit_rendered, "Relatif à la facture INFSPH-0010 du 20/09/2026") !== false, "original invoice reference and date");
+invoice_expect(strpos($credit_rendered, "Échéance :") === false, "credit note has no due date");
+invoice_expect(strpos($credit_rendered, "Émis") !== false && strpos($credit_rendered, "Émise") === false, "masculine issued status");
+invoice_expect(strpos($credit_rendered, "{\\small Un remboursement") === false, "note does not use a Pandoc-escaped brace group");
+invoice_expect(strpos($credit_rendered, "Suite de l’avoir") !== false, "credit note continuation label");
+invoice_expect(InvoicePrepare($credit_conf)["total_ttc"] === -99000, "signed credit amount");
+echo "credit note layout: ok\n";

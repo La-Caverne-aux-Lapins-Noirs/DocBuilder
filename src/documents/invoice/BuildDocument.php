@@ -389,11 +389,26 @@ function InvoiceDimension(array $layout, $key, $default)
     return ($value);
 }
 
-function InvoiceBuildHeader(array $conf, $reference = "")
+function InvoiceBuildHeader(array $conf, $reference = "", $credit_note = false)
 {
+    $title = $credit_note ? "Avoir" : "Facture";
     $invoice_heading = $reference !== ""
-        ? "Facture n\\textdegree{} ".InvoiceLatex($reference)
-        : "Facture";
+        ? $title." n\\textdegree{} ".InvoiceLatex($reference)
+        : $title;
+    if ($credit_note)
+    {
+        $related = $conf["RelatedInvoice"] ?? [];
+        $credit = $conf["CreditNote"] ?? [];
+        $original = trim(InvoiceScalar($related["Reference"] ?? ($credit["RelatedInvoiceReference"] ?? "")));
+        $date = trim(InvoiceScalar($related["SentDateLabel"] ?? ($credit["RelatedInvoiceDateLabel"] ?? "")));
+        if ($original !== "")
+        {
+            $subtitle = "Relatif à la facture ".$original;
+            if ($date !== "")
+                $subtitle .= " du ".$date;
+            $invoice_heading .= "\\\\[-0.05cm]{\\scriptsize\\mdseries ".InvoiceLatex($subtitle)."}";
+        }
+    }
 
     if (isset($conf["Header"]) && is_array($conf["Header"]))
     {
@@ -469,7 +484,8 @@ function BuildDocument(&$conf)
     $currency = InvoiceScalar($invoice["Currency"] ?? "EUR", "EUR");
     $reference = trim(InvoiceScalar($invoice["Reference"] ?? ""));
     $date = trim(InvoiceScalar($invoice["IssueDateLabel"] ?? ($invoice["DateLabel"] ?? ($conf["Generation"]["Date"] ?? ""))));
-    $due = trim(InvoiceScalar($invoice["DueDateLabel"] ?? ""));
+    $credit_note = InvoiceScalar($invoice["EntryType"] ?? "") === "credit_note";
+    $due = $credit_note ? "" : trim(InvoiceScalar($invoice["DueDateLabel"] ?? ""));
     $paid_date = trim(InvoiceScalar($invoice["PaidDateLabel"] ?? ""));
     $type = trim(InvoiceScalar($invoice["TypeLabel"] ?? ""));
     $draft = (strcasecmp($reference, "BROUILLON") === 0 || strcasecmp($date, "BROUILLON") === 0);
@@ -479,11 +495,11 @@ function BuildDocument(&$conf)
     if ($status_label === "")
     {
         if ($draft)
-            $status_label = "Brouillon — non émise";
-        else if ($paid_date !== "")
+            $status_label = $credit_note ? "Brouillon — non émis" : "Brouillon — non émise";
+        else if (!$credit_note && $paid_date !== "")
             $status_label = "Réglée le ".$paid_date;
         else
-            $status_label = "Émise";
+            $status_label = $credit_note ? "Émis" : "Émise";
     }
     $billing = InvoiceBillingInformationParts($conf["BillingInformation"] ?? "");
     $vat_exemption = trim(InvoiceScalar($invoice["VATExemption"] ?? ""));
@@ -533,7 +549,7 @@ pdf-engine: xelatex
 \renewcommand{\footruleskip}{<?=$footer_rule_gap; ?>}
 \setlength{\parindent}{0pt}
 \renewcommand{\arraystretch}{1.16}
-<?php InvoiceBuildHeader($conf, $reference); ?>
+<?php InvoiceBuildHeader($conf, $reference, $credit_note); ?>
 
 <?php if ($has_billing_information) { ?>
 \newsavebox{\invoicepaymentbox}
@@ -626,7 +642,7 @@ Date d’émission : <?php if ($draft || $date === "") { ?>—<?php } else { ?><
 \midrule
 \endhead
 \midrule
-\multicolumn{5}{r}{\scriptsize Suite de la facture page suivante} \\
+\multicolumn{5}{r}{\scriptsize Suite <?= $credit_note ? "de l’avoir" : "de la facture"; ?> page suivante} \\
 \endfoot
 \bottomrule
 \endlastfoot
@@ -663,7 +679,9 @@ Date d’émission : <?php if ($draft || $date === "") { ?>—<?php } else { ?><
 <?php if (!empty($invoice["Note"])) { ?>
 \vspace{0.45cm}
 
-{\small <?=InvoiceLatexLines($invoice["Note"]); ?>}
+\begin{minipage}{\textwidth}
+\small <?=InvoiceLatexLines($invoice["Note"]); ?>
+\end{minipage}
 <?php } ?>
 <?php
 }
