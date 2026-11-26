@@ -106,6 +106,24 @@ function subject_document_tex_path($path)
     return ("\\detokenize{".$path."}");
 }
 
+function subject_document_tex_text($text)
+{
+    // Values inserted inside raw LaTeX must not be interpreted as TeX syntax.
+    // In particular, a literal '#' outside a macro definition is fatal.
+    return (strtr((string)$text, [
+        "\\" => "\\textbackslash{}",
+        "{" => "\\{",
+        "}" => "\\}",
+        "#" => "\\#",
+        "$" => "\\$",
+        "%" => "\\%",
+        "&" => "\\&",
+        "_" => "\\_",
+        "^" => "\\textasciicircum{}",
+        "~" => "\\textasciitilde{}",
+    ]));
+}
+
 function subject_document_layout_id(array $exercise)
 {
     $name = $exercise["Name"] ?? [];
@@ -272,17 +290,20 @@ function BuildDocument(&$conf)
     ]));
     $revision = subject_document_revision($conf, $language);
     $author = subject_document_author($conf);
+    // Subjects do not need a YAML front matter.  Keeping these values in the
+    // DocBuilder configuration avoids making arbitrary exercise Markdown part
+    // of Pandoc's YAML parsing surface.  Compile() passes them as template
+    // variables.
+    $conf[".PandocVariables"] =
+    [
+        "geometry" => "margin=0cm, paperwidth=21cm, paperheight=29.7cm",
+        "lang" => $language == "FR" ? "fr-FR" : "en-US",
+        "documentclass" => "article",
+        "indent" => "2pt",
+        "table-caption-above" => "true",
+    ];
     ?>
 
-    ---
-    geometry: margin=0cm, paperwidth=21cm, paperheight=29.7cm
-    output: pdf_document
-    lang: <?=$language == "FR" ? "fr-FR" : "en-US"?>
-    documentclass: article
-    indent: 2pt
-    table-caption-above: true
-    pdf-engine: xelatex
-    ---
     \pagestyle{fancy}
     \fancyhf{}
 
@@ -296,23 +317,23 @@ function BuildDocument(&$conf)
     \fancypagestyle{presentationPage}{
         \fancyhf{}
     <?php if ($matterName != "") { ?>
-        \fancyhead[R]{<?=$matterName?>}
+        \fancyhead[R]{<?=subject_document_tex_text($matterName)?>}
     <?php } ?>
     <?php if ($revision != "" || $author != "") { ?>
         \fancyfoot[L]{
     <?php if ($revision != "") { ?>
-            <?=$revision?>
+            <?=subject_document_tex_text($revision)?>
     <?php } ?>
     <?php if ($revision != "" && $author != "") { ?>
             \\
     <?php } ?>
     <?php if ($author != "") { ?>
-            <?=$language == "FR" ? "Auteur" : "Author"?> : <?=$author?>
+            <?=$language == "FR" ? "Auteur" : "Author"?> : <?=subject_document_tex_text($author)?>
     <?php } ?>
         }
     <?php } ?>
     <?php if ($schoolName != "") { ?>
-        \fancyfoot[R]{\raisebox{-.5\height}{<?=$schoolName?>}}
+        \fancyfoot[R]{\raisebox{-.5\height}{<?=subject_document_tex_text($schoolName)?>}}
     <?php } ?>
     }
 
@@ -320,13 +341,13 @@ function BuildDocument(&$conf)
     \fancypagestyle{contentPage}{
         \fancyhf{}
     <?php if ($matterName != "") { ?>
-        \fancyhead[R]{<?=$matterName?>}
+        \fancyhead[R]{<?=subject_document_tex_text($matterName)?>}
     <?php } ?>
     <?php if ($headerLogo != "") { ?>
         \fancyhead[L]{\includegraphics[width=2cm]{<?=subject_document_tex_path($headerLogo)?>}}
     <?php } ?>
     <?php if ($schoolName != "") { ?>
-        \fancyfoot[R]{\raisebox{-.5\height}{<?=$schoolName?>}}
+        \fancyfoot[R]{\raisebox{-.5\height}{<?=subject_document_tex_text($schoolName)?>}}
     <?php } ?>
         \fancyfoot[C]{\raisebox{-.5\height}{\thepage{}}}
     <?php if ($footerLogo != "") { ?>
@@ -340,13 +361,13 @@ function BuildDocument(&$conf)
     <?php if ($schoolLogo != "") { ?>
         \includegraphics[width=6cm, height=6cm, keepaspectratio]{<?=subject_document_tex_path($schoolLogo)?>}
     <?php } else { ?>
-        \framebox{\parbox[c][6cm][c]{6cm}{<?=$schoolName?>}}
+        \framebox{\parbox[c][6cm][c]{6cm}{\centering<?=subject_document_tex_text($schoolName)?>\par}}
     <?php } ?>
 
     <?php if ($coverImage != "") { ?>
         \includegraphics[width=\textwidth, height=10cm, keepaspectratio]{<?=subject_document_tex_path($coverImage)?>}
     <?php } else { ?>
-        \framebox{\parbox[c][10cm][c]{\textwidth}{# <?=$activityName?>}}
+        \framebox{\parbox[c][10cm][c]{\textwidth}{\centering\Huge\bfseries <?=subject_document_tex_text($activityName)?>\par}}
     <?php } ?>
 
     \mbox{\parbox[c][9cm][c]{\textwidth}{
